@@ -30,21 +30,21 @@ private data class VectorArtCard(
 fun WelcomeScreen() {
     val vectorArtCards = listOf(
         VectorArtCard(
-            R.drawable.welcome_screen_save_files,
-            title = stringResource(id = R.string.label_save_what_interests_you_title),
-            description = stringResource(id = R.string.label_save_what_interests_you_desc),
+            R.drawable.pet_deserves_home_vector_art,
+            title = stringResource(id = R.string.label_title_pet_deserves_home),
+            description = stringResource(id = R.string.label_description_pet_deserves_home),
             imageDescription = ""
         ),
         VectorArtCard(
-            id = R.drawable.welcome_screen_read_peacefully_vector_art,
-            title = stringResource(id = R.string.label_quiet_corner_of_the_internet_title),
-            description = stringResource(id = R.string.label_quiet_corner_of_the_internet_desc),
+            id = R.drawable.veterinarian_vector_art,
+            title = stringResource(id = R.string.label_title_take_care_with_veterinarians),
+            description = stringResource(id = R.string.label_description_take_care_with_veterinarians),
             imageDescription = ""
         ),
         VectorArtCard(
-            id = R.drawable.welcome_screen_dark_mode_vector_art,
-            title = stringResource(id = R.string.label_reduce_eye_strain_with_dark_mode_title),
-            description = stringResource(id = R.string.label_reduce_eye_strain_with_dark_mode_desc),
+            id = R.drawable.timely_notifications_vector_art,
+            title = stringResource(id = R.string.label_title_timely_notifications),
+            description = stringResource(id = R.string.label_description_timely_notifications),
             imageDescription = ""
         )
     )
@@ -66,11 +66,10 @@ fun WelcomeScreen() {
 
         VectorArtCarousel(
             modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.8f),
+                .padding(bottom = 24.dp)
+                .fillMaxWidth(),
             vectorArtCards = vectorArtCards
         )
-
         Button(
             modifier = Modifier
                 .fillMaxWidth()
@@ -130,8 +129,8 @@ private fun VectorArtCarousel(modifier: Modifier = Modifier, vectorArtCards: Lis
 
                 Text(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 32.dp, end = 32.dp),
+                        .padding(start = 32.dp, end = 32.dp)
+                        .fillMaxWidth(),
                     text = vectorArtCards[page].description,
                     textAlign = TextAlign.Center
                 )
@@ -141,7 +140,7 @@ private fun VectorArtCarousel(modifier: Modifier = Modifier, vectorArtCards: Lis
 
         HorizontalPagerIndicator(
             modifier = Modifier
-                .padding(top = 40.dp)
+                .padding(top = 8.dp)
                 .align(Alignment.CenterHorizontally),
             pagerState = pagerState
         )

@@ -8,13 +8,22 @@
     <string name="label_terms_and_conditions">By clicking below, you agree to our Terms of Use and consent to our Privacy Policy.</string>
 
     <!-- App Bar -->
-    <string name = "label_log_out">Log out</string>
+    <string name="label_log_out">Log out</string>
     <string name="label_turn_off_dark_mode">Turn off dark mode</string>
     <string name="label_turn_on_dark_mode">Turn on dark mode</string>
 
     <!-- Welcome Screen -->
     <string name="label_welcome_to">Welcome to</string>
-    <string name="label_save_what_interests_you_title">Save what really interests you</string>
+    <!-- pet_deserves_home_vector_art.xml-->
+    <string name="label_title_pet_deserves_home">Every pet deserves a home</string>
+    <string name="label_description_pet_deserves_home">By adopting a pet, you are saving the life of a sentient creature that is in desperate need of a loving home.</string>
+    <!-- veterinarian_vector_art.xml-->
+    <string name="label_title_take_care_with_veterinarians">Take care of your pets</string>
+    <string name="label_description_take_care_with_veterinarians">With the help of the best veterinarians, you can rest assured that your pets are in the right hands.</string>
+    <!--    -->
+    <string name="label_title_timely_notifications">Get timely notifications</string>
+    <string name="label_description_timely_notifications">Receive updates and notifications related to appointments and purchases made through any of the services offered by Eden.</string>
+
     <string name="label_save_what_interests_you_desc">Save articles,videos or any online content you like.Add them to Pocket and read them when you have time.</string>
     <string name="label_quiet_corner_of_the_internet_title">Your quiet corner of the internet</string>
     <string name="label_quiet_corner_of_the_internet_desc">Pocket saves articles in a clean layout designed for reading-no interruptions, no popups-so you can sidestep the internet\'s noise.</string>
