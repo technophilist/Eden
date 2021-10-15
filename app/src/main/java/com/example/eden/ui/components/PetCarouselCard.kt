@@ -61,7 +61,7 @@ fun PetCarouselCard(
                 )
                 Text(
                     modifier = Modifier,
-                    text = "${petInfo.type}/${petInfo.breed}",
+                    text = "${petInfo.type} | ${petInfo.breed}",
                     style = MaterialTheme.typography.caption,
                     color = MaterialTheme.colors.surface,
                     textAlign = TextAlign.Center
