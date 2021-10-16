@@ -18,14 +18,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.eden.data.domain.PetInfo
 
-
+/**
+ * A custom styled material card that is used for displaying
+ * a pet's name,type and breed using the data in the [PetInfo]
+ * class.
+ * @param onClick the action to be performed when the card is
+ * clicked.
+ * @param modifier the modifier that will be applied to the card.
+ */
 @ExperimentalMaterialApi
 @Composable
 fun PetCarouselCard(
     petInfo: PetInfo,
-    onClick:()->Unit,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    ) {
+) {
     val scrim = Brush.verticalGradient(
         colors = listOf(Color.Transparent, Color.Black),
         startY = 0.0f,
