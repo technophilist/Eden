@@ -31,7 +31,7 @@ data class MenuOption(
  * displayed.
  */
 @Composable
-private fun IconWithDropDownMenu(
+fun IconWithDropDownMenu(
     icon: ImageVector,
     menuOptions: List<MenuOption>,
     isDropDownMenuExpanded: Boolean,
