@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun EdenSearchBar(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     value: String,
     label: @Composable () -> Unit = {},
     onValueChange: (String) -> Unit,
