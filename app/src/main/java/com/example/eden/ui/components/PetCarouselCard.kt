@@ -22,9 +22,10 @@ import com.example.eden.data.domain.PetInfo
 @ExperimentalMaterialApi
 @Composable
 fun PetCarouselCard(
+    petInfo: PetInfo,
+    onClick:()->Unit,
     modifier: Modifier = Modifier,
-    petInfo: PetInfo
-) {
+    ) {
     val scrim = Brush.verticalGradient(
         colors = listOf(Color.Transparent, Color.Black),
         startY = 0.0f,
@@ -33,7 +34,7 @@ fun PetCarouselCard(
     Card(
         modifier = modifier,
         shape = MaterialTheme.shapes.medium,
-        onClick = {}
+        onClick = onClick
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
