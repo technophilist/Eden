@@ -9,11 +9,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -22,12 +23,23 @@ import com.example.eden.data.domain.PetInfo
 import com.example.eden.ui.components.PetCarouselCard
 import com.example.eden.viewmodels.HomeScreenViewModel
 
+private data class MenuOption(
+    val label: String,
+    val action: () -> Unit
+)
+
 @ExperimentalMaterialApi
 @Composable
-fun HomeScreen() {
+fun HomeScreen(viewmodel: HomeScreenViewModel) {
+    var isFilterMenuVisible by remember { mutableStateOf(false) }
+    val filterOptions = listOf(
+        MenuOption("Dogs") { viewmodel.filterRecommendedList(HomeScreenViewModel.FilterOptions.DOGS) },
+        MenuOption("Cats") { viewmodel.filterRecommendedList(HomeScreenViewModel.FilterOptions.CATS) }
+    )
+    // featured pets - header
     Column(
         modifier = Modifier
-            .padding(start = 16.dp,end = 16.dp)
+            .padding(start = 16.dp, end = 16.dp)
             .fillMaxSize()
     ) {
         Text(
@@ -35,43 +47,39 @@ fun HomeScreen() {
             text = "Featured Pets",
             style = MaterialTheme.typography.h1,
             color = MaterialTheme.colors.onPrimary
-
         )
         Spacer(modifier = Modifier.size(16.dp))
+        // featured pets - list
         LazyRow(modifier = Modifier.fillMaxWidth()) {
-            val petList = List(10) {
-                PetInfo(
-                    "Cherry",
-                    "Des",
-                    "Dog",
-                    "Pug",
-                    12.45f,
-                    R.drawable.placeholder
+            items(viewmodel.featuredList) { item ->
+                PetCarouselCard(
+                    modifier = Modifier.size(200.dp),
+                    petInfo = item,
+                    onClick = { }
                 )
-            }
-            items(petList) { item ->
-                PetCarouselCard(modifier = Modifier.size(200.dp), petInfo = item)
                 Spacer(modifier = Modifier.size(10.dp))
             }
         }
+        // recommended pets - header
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .paddingFromBaseline(top = 40.dp),
+                .padding(top = 8.dp)
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
+                modifier = Modifier.padding(top = 8.dp),
                 text = "Recommended Pets",
                 style = MaterialTheme.typography.h1,
                 color = MaterialTheme.colors.onPrimary
             )
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(
-                    modifier = Modifier.size(24.dp),
-                    imageVector = Icons.Filled.FilterList,
-                    contentDescription = ""
-                )
-            }
+            IconWithDropDownMenu(
+                icon = Icons.Filled.FilterList,
+                menuOptions = filterOptions,
+                isDropDownMenuExpanded = isFilterMenuVisible,
+                onDismissRequest = { isFilterMenuVisible = false },
+                onClick = { isFilterMenuVisible = !isFilterMenuVisible }
+            )
         }
         Spacer(modifier = Modifier.size(16.dp))
         PetInfoCard(
@@ -87,7 +95,6 @@ fun HomeScreen() {
             onLikeButtonClicked = {},
             onClick = {}
         )
-
     }
 }
 
@@ -152,4 +159,34 @@ private fun PetInfoCard(
         }
     }
 }
+
+@Composable
+private fun IconWithDropDownMenu(
+    icon: ImageVector,
+    menuOptions: List<MenuOption>,
+    isDropDownMenuExpanded: Boolean,
+    onDismissRequest: () -> Unit,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    IconButton(onClick = onClick) {
+        Icon(
+            modifier = modifier,
+            imageVector = icon,
+            contentDescription = ""
+        )
+        DropdownMenu(
+            expanded = isDropDownMenuExpanded,
+            onDismissRequest = onDismissRequest
+        ) {
+            for (menuOption in menuOptions) {
+                DropdownMenuItem(
+                    onClick = menuOption.action,
+                    content = { Text(text = menuOption.label) }
+                )
+            }
+        }
+    }
+}
+
 
