@@ -1,7 +1,9 @@
 package com.example.eden.ui.screens
 
+import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
@@ -82,19 +84,20 @@ fun HomeScreen(viewmodel: HomeScreenViewModel) {
             )
         }
         Spacer(modifier = Modifier.size(16.dp))
-        PetInfoCard(
-            petInfo = PetInfo(
-                "Cherry",
-                "Des",
-                "Dog",
-                "Pug",
-                25000f,
-                R.drawable.placeholder
-            ),
-            isLiked = false,
-            onLikeButtonClicked = {},
-            onClick = {}
-        )
+        LazyColumn {
+            items(viewmodel.recommendedList) { petInfo ->
+                var isPetFavourited by remember {
+                    mutableStateOf(false)
+                }
+                PetInfoCard(
+                    petInfo = petInfo,
+                    isLiked = isPetFavourited,
+                    onLikeButtonClicked = { isPetFavourited = !isPetFavourited},
+                    onClick = {}
+                )
+                Spacer(modifier = Modifier.padding(4.dp))
+            }
+        }
     }
 }
 
