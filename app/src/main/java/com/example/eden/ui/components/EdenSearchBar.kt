@@ -11,6 +11,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+/**
+ * A custom styled material search bar.
+ * @param modifier the [Modifier] that will be applied to
+ * the search bar.
+ * @param value the input text to be shown in the searchBar.
+ * @param label he label that is to be displayed inside the
+ * searchBar.
+ * @param onValueChange the callback that is triggered when the
+ * an update to the text displayed in the searchBar is made. An
+ * updated text comes as a parameter of the callback.
+ */
 @Composable
 fun EdenSearchBar(
     modifier: Modifier = Modifier,
