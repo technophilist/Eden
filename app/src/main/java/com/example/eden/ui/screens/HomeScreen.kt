@@ -1,6 +1,5 @@
 package com.example.eden.ui.screens
 
-import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,19 +15,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.eden.R
 import com.example.eden.data.domain.PetInfo
+import com.example.eden.ui.components.IconWithDropDownMenu
+import com.example.eden.ui.components.MenuOption
 import com.example.eden.ui.components.PetCarouselCard
 import com.example.eden.viewmodels.HomeScreenViewModel
 
-private data class MenuOption(
-    val label: String,
-    val action: () -> Unit
-)
+
 
 @ExperimentalMaterialApi
 @Composable
@@ -163,33 +159,5 @@ private fun PetInfoCard(
     }
 }
 
-@Composable
-private fun IconWithDropDownMenu(
-    icon: ImageVector,
-    menuOptions: List<MenuOption>,
-    isDropDownMenuExpanded: Boolean,
-    onDismissRequest: () -> Unit,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    IconButton(onClick = onClick) {
-        Icon(
-            modifier = modifier,
-            imageVector = icon,
-            contentDescription = ""
-        )
-        DropdownMenu(
-            expanded = isDropDownMenuExpanded,
-            onDismissRequest = onDismissRequest
-        ) {
-            for (menuOption in menuOptions) {
-                DropdownMenuItem(
-                    onClick = menuOption.action,
-                    content = { Text(text = menuOption.label) }
-                )
-            }
-        }
-    }
-}
 
 
