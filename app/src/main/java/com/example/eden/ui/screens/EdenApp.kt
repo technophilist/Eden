@@ -7,6 +7,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.*
@@ -67,7 +68,7 @@ private fun EdenBottomNavigation(modifier: Modifier = Modifier) {
         BottomNavigationItem(
             icon = {
                 Icon(
-                    imageVector = Icons.Outlined.FavoriteBorder,
+                    imageVector = Icons.Filled.Notifications,
                     contentDescription = ""
                 )
             },
@@ -75,7 +76,7 @@ private fun EdenBottomNavigation(modifier: Modifier = Modifier) {
             onClick = { /*TODO*/ },
             label = {
                 Text(
-                    text = "Favourites", style = MaterialTheme.typography.caption,
+                    text = "Notifications", style = MaterialTheme.typography.caption,
                     color = MaterialTheme.colors.onPrimary
                 )
             }
