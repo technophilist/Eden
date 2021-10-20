@@ -17,8 +17,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 /**
- * This class is used to hold all information that is related to
- * a notification.
+ * This class holds all information that is related to a notification.
  */
 data class NotificationInfo(
     val id: Int,
