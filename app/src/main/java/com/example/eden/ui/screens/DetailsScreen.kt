@@ -7,10 +7,8 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.filled.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +31,7 @@ private data class Highlight(
 @ExperimentalMaterialApi
 @Composable
 fun DetailsScreen() {
+    var isLiked by remember { mutableStateOf(false) }
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             modifier = Modifier
@@ -61,7 +60,7 @@ fun DetailsScreen() {
                     1,
                     "Peter Parker",
                     "",
-                    "Dpg",
+                    "Dog",
                     "Adelel",
                     "Female",
                     223515f,
@@ -72,14 +71,18 @@ fun DetailsScreen() {
             HighlightsCarousel(
                 arrayOf(
                     Highlight("Friendly", Icons.Filled.Home),
-                    Highlight("Neat", Icons.Filled.Home),
-                    Highlight("Vocal", Icons.Filled.Home),
+                    Highlight("Neat", Icons.Filled.AutoAwesome),
+                    Highlight("Vocal", Icons.Filled.MusicNote),
                 )
             )
             Spacer(modifier = Modifier.size(8.dp))
             Description("Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,")
             Spacer(modifier = Modifier.size(16.dp))
-            Footer({}, {}, true)
+            Footer(
+                onAdoptButtonClick = {},
+                onLikeButtonClick = { isLiked = !isLiked },
+                isLiked = isLiked
+            )
         }
     }
 }
@@ -113,11 +116,11 @@ private fun Header(petInfo: PetInfo) {
             style = MaterialTheme.typography.subtitle1,
             fontWeight = FontWeight.SemiBold
         )
-        Text(
-            text = "Rs. ${petInfo.price}",
-            style = MaterialTheme.typography.subtitle1,
-            fontWeight = FontWeight.SemiBold
-        )
+//        Text(
+//            text = "Rs. ${petInfo.price}",
+//            style = MaterialTheme.typography.subtitle1,
+//            fontWeight = FontWeight.SemiBold
+//        )
     }
 }
 
