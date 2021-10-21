@@ -136,7 +136,7 @@ private fun PetInfoCard(
                     color = MaterialTheme.colors.onPrimary
                 )
                 Text(
-                    text = "₹${petInfo.price}",
+                    text = petInfo.gender,
                     style = MaterialTheme.typography.subtitle2,
                     color = MaterialTheme.colors.onPrimary
                 )
