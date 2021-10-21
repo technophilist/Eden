@@ -15,18 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.example.eden.data.domain.NotificationInfo
 
-/**
- * This class holds all information that is related to a notification.
- */
-data class NotificationInfo(
-    val id: Int,
-    val type: NotificationType,
-    val header: String,
-    val content: String
-) {
-    enum class NotificationType { ORDERS, APPOINTMENTS, NGO }
-}
 
 @ExperimentalMaterialApi
 @Suppress("FunctionName")
