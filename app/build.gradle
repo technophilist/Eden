@@ -63,6 +63,8 @@ dependencies {
     // pager
     implementation "com.google.accompanist:accompanist-pager:0.13.0"
     implementation "com.google.accompanist:accompanist-pager-indicators:0.13.0"
+    //navigation
+    implementation "androidx.navigation:navigation-compose:2.4.0-alpha06"
     // unit test
     testImplementation 'junit:junit:4.13.2'
     // instrumented test
