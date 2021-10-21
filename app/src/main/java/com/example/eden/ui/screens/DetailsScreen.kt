@@ -1,0 +1,212 @@
+package com.example.eden.ui.screens
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.eden.R
+import com.example.eden.data.domain.PetInfo
+
+private data class Highlight(
+    val label: String,
+    val imageVector: ImageVector,
+)
+
+@ExperimentalMaterialApi
+@Composable
+fun DetailsScreen() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            modifier = Modifier
+                .fillMaxHeight(0.6f)
+                .fillMaxWidth(),
+            painter = painterResource(id = R.drawable.placeholder), // replace with petInfo.image
+            contentDescription = "",
+            contentScale = ContentScale.Crop
+        )
+        Column(
+            modifier = Modifier
+                .clip(
+                    MaterialTheme.shapes.medium.copy(
+                        bottomStart = CornerSize(0.dp),
+                        bottomEnd = CornerSize(0.dp)
+                    )
+                )
+                .background(MaterialTheme.colors.background)
+                .align(Alignment.BottomCenter)
+                .fillMaxHeight(0.55f)
+                .padding(16.dp)
+                .fillMaxWidth()
+        ) {
+            Header(
+                PetInfo(
+                    1,
+                    "Peter Parker",
+                    "",
+                    "Dpg",
+                    "Adelel",
+                    "Female",
+                    223515f,
+                    R.drawable.placeholder
+                )
+            )
+            Spacer(modifier = Modifier.size(16.dp))
+            HighlightsCarousel(
+                arrayOf(
+                    Highlight("Friendly", Icons.Filled.Home),
+                    Highlight("Neat", Icons.Filled.Home),
+                    Highlight("Vocal", Icons.Filled.Home),
+                )
+            )
+            Spacer(modifier = Modifier.size(8.dp))
+            Description("Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,")
+            Spacer(modifier = Modifier.size(16.dp))
+            Footer({}, {}, true)
+        }
+    }
+}
+
+@Composable
+private fun Header(petInfo: PetInfo) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            modifier = Modifier.alignByBaseline(),
+            text = petInfo.name,
+            fontWeight = FontWeight.Bold,
+            fontSize = 32.sp
+        )
+        Text(
+            modifier = Modifier.alignByBaseline(),
+            text = petInfo.type,
+            style = MaterialTheme.typography.subtitle1,
+            fontWeight = FontWeight.Bold
+        )
+    }
+    Spacer(modifier = Modifier.size(8.dp))
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = "${petInfo.gender} | ${petInfo.breed}",
+            style = MaterialTheme.typography.subtitle1,
+            fontWeight = FontWeight.SemiBold
+        )
+        Text(
+            text = "Rs. ${petInfo.price}",
+            style = MaterialTheme.typography.subtitle1,
+            fontWeight = FontWeight.SemiBold
+        )
+    }
+}
+
+
+@Composable
+private fun HighlightsCarousel(highlights: Array<Highlight>) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceAround
+    ) {
+        highlights.forEach {
+            Card(
+                modifier = Modifier.size(width = 100.dp, height = 90.dp),
+                shape = RoundedCornerShape(20.0f)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .background(MaterialTheme.colors.primary)
+                        .padding(16.dp)
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Icon(
+                        imageVector = it.imageVector,
+                        contentDescription = ""
+                    )
+                    Text(
+                        text = it.label,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun Description(content: String) {
+    Column(
+        modifier = Modifier
+            .height(100.dp)
+            .fillMaxWidth()
+    ) {
+        Text(
+            text = "Summary",
+            style = MaterialTheme.typography.h1,
+            fontWeight = FontWeight.ExtraBold
+        )
+        Spacer(modifier = Modifier.size(8.dp))
+        Text(
+            text = content,
+            style = MaterialTheme.typography.body1,
+            maxLines = 4,
+            overflow = TextOverflow.Ellipsis,
+            textAlign = TextAlign.Justify,
+        )
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+private fun Footer(
+    onAdoptButtonClick: () -> Unit,
+    onLikeButtonClick: () -> Unit,
+    isLiked: Boolean
+) {
+    Row(modifier = Modifier.fillMaxWidth()) {
+        Button(
+            modifier = Modifier
+                .weight(2f)
+                .fillMaxHeight(),
+            onClick = onAdoptButtonClick,
+            content = { Text(text = "Adopt Pet", fontWeight = FontWeight.Bold) }
+        )
+        Spacer(modifier = Modifier.size(16.dp))
+        Card(
+            modifier = Modifier
+                .weight(0.5f)
+                .fillMaxHeight(),
+            shape = RoundedCornerShape(8.dp),
+            backgroundColor = MaterialTheme.colors.primary,
+            onClick = onLikeButtonClick
+        ) {
+            Icon(
+                modifier = Modifier.padding(16.dp),
+                imageVector = if (isLiked) Icons.Filled.Favorite
+                else Icons.Filled.FavoriteBorder,
+                contentDescription = ""
+            )
+        }
+    }
+}
