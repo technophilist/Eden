@@ -19,19 +19,52 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.eden.data.domain.PetInfo
 import com.example.eden.ui.components.EdenSearchBar
 import com.example.eden.ui.components.IconWithDropDownMenu
 import com.example.eden.ui.components.MenuOption
 import com.example.eden.ui.components.PetCarouselCard
+import com.example.eden.ui.navigation.BottomNavigationRoutes
 import com.example.eden.ui.navigation.HomeScreenNavigationRoutes
 import com.example.eden.viewmodels.HomeScreenViewModel
 
+// TODO Add docs and explicitly mention why home screen has its own nav controller
 @ExperimentalMaterialApi
 @Composable
-fun HomeScreen(viewmodel: HomeScreenViewModel,navController: NavController) {
+fun HomeScreen(
+    viewmodel: HomeScreenViewModel,
+    onItemClicked: (NavController, PetInfo, HomeScreenNavigationRoutes) -> Unit
+) {
+    val navController = rememberNavController()
+    NavHost(
+        navController = navController,
+        startDestination = BottomNavigationRoutes.HomeScreen.route
+    ) {
+        composable(BottomNavigationRoutes.HomeScreen.route) {
+            HomeScreen(
+                viewmodel = viewmodel,
+                navController = navController,
+                onItemClicked = onItemClicked
+            )
+        }
+        composable(HomeScreenNavigationRoutes.detailsScreen) {
+            DetailsScreen()
+        }
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+private fun HomeScreen(
+    viewmodel: HomeScreenViewModel,
+    navController: NavController,
+    onItemClicked: (NavController, PetInfo, HomeScreenNavigationRoutes) -> Unit
+) {
     var isFilterMenuVisible by remember { mutableStateOf(false) }
-    var searchText by remember{ mutableStateOf("") }
+    var searchText by remember { mutableStateOf("") }
     val filterOptions = listOf(
         MenuOption("Dogs") { viewmodel.filterRecommendedList(HomeScreenViewModel.FilterOptions.DOGS) },
         MenuOption("Cats") { viewmodel.filterRecommendedList(HomeScreenViewModel.FilterOptions.CATS) }
@@ -61,7 +94,7 @@ fun HomeScreen(viewmodel: HomeScreenViewModel,navController: NavController) {
                 PetCarouselCard(
                     modifier = Modifier.size(200.dp),
                     petInfo = item,
-                    onClick = { }
+                    onClick = { onItemClicked(navController, item, HomeScreenNavigationRoutes) }
                 )
                 Spacer(modifier = Modifier.size(10.dp))
             }
@@ -96,7 +129,7 @@ fun HomeScreen(viewmodel: HomeScreenViewModel,navController: NavController) {
                 PetInfoCard(
                     petInfo = petInfo,
                     isLiked = isPetFavourited,
-                    onLikeButtonClicked = { isPetFavourited = !isPetFavourited},
+                    onLikeButtonClicked = { isPetFavourited = !isPetFavourited },
                     onClick = {}
                 )
                 Spacer(modifier = Modifier.padding(4.dp))
