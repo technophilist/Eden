@@ -27,7 +27,10 @@ private data class VectorArtCard(
 
 @ExperimentalPagerApi
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(
+    onCreateAccountButtonClick: () -> Unit,
+    onLoginButtonClick: () -> Unit
+) {
     val vectorArtCards = listOf(
         VectorArtCard(
             R.drawable.pet_deserves_home_vector_art,
@@ -74,14 +77,16 @@ fun WelcomeScreen() {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),
-            onClick = { TODO() },
+            onClick = onCreateAccountButtonClick,
             content = { Text(text = stringResource(id = R.string.label_create_account)) },
             colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.secondary)
         )
-        TextButton(modifier = Modifier
-            .align(Alignment.CenterHorizontally)
-            .padding(top = 32.dp),
-            onClick = { TODO() }) {
+        TextButton(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(top = 32.dp),
+            onClick = onLoginButtonClick
+        ) {
             Text(
                 text = stringResource(id = R.string.text_login),
                 fontWeight = FontWeight.Bold,
