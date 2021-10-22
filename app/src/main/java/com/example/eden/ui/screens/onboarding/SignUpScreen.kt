@@ -1,4 +1,4 @@
-package com.example.eden.ui.screens
+package com.example.eden.ui.screens.onboarding
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
