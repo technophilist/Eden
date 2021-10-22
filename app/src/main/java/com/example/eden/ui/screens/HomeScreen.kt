@@ -130,7 +130,7 @@ private fun HomeScreen(
                     petInfo = petInfo,
                     isLiked = isPetFavourited,
                     onLikeButtonClicked = { isPetFavourited = !isPetFavourited },
-                    onClick = {}
+                    onClick = { onItemClicked(navController, petInfo, HomeScreenNavigationRoutes) }
                 )
                 Spacer(modifier = Modifier.padding(4.dp))
             }
