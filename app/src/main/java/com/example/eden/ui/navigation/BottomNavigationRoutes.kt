@@ -13,7 +13,7 @@ sealed class BottomNavigationRoutes(
     object AdoptionScreen : BottomNavigationRoutes(
         "route_adoption",
         Icons.Filled.Home,
-        "Home"
+        "Adopt"
     )
     object NotificationsScreen : BottomNavigationRoutes(
         "route_notifications",
