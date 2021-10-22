@@ -11,12 +11,12 @@ sealed class BottomNavigationRoutes(
     val label: String
 ) {
     object HomeScreen : BottomNavigationRoutes(
-        "destination_home",
+        "route_home",
         Icons.Filled.Home,
         "Home"
     )
     object NotificationsScreen : BottomNavigationRoutes(
-        "destination_notifications",
+        "route_notifications",
         Icons.Filled.Notifications,
         "Notifications"
     )
