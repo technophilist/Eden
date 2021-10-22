@@ -10,8 +10,8 @@ sealed class BottomNavigationRoutes(
     val icon: ImageVector,
     val label: String
 ) {
-    object HomeScreen : BottomNavigationRoutes(
-        "route_home",
+    object AdoptionScreen : BottomNavigationRoutes(
+        "route_adoption",
         Icons.Filled.Home,
         "Home"
     )
