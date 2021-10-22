@@ -19,17 +19,17 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.eden.data.domain.PetInfo
+import com.example.eden.ui.components.EdenSearchBar
 import com.example.eden.ui.components.IconWithDropDownMenu
 import com.example.eden.ui.components.MenuOption
 import com.example.eden.ui.components.PetCarouselCard
 import com.example.eden.viewmodels.HomeScreenViewModel
 
-
-
 @ExperimentalMaterialApi
 @Composable
 fun HomeScreen(viewmodel: HomeScreenViewModel) {
     var isFilterMenuVisible by remember { mutableStateOf(false) }
+    var searchText by remember{ mutableStateOf("") }
     val filterOptions = listOf(
         MenuOption("Dogs") { viewmodel.filterRecommendedList(HomeScreenViewModel.FilterOptions.DOGS) },
         MenuOption("Cats") { viewmodel.filterRecommendedList(HomeScreenViewModel.FilterOptions.CATS) }
@@ -40,6 +40,12 @@ fun HomeScreen(viewmodel: HomeScreenViewModel) {
             .padding(start = 16.dp, end = 16.dp)
             .fillMaxSize()
     ) {
+        EdenSearchBar(
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text("Search") },
+            onValueChange = { searchText = it },
+            value = searchText,
+        )
         Text(
             modifier = Modifier.paddingFromBaseline(top = 32.dp),
             text = "Featured Pets",
