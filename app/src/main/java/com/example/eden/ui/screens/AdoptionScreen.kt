@@ -50,7 +50,7 @@ fun HomeScreen(
                 onItemClicked = onItemClicked
             )
         }
-        composable(HomeScreenNavigationRoutes.detailsScreen) {
+        composable(HomeScreenNavigationRoutes.detailsScreenRoute) {
             DetailsScreen()
         }
     }
