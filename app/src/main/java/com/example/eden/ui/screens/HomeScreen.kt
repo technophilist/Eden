@@ -18,16 +18,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.eden.data.domain.PetInfo
 import com.example.eden.ui.components.EdenSearchBar
 import com.example.eden.ui.components.IconWithDropDownMenu
 import com.example.eden.ui.components.MenuOption
 import com.example.eden.ui.components.PetCarouselCard
+import com.example.eden.ui.navigation.HomeScreenNavigationRoutes
 import com.example.eden.viewmodels.HomeScreenViewModel
 
 @ExperimentalMaterialApi
 @Composable
-fun HomeScreen(viewmodel: HomeScreenViewModel) {
+fun HomeScreen(viewmodel: HomeScreenViewModel,navController: NavController) {
     var isFilterMenuVisible by remember { mutableStateOf(false) }
     var searchText by remember{ mutableStateOf("") }
     val filterOptions = listOf(
