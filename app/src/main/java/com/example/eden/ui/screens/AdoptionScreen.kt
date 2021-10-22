@@ -34,17 +34,17 @@ import com.example.eden.viewmodels.HomeScreenViewModel
 // TODO Add docs and explicitly mention why home screen has its own nav controller
 @ExperimentalMaterialApi
 @Composable
-fun HomeScreen(
+fun AdoptionScreen(
     viewmodel: HomeScreenViewModel,
     onItemClicked: (NavController, PetInfo, HomeScreenNavigationRoutes) -> Unit
 ) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = BottomNavigationRoutes.HomeScreen.route
+        startDestination = BottomNavigationRoutes.AdoptionScreen.route
     ) {
-        composable(BottomNavigationRoutes.HomeScreen.route) {
-            HomeScreen(
+        composable(BottomNavigationRoutes.AdoptionScreen.route) {
+            AdoptionScreen(
                 viewmodel = viewmodel,
                 navController = navController,
                 onItemClicked = onItemClicked
@@ -58,7 +58,7 @@ fun HomeScreen(
 
 @ExperimentalMaterialApi
 @Composable
-private fun HomeScreen(
+private fun AdoptionScreen(
     viewmodel: HomeScreenViewModel,
     navController: NavController,
     onItemClicked: (NavController, PetInfo, HomeScreenNavigationRoutes) -> Unit
