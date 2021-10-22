@@ -1,5 +1,5 @@
 package com.example.eden.ui.navigation
 
 object HomeScreenNavigationRoutes {
-    const val detailsScreen = "route_details_screen"
+    const val detailsScreenRoute = "route_details_screen"
 }
