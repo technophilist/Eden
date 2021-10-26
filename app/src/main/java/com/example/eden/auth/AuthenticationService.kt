@@ -17,10 +17,55 @@ interface AuthenticationService {
         password: String,
         profilePhotoUri: Uri? = null
     ): AuthenticationResult
+
     fun signOut()
+
+    /**
+     * An enum consisting of all the different types of failures
+     * related to [AuthenticationService]
+     */
+    enum class FailureType {
+        /**
+         * Indicates that an authentication failure occurred due to
+         * an invalid email address.
+         */
+        InvalidEmail,
+
+        /**
+         * Indicates that an authentication failure occurred due to
+         * an invalid password.
+         */
+        InvalidPassword,
+
+        /**
+         * Indicates that an authentication failure occurred as a
+         * result of one or more of the credentials being invalid.
+         */
+        InvalidCredentials,
+
+        /**
+         * Indicates that an authentication failure occurred
+         * as a result of an attempt to create an already existing
+         * user with the same credentials.
+         */
+        UserCollision,
+
+        /**
+         * Indicates that an authentication failure occurred
+         * during the creation of a new user account.
+         */
+        AccountCreation,
+
+        /**
+         * Indicates that an authentication failure occurred as
+         * a result of an attempt made to fetch the details
+         * of a non-existent user.
+         */
+        InvalidUser
+    }
 }
 
 sealed class AuthenticationResult {
     data class Success(val user: EdenUser) : AuthenticationResult()
-    data class Failure(val authServiceException: AuthenticationServiceException) : AuthenticationResult()
+    data class Failure(val failureType: AuthenticationService.FailureType) : AuthenticationResult()
 }
