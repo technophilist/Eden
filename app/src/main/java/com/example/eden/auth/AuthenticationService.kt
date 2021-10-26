@@ -61,7 +61,13 @@ interface AuthenticationService {
          * a result of an attempt made to fetch the details
          * of a non-existent user.
          */
-        InvalidUser
+        InvalidUser,
+
+        /**
+         * Indicates that a failure occurred due to a network
+         * error.
+         */
+        NetworkFailure
     }
 }
 
