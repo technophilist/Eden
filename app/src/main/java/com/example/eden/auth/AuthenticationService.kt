@@ -19,6 +19,11 @@ interface AuthenticationService {
     ): AuthenticationResult
 
     fun signOut()
+}
+
+sealed class AuthenticationResult {
+    data class Success(val user: EdenUser) : AuthenticationResult()
+    data class Failure(val failureType: FailureType) : AuthenticationResult()
 
     /**
      * An enum consisting of all the different types of failures
@@ -69,9 +74,4 @@ interface AuthenticationService {
          */
         NetworkFailure
     }
-}
-
-sealed class AuthenticationResult {
-    data class Success(val user: EdenUser) : AuthenticationResult()
-    data class Failure(val failureType: AuthenticationService.FailureType) : AuthenticationResult()
 }
