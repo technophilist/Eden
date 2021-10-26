@@ -73,4 +73,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     // timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
+    // firebase
+    implementation platform('com.google.firebase:firebase-bom:28.4.2')
+    implementation 'com.google.firebase:firebase-auth' // Don't need to specify versions in Firebase library dependencies if BOM is dependency is used
 }
