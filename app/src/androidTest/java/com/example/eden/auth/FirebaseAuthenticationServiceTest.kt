@@ -7,11 +7,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-/**
- * Test sequence
- * Sign out if there is already a user -> createUserTest -> Sign Out-> signIn test -> Tear
- * Sign out if there is already a user -> createUserTest -> Sign Out-> signIn test -> Tearown
- */
 class FirebaseAuthenticationServiceTest {
     private val firebaseAuthService = FirebaseAuthenticationService()
     private val firebaseAuth = FirebaseAuth.getInstance()
@@ -61,6 +56,8 @@ class FirebaseAuthenticationServiceTest {
 
     @After
     fun tearDown() {
+        // signInTest must be the last test to be executed.
+        // If it has executed, delete the user from firebase.
         if (isSignInTestExecuted) firebaseAuth.currentUser!!.delete()
         else firebaseAuth.signOut()
     }
