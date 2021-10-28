@@ -20,50 +20,86 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.eden.R
 import com.example.eden.ui.components.EdenSingleLineTextField
+import com.example.eden.ui.navigation.OnBoardingNavigationRoutes
+import com.example.eden.viewmodels.LogInViewModel
+import com.example.eden.viewmodels.LoginUiState
 
+/**
+ * A stateful implementation of login screen.
+ */
 @ExperimentalComposeUiApi
 @Composable
-fun LoginScreen() {
-    // states for text fields
+fun LoginScreen(
+    viewModel: LogInViewModel,
+    navController: NavController
+) {
+    val networkErrorMessage = "net Error" // TODO: 28-Oct-21
+    val uiState by viewModel.uiState
     var emailAddressText by rememberSaveable { mutableStateOf("") }
     var passwordText by rememberSaveable { mutableStateOf("") }
-
-    // states for validation
-    var isLoading by rememberSaveable { mutableStateOf(false) }
     var isPasswordVisible by rememberSaveable { mutableStateOf(false) }
-    /*
-     * isCredentialsValid & isErrorMessageVisible need not be wrapped in
-     * rememberSaveable because their state will be controlled by the
-     * disposable effect, which uses the value of a live data in the viewmodel.
-     * Since the viewmodel survives config changes, the disposable effect
-     * will restart with the appropriate value.
-     */
-    var isCredentialsValid by remember { mutableStateOf(false) }
-    var isErrorMessageVisible by remember { mutableStateOf(false) }
-    /*
-    * isLoginButtonEnabled state need not be wrapped in rememberSaveable
-    * because this state will be computed only when its keys change.
-    * Since the keys use remember saveable, and this state is not,
-    * it will automatically be recomputed after a config change.
-    */
-    val isLoginButtonEnabled by remember(emailAddressText, passwordText) {
-        derivedStateOf { emailAddressText.isNotBlank() && passwordText.isNotEmpty() }
-    }
-
-    // state for keyboard
+    val isLoginButtonEnabled by remember(
+        emailAddressText,
+        passwordText
+    ) { mutableStateOf(emailAddressText.isNotBlank() && passwordText.isNotEmpty()) }
     val keyboardController = LocalSoftwareKeyboardController.current
-
     // keyboard actions for the text fields
     val keyboardActions = KeyboardActions(onDone = {
         if (emailAddressText.isNotBlank() && passwordText.isNotEmpty()) {
             keyboardController?.hide()
-            isLoading = true
+            viewModel.authenticate(emailAddressText, passwordText)
         }
     })
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    LoginScreen(
+        emailAddressText = emailAddressText,
+        onEmailAddressTextChange = { emailAddressText = it },
+        passwordText = passwordText,
+        onPasswordTextChange = { passwordText = it },
+        isPasswordVisible = isPasswordVisible,
+        onPasswordVisibilityIconClick = { isPasswordVisible = !isPasswordVisible },
+        onLoginButtonClick = { viewModel.authenticate(emailAddressText, passwordText) },
+        errorMessage = {
+            Text(
+                text = when (uiState) {
+                    LoginUiState.NETWORK_ERROR -> networkErrorMessage
+                    LoginUiState.WRONG_CREDENTIALS -> stringResource(id = R.string.label_login_error_message)
+                    else -> ""
+                },
+                color = MaterialTheme.colors.error
+            )
+        },
+        keyboardActions = keyboardActions,
+        isLoginButtonEnabled = isLoginButtonEnabled,
+        isLoadingOverlayVisible = uiState == LoginUiState.LOADING,
+        isErrorMessageVisible = uiState == LoginUiState.WRONG_CREDENTIALS || uiState == LoginUiState.NETWORK_ERROR,
+    )
+    if (uiState == LoginUiState.SUCCESS) navController.navigate(OnBoardingNavigationRoutes.homeScreenRoute)
+}
+
+/**
+ * A stateless implementation of a login screen.
+ */
+@Composable
+fun LoginScreen(
+    emailAddressText: String,
+    onEmailAddressTextChange: (String) -> Unit,
+    passwordText: String,
+    onPasswordTextChange: (String) -> Unit,
+    onLoginButtonClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    isLoginButtonEnabled: Boolean = true,
+    isLoadingOverlayVisible: Boolean = false,
+    isErrorMessageVisible: Boolean = false,
+    errorMessage: @Composable () -> Unit = {},
+    isPasswordVisible: Boolean = false,
+    onPasswordVisibilityIconClick: () -> Unit = {},
+    keyboardActions: KeyboardActions = KeyboardActions.Default
+) {
+    Box(modifier = modifier) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -84,22 +120,10 @@ fun LoginScreen() {
                     .height(56.dp)
                     .fillMaxWidth(),
                 value = emailAddressText,
-                onValueChange = {
-                    /*
-                     * if isErrorMessageVisible is set to true then it indicates
-                     * a failed login attempt.Remove the error message when the user
-                     * is making an edit to the email address text.The prevents the
-                     * error message from being displayed when the user is re-typing.
-                     */
-                    if (isErrorMessageVisible) {
-                        isErrorMessageVisible = false
-                    }
-                    emailAddressText = it
-
-                },
+                onValueChange = onEmailAddressTextChange,
                 isError = isErrorMessageVisible,
                 keyboardActions = keyboardActions,
-                label = { Text(text = stringResource(R.string.placeholder_email_address))},
+                label = { Text(text = stringResource(R.string.placeholder_email_address)) },
             )
 
             Spacer(modifier = Modifier.padding(8.dp))
@@ -109,24 +133,13 @@ fun LoginScreen() {
                     .height(56.dp)
                     .fillMaxWidth(),
                 value = passwordText,
-                onValueChange = {
-                    /*
-                     * if isErrorMessageVisible is set to true then it indicates
-                     * a failed login attempt.Remove the error message when the user
-                     * is making an edit to the password text.The prevents the
-                     * error message from being displayed when the user is re-typing.
-                     */
-                    if (isErrorMessageVisible) {
-                        isErrorMessageVisible = false
-                    }
-                    passwordText = it
-                },
+                onValueChange = onPasswordTextChange,
                 label = { Text(text = stringResource(R.string.placeholder_password)) },
                 visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 isError = isErrorMessageVisible,
                 trailingIcon = {
                     Icon(
-                        modifier = Modifier.clickable { isPasswordVisible = !isPasswordVisible },
+                        modifier = Modifier.clickable(onClick = onPasswordVisibilityIconClick),
                         imageVector = if (isPasswordVisible) Icons.Filled.Visibility
                         else Icons.Filled.VisibilityOff,
                         contentDescription = ""
@@ -134,12 +147,10 @@ fun LoginScreen() {
                 },
                 keyboardActions = keyboardActions,
             )
-
-            if (isErrorMessageVisible && !isCredentialsValid) {
-                Text(
+            if (isErrorMessageVisible) {
+                Surface(
                     modifier = Modifier.align(Alignment.Start),
-                    text = stringResource(R.string.label_login_error_message),
-                    color = MaterialTheme.colors.error
+                    content = errorMessage
                 )
             }
 
@@ -159,7 +170,7 @@ fun LoginScreen() {
                 modifier = Modifier
                     .height(48.dp)
                     .fillMaxWidth(),
-                onClick = { isLoading = true },
+                onClick = onLoginButtonClick,
                 shape = MaterialTheme.shapes.medium,
                 content = {
                     Text(
@@ -174,8 +185,7 @@ fun LoginScreen() {
                 )
             )
         }
-
-        if (isLoading) LoadingProgressOverlay(
+        if (isLoadingOverlayVisible) LoadingProgressOverlay(
             modifier = Modifier
                 .fillMaxSize()
                 .alpha(0.5f)
