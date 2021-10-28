@@ -36,7 +36,6 @@ fun LoginScreen(
     viewModel: LogInViewModel,
     navController: NavController
 ) {
-    val networkErrorMessage = "net Error" // TODO: 28-Oct-21
     val uiState by viewModel.uiState
     var emailAddressText by rememberSaveable { mutableStateOf("") }
     var passwordText by rememberSaveable { mutableStateOf("") }
@@ -65,7 +64,7 @@ fun LoginScreen(
         errorMessage = {
             Text(
                 text = when (uiState) {
-                    LoginUiState.NETWORK_ERROR -> networkErrorMessage
+                    LoginUiState.NETWORK_ERROR -> stringResource(id = R.string.label_network_error_message)
                     LoginUiState.WRONG_CREDENTIALS -> stringResource(id = R.string.label_login_error_message)
                     else -> ""
                 },
