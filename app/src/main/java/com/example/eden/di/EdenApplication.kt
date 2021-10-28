@@ -1,5 +1,13 @@
 package com.example.eden.di
 
 import android.app.Application
+import com.example.eden.BuildConfig
+import timber.log.Timber
 
-class EdenApplication:Application()
+class EdenApplication : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
+    }
+}
