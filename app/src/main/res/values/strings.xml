@@ -6,7 +6,7 @@
     <string name="placeholder_email_address">Email Address</string>
     <string name="placeholder_password">Password</string>
     <string name="label_terms_and_conditions">By clicking below, you agree to our Terms of Use and consent to our Privacy Policy.</string>
-
+    <string name="label_network_error_message">A network error occurred.</string>
     <!-- App Bar -->
     <string name="label_log_out">Log out</string>
     <string name="label_turn_off_dark_mode">Turn off dark mode</string>
