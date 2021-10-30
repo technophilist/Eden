@@ -18,52 +18,55 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.eden.R
 import com.example.eden.ui.components.CircularLoadingProgressOverlay
 import com.example.eden.ui.components.EdenSingleLineTextField
+import com.example.eden.ui.navigation.OnBoardingNavigationRoutes
+import com.example.eden.viewmodels.SignUpUiFailureType
+import com.example.eden.viewmodels.SignUpUiState
+import com.example.eden.viewmodels.SignUpViewModel
 
+/**
+ * A stateful implementation of Sign-Up screen
+ */
 @ExperimentalComposeUiApi
 @Composable
-fun SignUpScreen() {
-    // states for text fields
-    var emailAddressText by rememberSaveable { mutableStateOf("") }
-    var passwordText by rememberSaveable { mutableStateOf("") }
+fun SignUpScreen(
+    viewModel: SignUpViewModel,
+    navController: NavController
+) {
+    // TODO("Remove error message when the user is correcting the error")
+    val invalidCredentialsErrorMessage = stringResource(id = R.string.label_enter_valid_email_and_password)
+    val userAlreadyExistsErrorMessage = stringResource(id = R.string.label_user_already_exists)
+    val networkErrorMessage = stringResource(id = R.string.label_network_error_message)
+    val uiState by viewModel.uiState
     var firstNameText by rememberSaveable { mutableStateOf("") }
     var lastNameText by rememberSaveable { mutableStateOf("") }
+    var emailAddressText by rememberSaveable { mutableStateOf("") }
+    var passwordText by rememberSaveable { mutableStateOf("") }
+    var isErrorMessageVisible by remember(uiState) { mutableStateOf(uiState is SignUpUiState.Failed) }
+    val errorMessageText by remember(uiState) {
+        mutableStateOf(
+            when (uiState) {
+                is SignUpUiState.Failed -> when ((uiState as SignUpUiState.Failed).cause) {
+                    SignUpUiFailureType.INVALID_CREDENTIALS -> invalidCredentialsErrorMessage
+                    SignUpUiFailureType.USER_COLLISION -> userAlreadyExistsErrorMessage
+                    SignUpUiFailureType.NETWORK_ERROR -> networkErrorMessage
+                }
+                else -> ""
+            }
+        )
+    }
     var isPasswordVisible by rememberSaveable { mutableStateOf(false) }
-
-    // states for validation and error messages
-    /*
-     * isErrorMessageVisible and errorMessage need not be wrapped in
-     * rememberSaveable because their state will be controlled by the
-     * disposable effect, which uses the value of a live data in the viewmodel.
-     * Since the viewmodel survives config changes, the disposable effect
-     * will restart with the appropriate value.
-     */
-    var isErrorMessageVisible by remember { mutableStateOf(false) }
-    var errorMessage by remember { mutableStateOf("") }
-
-    // state for signup button
-    /*
-     * isSignUpButtonEnabled need not be wrapped in rememberSaveable
-     * because this state will be computed only when its keys change.
-     * Since the keys use remember saveable, and this state is not,
-     * it will automatically be recomputed to the correct value
-     * after a config change based on the keys.
-     */
     val isSignUpButtonEnabled by remember(
         firstNameText,
         lastNameText,
         emailAddressText,
         passwordText
     ) {
-        derivedStateOf {
-            firstNameText.isNotBlank() && lastNameText.isNotBlank() && emailAddressText.isNotBlank() && passwordText.isNotEmpty()
-        }
+        mutableStateOf(firstNameText.isNotBlank() && lastNameText.isNotBlank() && emailAddressText.isNotBlank() && passwordText.isNotEmpty())
     }
-
-    // state for visibility of loading animation
-    var isLoading by rememberSaveable { mutableStateOf(false) }
 
     // states for keyboard
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -71,21 +74,84 @@ fun SignUpScreen() {
     val keyboardActions = KeyboardActions(onDone = {
         if (firstNameText.isNotBlank() && lastNameText.isNotBlank() && emailAddressText.isNotBlank() && passwordText.isNotEmpty()) {
             keyboardController?.hide()
-            isLoading = true
         }
     })
 
-    val invalidEmailErrorMessage = stringResource(id = R.string.label_invalid_email)
-    val invalidPasswordErrorMessage = stringResource(id = R.string.label_invalid_password)
-    val invalidCredentialsErrorMessage =
-        stringResource(id = R.string.label_enter_valid_email_and_password)
-    val userAlreadyExistsErrorMessage = stringResource(id = R.string.label_user_already_exists)
 
+    SignUpScreen(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp),
+        firstNameText = firstNameText,
+        onFirstNameTextChange = { firstNameText = it },
+        lastNameText = lastNameText,
+        onLastNameTextChange = { lastNameText = it },
+        emailAddressText = emailAddressText,
+        onEmailAddressTextChange = {
+            /*
+             * if isErrorMessageVisible is set to true then it indicates
+             * a failed login attempt.Remove the error message when the user
+             * is making an edit to the email address text.The prevents the
+             * error message from being displayed when the user is re-typing.
+             */
+//            if (isErrorMessageVisible) isErrorMessageVisible = false
+            emailAddressText = it
+        },
+        passwordText = passwordText,
+        onPasswordTextChange = {
+            /*
+             * if isErrorMessageVisible is set to true then it indicates
+             * a failed login attempt.Remove the error message when the user
+             * is making an edit to the password text.The prevents the
+             * error message from being displayed when the user is re-typing.
+             */
+//            if (isErrorMessageVisible) isErrorMessageVisible = false
+            passwordText = it
+        },
+        errorMessageText = errorMessageText,
+        isErrorMessageVisible = isErrorMessageVisible,
+        isPasswordVisible = isPasswordVisible,
+        onPasswordVisibilityIconClick = { isPasswordVisible = !isPasswordVisible },
+        isLoading = uiState is SignUpUiState.Loading,
+        isSignUpButtonEnabled = isSignUpButtonEnabled,
+        onSignUpButtonClick = {
+            viewModel.createNewAccount(
+                "$firstNameText $lastNameText",
+                emailAddressText,
+                passwordText
+            )
+        },
+        keyboardActions = keyboardActions
+    )
+    if (uiState is SignUpUiState.Success) navController.navigate(OnBoardingNavigationRoutes.homeScreenRoute)
+}
+
+/**
+ * A stateless implementation of Sign-Up screen.
+ */
+@Composable
+fun SignUpScreen(
+    firstNameText: String,
+    onFirstNameTextChange: (String) -> Unit,
+    lastNameText: String,
+    onLastNameTextChange: (String) -> Unit,
+    emailAddressText: String,
+    onEmailAddressTextChange: (String) -> Unit,
+    passwordText: String,
+    onPasswordTextChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    errorMessageText: String = "",
+    isErrorMessageVisible: Boolean = false,
+    isPasswordVisible: Boolean = false,
+    onPasswordVisibilityIconClick: () -> Unit = {},
+    isLoading: Boolean = false,
+    isSignUpButtonEnabled: Boolean = true,
+    onSignUpButtonClick: () -> Unit = {},
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+) {
     CircularLoadingProgressOverlay(isOverlayVisible = isLoading) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp),
+            modifier = modifier,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -105,7 +171,7 @@ fun SignUpScreen() {
                         .height(56.dp)
                         .fillMaxWidth(0.5f),
                     value = firstNameText,
-                    onValueChange = { firstNameText = it },
+                    onValueChange = onFirstNameTextChange,
                     label = { Text(text = stringResource(id = R.string.placeholder_first_name)) },
                     keyboardActions = keyboardActions,
                 )
@@ -115,7 +181,7 @@ fun SignUpScreen() {
                 EdenSingleLineTextField(
                     modifier = Modifier.height(56.dp),
                     value = lastNameText,
-                    onValueChange = { lastNameText = it },
+                    onValueChange = onLastNameTextChange,
                     label = { Text(text = stringResource(id = R.string.placeholder_last_name)) },
                     keyboardActions = keyboardActions
                 )
@@ -129,18 +195,7 @@ fun SignUpScreen() {
                     .height(56.dp)
                     .fillMaxWidth(),
                 value = emailAddressText,
-                onValueChange = {
-                    /*
-                     * if isErrorMessageVisible is set to true then it indicates
-                     * a failed login attempt.Remove the error message when the user
-                     * is making an edit to the email address text.The prevents the
-                     * error message from being displayed when the user is re-typing.
-                     */
-                    if (isErrorMessageVisible) {
-                        isErrorMessageVisible = false
-                    }
-                    emailAddressText = it
-                },
+                onValueChange = onEmailAddressTextChange,
                 label = { Text(text = stringResource(id = R.string.placeholder_email_address)) },
                 keyboardActions = keyboardActions,
                 isError = isErrorMessageVisible
@@ -153,23 +208,12 @@ fun SignUpScreen() {
                     .height(56.dp)
                     .fillMaxWidth(),
                 value = passwordText,
-                onValueChange = {
-                    /*
-                     * if isErrorMessageVisible is set to true then it indicates
-                     * a failed login attempt.Remove the error message when the user
-                     * is making an edit to the password text.The prevents the
-                     * error message from being displayed when the user is re-typing.
-                     */
-                    if (isErrorMessageVisible) {
-                        isErrorMessageVisible = false
-                    }
-                    passwordText = it
-                },
+                onValueChange = onPasswordTextChange,
                 label = { Text(text = stringResource(id = R.string.placeholder_password)) },
                 visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
                     Icon(
-                        modifier = Modifier.clickable { isPasswordVisible = !isPasswordVisible },
+                        modifier = Modifier.clickable(onClick = onPasswordVisibilityIconClick),
                         imageVector = if (isPasswordVisible) Icons.Filled.Visibility
                         else Icons.Filled.VisibilityOff,
                         contentDescription = ""
@@ -181,7 +225,7 @@ fun SignUpScreen() {
 
             if (isErrorMessageVisible) {
                 Text(
-                    text = errorMessage,
+                    text = errorMessageText,
                     color = MaterialTheme.colors.error
                 )
             }
@@ -200,9 +244,7 @@ fun SignUpScreen() {
                 modifier = Modifier
                     .height(48.dp)
                     .fillMaxWidth(),
-                onClick = {
-                    isLoading = true
-                },
+                onClick = onSignUpButtonClick,
                 shape = MaterialTheme.shapes.medium,
                 content = {
                     Text(
