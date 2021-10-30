@@ -52,7 +52,7 @@
     <string name="label_invalid_email">Please enter a valid email.</string>
     <string name="label_invalid_password">The password must be of length 8, and must contain atleast one uppercase and lowercase letter and atleast one digit.</string>
     <string name="label_user_already_exists">A user with the same email already exists.</string>
-    <string name="label_enter_valid_email_and_password">Please enter a valid email and password</string>
+    <string name="label_enter_valid_email_and_password">Please enter a valid email and password. A password is valid if, and only if,it is of length 8 , contains atleast one uppercase and lowercase letter and contains atleast one digit.</string>
     <string name="label_signup_for_new_account">Sign up for a new account</string>
     <string name="placeholder_first_name">First Name</string>
     <string name="placeholder_last_name">Last Name</string>
