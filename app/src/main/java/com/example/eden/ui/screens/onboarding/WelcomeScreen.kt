@@ -119,6 +119,9 @@ private fun VectorArtCarousel(modifier: Modifier = Modifier, vectorArtCards: Lis
             ) {
 
                 Image(
+                    modifier = Modifier
+                        .height(350.dp)
+                        .fillMaxWidth(),
                     painter = painterResource(id = vectorArtCards[page].id),
                     contentDescription = vectorArtCards[page].imageDescription
                 )
