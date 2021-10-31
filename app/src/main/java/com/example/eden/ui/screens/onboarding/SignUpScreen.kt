@@ -36,7 +36,6 @@ fun SignUpScreen(
     viewModel: SignUpViewModel,
     navController: NavController
 ) {
-    // TODO("Remove error message when the user is correcting the error")
     val invalidCredentialsErrorMessage = stringResource(id = R.string.label_enter_valid_email_and_password)
     val userAlreadyExistsErrorMessage = stringResource(id = R.string.label_user_already_exists)
     val networkErrorMessage = stringResource(id = R.string.label_network_error_message)
@@ -45,7 +44,7 @@ fun SignUpScreen(
     var lastNameText by rememberSaveable { mutableStateOf("") }
     var emailAddressText by rememberSaveable { mutableStateOf("") }
     var passwordText by rememberSaveable { mutableStateOf("") }
-    var isErrorMessageVisible by remember(uiState) { mutableStateOf(uiState is SignUpUiState.Failed) }
+    val isErrorMessageVisible by remember(uiState) { mutableStateOf(uiState is SignUpUiState.Failed) }
     val errorMessageText by remember(uiState) {
         mutableStateOf(
             when (uiState) {
@@ -87,27 +86,9 @@ fun SignUpScreen(
         lastNameText = lastNameText,
         onLastNameTextChange = { lastNameText = it },
         emailAddressText = emailAddressText,
-        onEmailAddressTextChange = {
-            /*
-             * if isErrorMessageVisible is set to true then it indicates
-             * a failed login attempt.Remove the error message when the user
-             * is making an edit to the email address text.The prevents the
-             * error message from being displayed when the user is re-typing.
-             */
-//            if (isErrorMessageVisible) isErrorMessageVisible = false
-            emailAddressText = it
-        },
+        onEmailAddressTextChange = { emailAddressText = it },
         passwordText = passwordText,
-        onPasswordTextChange = {
-            /*
-             * if isErrorMessageVisible is set to true then it indicates
-             * a failed login attempt.Remove the error message when the user
-             * is making an edit to the password text.The prevents the
-             * error message from being displayed when the user is re-typing.
-             */
-//            if (isErrorMessageVisible) isErrorMessageVisible = false
-            passwordText = it
-        },
+        onPasswordTextChange = { passwordText = it },
         errorMessageText = errorMessageText,
         isErrorMessageVisible = isErrorMessageVisible,
         isPasswordVisible = isPasswordVisible,
