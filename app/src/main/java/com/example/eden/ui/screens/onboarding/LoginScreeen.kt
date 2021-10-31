@@ -76,7 +76,14 @@ fun LoginScreen(
         isLoadingOverlayVisible = uiState == LoginUiState.LOADING,
         isErrorMessageVisible = uiState == LoginUiState.WRONG_CREDENTIALS || uiState == LoginUiState.NETWORK_ERROR,
     )
-    if (uiState == LoginUiState.SUCCESS) navController.navigate(OnBoardingNavigationRoutes.homeScreenRoute)
+    SideEffect {
+        if (
+            uiState == LoginUiState.SUCCESS &&
+            navController.currentBackStackEntry?.destination?.route != OnBoardingNavigationRoutes.homeScreenRoute
+        ) navController.navigate(OnBoardingNavigationRoutes.homeScreenRoute) {
+            popUpTo(OnBoardingNavigationRoutes.welcomeScreenRoute) { inclusive = true }
+        }
+    }
 }
 
 /**
