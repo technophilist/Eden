@@ -36,7 +36,8 @@ fun SignUpScreen(
     viewModel: SignUpViewModel,
     navController: NavController
 ) {
-    val invalidCredentialsErrorMessage = stringResource(id = R.string.label_enter_valid_email_and_password)
+    val invalidCredentialsErrorMessage =
+        stringResource(id = R.string.label_enter_valid_email_and_password)
     val userAlreadyExistsErrorMessage = stringResource(id = R.string.label_user_already_exists)
     val networkErrorMessage = stringResource(id = R.string.label_network_error_message)
     val uiState by viewModel.uiState
@@ -104,7 +105,14 @@ fun SignUpScreen(
         },
         keyboardActions = keyboardActions
     )
-    if (uiState is SignUpUiState.Success) navController.navigate(OnBoardingNavigationRoutes.homeScreenRoute)
+    SideEffect {
+        if (
+            uiState == SignUpUiState.Success &&
+            navController.currentBackStackEntry?.destination?.route != OnBoardingNavigationRoutes.homeScreenRoute
+        ) navController.navigate(OnBoardingNavigationRoutes.homeScreenRoute) {
+            popUpTo(OnBoardingNavigationRoutes.welcomeScreenRoute) { inclusive = true }
+        }
+    }
 }
 
 /**
