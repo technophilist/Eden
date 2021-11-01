@@ -37,6 +37,7 @@ interface SignUpViewModel {
         password: String,
         profilePhotoUri: Uri? = null
     )
+    fun removeErrorMessage()
 }
 
 class EdenSignUpViewModel(
@@ -78,6 +79,12 @@ class EdenSignUpViewModel(
                 is AuthenticationResult.Success -> SignUpUiState.Success
                 is AuthenticationResult.Failure -> getUiStateForFailureType(authenticationResult.failureType)
             }
+        }
+    }
+
+    override fun removeErrorMessage() {
+        if(_uiState.value is SignUpUiState.Failed){
+            _uiState.value = SignUpUiState.SignedOut
         }
     }
 
