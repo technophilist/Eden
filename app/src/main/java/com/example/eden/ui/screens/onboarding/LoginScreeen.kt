@@ -55,9 +55,15 @@ fun LoginScreen(
 
     LoginScreen(
         emailAddressText = emailAddressText,
-        onEmailAddressTextChange = { emailAddressText = it },
+        onEmailAddressTextChange = {
+            viewModel.removeErrorMessage() // If there is an error message, clear it
+            emailAddressText = it
+        },
         passwordText = passwordText,
-        onPasswordTextChange = { passwordText = it },
+        onPasswordTextChange = {
+            viewModel.removeErrorMessage() // If there is an error message, clear it
+            passwordText = it
+        },
         isPasswordVisible = isPasswordVisible,
         onPasswordVisibilityIconClick = { isPasswordVisible = !isPasswordVisible },
         onLoginButtonClick = { viewModel.authenticate(emailAddressText, passwordText) },

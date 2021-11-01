@@ -87,9 +87,15 @@ fun SignUpScreen(
         lastNameText = lastNameText,
         onLastNameTextChange = { lastNameText = it },
         emailAddressText = emailAddressText,
-        onEmailAddressTextChange = { emailAddressText = it },
+        onEmailAddressTextChange = {
+            viewModel.removeErrorMessage() // if there is an error message, clear it
+            emailAddressText = it
+        },
         passwordText = passwordText,
-        onPasswordTextChange = { passwordText = it },
+        onPasswordTextChange = {
+            viewModel.removeErrorMessage()// if there is an error message, clear it
+            passwordText = it
+        },
         errorMessageText = errorMessageText,
         isErrorMessageVisible = isErrorMessageVisible,
         isPasswordVisible = isPasswordVisible,
