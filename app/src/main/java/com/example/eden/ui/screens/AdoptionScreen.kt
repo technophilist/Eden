@@ -19,15 +19,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.eden.data.domain.PetInfo
 import com.example.eden.ui.components.EdenSearchBar
 import com.example.eden.ui.components.IconWithDropDownMenu
 import com.example.eden.ui.components.MenuOption
 import com.example.eden.ui.components.PetCarouselCard
-import com.example.eden.ui.navigation.BottomNavigationRoutes
 import com.example.eden.ui.navigation.HomeScreenNavigationRoutes
 import com.example.eden.viewmodels.HomeScreenViewModel
 
@@ -38,22 +35,23 @@ fun AdoptionScreen(
     viewmodel: HomeScreenViewModel,
     onItemClicked: (NavController, PetInfo, HomeScreenNavigationRoutes) -> Unit
 ) {
-    val navController = rememberNavController()
-    NavHost(
-        navController = navController,
-        startDestination = BottomNavigationRoutes.AdoptionScreen.route
-    ) {
-        composable(BottomNavigationRoutes.AdoptionScreen.route) {
-            AdoptionScreen(
-                viewmodel = viewmodel,
-                navController = navController,
-                onItemClicked = onItemClicked
-            )
-        }
-        composable(HomeScreenNavigationRoutes.detailsScreenRoute) {
-            DetailsScreen()
-        }
-    }
+//    val navController = rememberNavController()
+//    NavHost(
+//        navController = navController,
+//        startDestination = BottomNavigationRoutes.AdoptionScreen.route
+//    ) {
+//        composable(BottomNavigationRoutes.AdoptionScreen.route) {
+//            AdoptionScreen(
+//                viewmodel = viewmodel,
+//                navController = navController,
+//                onItemClicked = onItemClicked
+//            )
+//        }
+//        composable(HomeScreenNavigationRoutes.detailsScreenRoute) {
+//            DetailsScreen()
+//        }
+//    }
+    AdoptionScreen(viewmodel = viewmodel, rememberNavController(), onItemClicked = onItemClicked)
 }
 
 @ExperimentalMaterialApi
@@ -70,26 +68,31 @@ private fun AdoptionScreen(
         MenuOption("Cats") { viewmodel.filterRecommendedList(HomeScreenViewModel.FilterOptions.CATS) }
     )
     // featured pets - header
-    Column(
-        modifier = Modifier
-            .padding(start = 16.dp, end = 16.dp)
-            .fillMaxSize()
-    ) {
-        EdenSearchBar(
-            modifier = Modifier.fillMaxWidth(),
-            label = { Text("Search") },
-            onValueChange = { searchText = it },
-            value = searchText,
-        )
-        Text(
-            modifier = Modifier.paddingFromBaseline(top = 32.dp),
-            text = "Featured Pets",
-            style = MaterialTheme.typography.h1,
-            color = MaterialTheme.colors.onPrimary
-        )
+    Column(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .padding(start = 16.dp, end = 16.dp)
+                .fillMaxWidth()
+        ) {
+            EdenSearchBar(
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text("Search") },
+                onValueChange = { searchText = it },
+                value = searchText,
+            )
+            Text(
+                modifier = Modifier.paddingFromBaseline(top = 32.dp),
+                text = "Featured Pets",
+                style = MaterialTheme.typography.h1,
+                color = MaterialTheme.colors.onPrimary
+            )
+        }
         Spacer(modifier = Modifier.size(16.dp))
         // featured pets - list
-        LazyRow(modifier = Modifier.fillMaxWidth()) {
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(start = 8.dp, end = 8.dp)
+        ) {
             items(viewmodel.featuredList) { item ->
                 PetCarouselCard(
                     modifier = Modifier.size(200.dp),
@@ -102,7 +105,7 @@ private fun AdoptionScreen(
         // recommended pets - header
         Row(
             modifier = Modifier
-                .padding(top = 8.dp)
+                .padding(top = 8.dp, start = 8.dp, end = 8.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -120,8 +123,7 @@ private fun AdoptionScreen(
                 onClick = { isFilterMenuVisible = !isFilterMenuVisible }
             )
         }
-        Spacer(modifier = Modifier.size(16.dp))
-        LazyColumn {
+        LazyColumn(modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp)) {
             items(viewmodel.recommendedList) { petInfo ->
                 var isPetFavourited by remember {
                     mutableStateOf(false)
