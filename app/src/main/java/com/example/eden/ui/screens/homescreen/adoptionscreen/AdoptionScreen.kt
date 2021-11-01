@@ -1,4 +1,4 @@
-package com.example.eden.ui.screens
+package com.example.eden.ui.screens.homescreen.adoptionscreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -29,31 +29,6 @@ import com.example.eden.ui.navigation.HomeScreenNavigationRoutes
 import com.example.eden.viewmodels.HomeScreenViewModel
 
 // TODO Add docs and explicitly mention why home screen has its own nav controller
-@ExperimentalMaterialApi
-@Composable
-fun AdoptionScreen(
-    viewmodel: HomeScreenViewModel,
-    onItemClicked: (NavController, PetInfo, HomeScreenNavigationRoutes) -> Unit
-) {
-//    val navController = rememberNavController()
-//    NavHost(
-//        navController = navController,
-//        startDestination = BottomNavigationRoutes.AdoptionScreen.route
-//    ) {
-//        composable(BottomNavigationRoutes.AdoptionScreen.route) {
-//            AdoptionScreen(
-//                viewmodel = viewmodel,
-//                navController = navController,
-//                onItemClicked = onItemClicked
-//            )
-//        }
-//        composable(HomeScreenNavigationRoutes.detailsScreenRoute) {
-//            DetailsScreen()
-//        }
-//    }
-    AdoptionScreen(viewmodel = viewmodel, rememberNavController(), onItemClicked = onItemClicked)
-}
-
 @ExperimentalMaterialApi
 @Composable
 private fun AdoptionScreen(
