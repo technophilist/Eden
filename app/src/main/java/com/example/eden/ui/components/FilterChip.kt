@@ -1,6 +1,5 @@
 package com.example.eden.ui.components
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -14,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 
 
@@ -24,6 +24,7 @@ fun FilterChip(
     isSelected: Boolean = false,
     outlinedBorderColor: Color = MaterialTheme.colors.secondary,
     selectedBackgroundColor: Color = MaterialTheme.colors.secondary,
+    shape: Shape = CircleShape,
     content: @Composable () -> Unit = {}
 ) {
     Surface(
@@ -33,7 +34,7 @@ fun FilterChip(
         onClick = onClick,
         border = if (isSelected) null else BorderStroke(1.dp, outlinedBorderColor),
         color = if (isSelected) selectedBackgroundColor else MaterialTheme.colors.surface,
-        shape = CircleShape,
+        shape = shape,
     ) {
         Row(
             modifier = Modifier.padding(
