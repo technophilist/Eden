@@ -1,10 +1,12 @@
 package com.example.eden.ui.screens.homescreen.adoptionscreen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -17,11 +19,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.eden.data.domain.PetInfo
-import com.example.eden.ui.components.EdenSearchBar
+import com.example.eden.ui.components.FilterChip
 import com.example.eden.ui.components.IconWithDropDownMenu
 import com.example.eden.ui.components.MenuOption
 import com.example.eden.ui.components.PetCarouselCard
@@ -42,19 +45,31 @@ fun AdoptionScreen(
         MenuOption("Dogs") { viewmodel.filterRecommendedList(AdoptionScreenViewModel.FilterOptions.DOGS) },
         MenuOption("Cats") { viewmodel.filterRecommendedList(AdoptionScreenViewModel.FilterOptions.CATS) }
     )
+    val scrollState = rememberScrollState()
     // featured pets - header
     Column(modifier = Modifier.fillMaxSize()) {
+        // Chip Group
+        Row(
+            modifier = Modifier
+                .horizontalScroll(scrollState)
+                .padding(start = 8.dp)
+                .fillMaxWidth()
+        ) {
+            AdoptionScreenViewModel.FilterOptions.values().forEach {
+                var isSelected by remember { mutableStateOf(false) }
+                FilterChip(
+                    onClick = { isSelected = !isSelected },
+                    isSelected = isSelected,
+                    content = { Text(text = it.name.lowercase().capitalize(Locale.current)) }
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+            }
+        }
         Column(
             modifier = Modifier
                 .padding(start = 16.dp, end = 16.dp)
                 .fillMaxWidth()
         ) {
-            EdenSearchBar(
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text("Search") },
-                onValueChange = { searchText = it },
-                value = searchText,
-            )
             Text(
                 modifier = Modifier.paddingFromBaseline(top = 32.dp),
                 text = "Featured Pets",
@@ -114,6 +129,7 @@ fun AdoptionScreen(
         }
     }
 }
+
 
 @ExperimentalMaterialApi
 @Composable
