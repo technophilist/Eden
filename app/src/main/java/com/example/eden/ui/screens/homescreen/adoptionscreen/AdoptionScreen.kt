@@ -51,7 +51,7 @@ fun AdoptionScreen(
         Row(
             modifier = Modifier
                 .horizontalScroll(scrollState)
-                .padding(start = 8.dp)
+                .padding(start = 8.dp,top = 16.dp)
                 .fillMaxWidth()
         ) {
             AdoptionScreenViewModel.FilterOptions.values().forEach {
