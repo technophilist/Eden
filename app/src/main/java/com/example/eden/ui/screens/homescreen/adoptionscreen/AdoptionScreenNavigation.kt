@@ -23,7 +23,6 @@ fun AdoptionScreenNavigation(modifier: Modifier = Modifier) {
         composable(AdoptionScreenNavigationRoutes.homeScreenRoute) {
             AdoptionScreen(
                 viewmodel = viewModel<EdenAdoptionScreenViewModel>(viewModelStoreOwner = it),
-                navController = navController,
                 onItemClicked = { petInfo ->
                     navController.navigate(
                         AdoptionScreenNavigationRoutes.detailsScreenRoute
