@@ -1,4 +1,4 @@
-package com.example.eden.ui.screens.homescreen
+package com.example.eden.ui.screens.homescreen.adoptionscreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
