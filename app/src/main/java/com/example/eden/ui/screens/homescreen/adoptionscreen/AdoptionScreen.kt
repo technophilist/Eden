@@ -10,7 +10,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -25,8 +24,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.eden.data.domain.PetInfo
 import com.example.eden.ui.components.FilterChip
-import com.example.eden.ui.components.IconWithDropDownMenu
-import com.example.eden.ui.components.MenuOption
 import com.example.eden.ui.components.PetCarouselCard
 import com.example.eden.ui.navigation.HomeScreenNavigationRoutes
 import com.example.eden.viewmodels.AdoptionScreenViewModel
@@ -39,19 +36,13 @@ fun AdoptionScreen(
     navController: NavController,
     onItemClicked: (NavController, PetInfo, HomeScreenNavigationRoutes) -> Unit
 ) {
-    var isFilterMenuVisible by remember { mutableStateOf(false) }
-    val filterOptions = listOf(
-        MenuOption("Dogs") { viewmodel.filterRecommendedList(AdoptionScreenViewModel.FilterOptions.DOGS) },
-        MenuOption("Cats") { viewmodel.filterRecommendedList(AdoptionScreenViewModel.FilterOptions.CATS) }
-    )
     val scrollState = rememberScrollState()
-    // featured pets - header
     Column(modifier = Modifier.fillMaxSize()) {
-        // Chip Group
+        // chip Group
         Row(
             modifier = Modifier
                 .horizontalScroll(scrollState)
-                .padding(start = 8.dp,top = 16.dp)
+                .padding(start = 8.dp, top = 16.dp)
                 .fillMaxWidth()
         ) {
             AdoptionScreenViewModel.FilterOptions.values().forEach {
@@ -64,20 +55,14 @@ fun AdoptionScreen(
                 Spacer(modifier = Modifier.width(8.dp))
             }
         }
-        Column(
-            modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp)
-                .fillMaxWidth()
-        ) {
-            Text(
-                modifier = Modifier.paddingFromBaseline(top = 32.dp),
-                text = "Featured Pets",
-                style = MaterialTheme.typography.h1,
-                color = MaterialTheme.colors.onPrimary
-            )
-        }
-        Spacer(modifier = Modifier.size(16.dp))
-        // featured pets - list
+        // featured pets - header
+        Text(
+            modifier = Modifier.padding(8.dp),
+            text = "Featured Pets",
+            style = MaterialTheme.typography.h1,
+            color = MaterialTheme.colors.onPrimary
+        )
+        // featured pets list
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(start = 8.dp, end = 8.dp)
@@ -92,31 +77,16 @@ fun AdoptionScreen(
             }
         }
         // recommended pets - header
-        Row(
-            modifier = Modifier
-                .padding(top = 8.dp, start = 8.dp, end = 8.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                modifier = Modifier.padding(top = 8.dp),
-                text = "Recommended Pets",
-                style = MaterialTheme.typography.h1,
-                color = MaterialTheme.colors.onPrimary
-            )
-            IconWithDropDownMenu(
-                icon = Icons.Filled.FilterList,
-                menuOptions = filterOptions,
-                isDropDownMenuExpanded = isFilterMenuVisible,
-                onDismissRequest = { isFilterMenuVisible = false },
-                onClick = { isFilterMenuVisible = !isFilterMenuVisible }
-            )
-        }
-        LazyColumn(modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp)) {
+        Text(
+            modifier = Modifier.padding(8.dp),
+            text = "Recommended Pets",
+            style = MaterialTheme.typography.h1,
+            color = MaterialTheme.colors.onPrimary
+        )
+        // recommended pets - list
+        LazyColumn(modifier = Modifier.padding(start = 8.dp, end = 8.dp)) {
             items(viewmodel.recommendedList) { petInfo ->
-                var isPetFavourited by remember {
-                    mutableStateOf(false)
-                }
+                var isPetFavourited by remember { mutableStateOf(false) }
                 PetInfoCard(
                     petInfo = petInfo,
                     isLiked = isPetFavourited,
