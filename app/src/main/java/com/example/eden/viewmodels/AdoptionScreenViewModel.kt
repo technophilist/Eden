@@ -8,7 +8,7 @@ interface AdoptionScreenViewModel {
     val featuredList: List<PetInfo> // change to live data
     val recommendedList: List<PetInfo> // change to live data
     fun addPetToFavourites(petInfo: PetInfo)
-    fun filterRecommendedList(filterOptions: FilterOptions)
+    fun applyFilter(filterOptions: FilterOptions)
     enum class FilterOptions { ALL, DOGS, CATS }
 }
 
@@ -45,7 +45,7 @@ class EdenAdoptionScreenViewModel : ViewModel(), AdoptionScreenViewModel {
         TODO("Not yet implemented")
     }
 
-    override fun filterRecommendedList(filterOptions: AdoptionScreenViewModel.FilterOptions) {
+    override fun applyFilter(filterOptions: AdoptionScreenViewModel.FilterOptions) {
         TODO("Not yet implemented")
     }
 }
