@@ -25,7 +25,7 @@ import androidx.navigation.NavController
 import com.example.eden.data.domain.PetInfo
 import com.example.eden.ui.components.FilterChip
 import com.example.eden.ui.components.PetCarouselCard
-import com.example.eden.ui.navigation.HomeScreenNavigationRoutes
+import com.example.eden.ui.navigation.AdoptionScreenNavigationRoutes
 import com.example.eden.viewmodels.AdoptionScreenViewModel
 
 // TODO Add docs and explicitly mention why home screen has its own nav controller
@@ -34,7 +34,7 @@ import com.example.eden.viewmodels.AdoptionScreenViewModel
 fun AdoptionScreen(
     viewmodel: AdoptionScreenViewModel,
     navController: NavController,
-    onItemClicked: (NavController, PetInfo, HomeScreenNavigationRoutes) -> Unit
+    onItemClicked: (PetInfo) -> Unit
 ) {
     val scrollState = rememberScrollState()
     Column(modifier = Modifier.fillMaxSize()) {
@@ -71,7 +71,7 @@ fun AdoptionScreen(
                 PetCarouselCard(
                     modifier = Modifier.size(200.dp),
                     petInfo = item,
-                    onClick = { onItemClicked(navController, item, HomeScreenNavigationRoutes) }
+                    onClick = { onItemClicked(item) }
                 )
                 Spacer(modifier = Modifier.size(10.dp))
             }
@@ -91,7 +91,7 @@ fun AdoptionScreen(
                     petInfo = petInfo,
                     isLiked = isPetFavourited,
                     onLikeButtonClicked = { isPetFavourited = !isPetFavourited },
-                    onClick = { onItemClicked(navController, petInfo, HomeScreenNavigationRoutes) }
+                    onClick = { onItemClicked(petInfo) }
                 )
                 Spacer(modifier = Modifier.padding(4.dp))
             }
