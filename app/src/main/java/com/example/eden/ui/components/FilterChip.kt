@@ -25,7 +25,7 @@ fun FilterChip(
     outlinedBorderColor: Color = MaterialTheme.colors.secondary,
     selectedBackgroundColor: Color = MaterialTheme.colors.secondary,
     shape: Shape = CircleShape,
-    content: @Composable () -> Unit = {}
+    content: @Composable () -> Unit
 ) {
     Surface(
         modifier = Modifier
