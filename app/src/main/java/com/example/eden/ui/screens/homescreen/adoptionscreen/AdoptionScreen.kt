@@ -25,15 +25,12 @@ import androidx.navigation.NavController
 import com.example.eden.data.domain.PetInfo
 import com.example.eden.ui.components.FilterChip
 import com.example.eden.ui.components.PetCarouselCard
-import com.example.eden.ui.navigation.AdoptionScreenNavigationRoutes
 import com.example.eden.viewmodels.AdoptionScreenViewModel
 
-// TODO Add docs and explicitly mention why home screen has its own nav controller
 @ExperimentalMaterialApi
 @Composable
 fun AdoptionScreen(
     viewmodel: AdoptionScreenViewModel,
-    navController: NavController,
     onItemClicked: (PetInfo) -> Unit
 ) {
     val scrollState = rememberScrollState()
