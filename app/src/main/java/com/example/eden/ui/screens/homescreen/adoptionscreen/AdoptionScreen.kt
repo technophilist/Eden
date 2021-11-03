@@ -26,21 +26,21 @@ import com.example.eden.ui.components.IconWithDropDownMenu
 import com.example.eden.ui.components.MenuOption
 import com.example.eden.ui.components.PetCarouselCard
 import com.example.eden.ui.navigation.HomeScreenNavigationRoutes
-import com.example.eden.viewmodels.HomeScreenViewModel
+import com.example.eden.viewmodels.AdoptionScreenViewModel
 
 // TODO Add docs and explicitly mention why home screen has its own nav controller
 @ExperimentalMaterialApi
 @Composable
-private fun AdoptionScreen(
-    viewmodel: HomeScreenViewModel,
+fun AdoptionScreen(
+    viewmodel: AdoptionScreenViewModel,
     navController: NavController,
     onItemClicked: (NavController, PetInfo, HomeScreenNavigationRoutes) -> Unit
 ) {
     var isFilterMenuVisible by remember { mutableStateOf(false) }
     var searchText by remember { mutableStateOf("") }
     val filterOptions = listOf(
-        MenuOption("Dogs") { viewmodel.filterRecommendedList(HomeScreenViewModel.FilterOptions.DOGS) },
-        MenuOption("Cats") { viewmodel.filterRecommendedList(HomeScreenViewModel.FilterOptions.CATS) }
+        MenuOption("Dogs") { viewmodel.filterRecommendedList(AdoptionScreenViewModel.FilterOptions.DOGS) },
+        MenuOption("Cats") { viewmodel.filterRecommendedList(AdoptionScreenViewModel.FilterOptions.CATS) }
     )
     // featured pets - header
     Column(modifier = Modifier.fillMaxSize()) {
