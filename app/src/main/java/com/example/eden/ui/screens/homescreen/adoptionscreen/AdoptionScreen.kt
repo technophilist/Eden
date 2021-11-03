@@ -40,7 +40,6 @@ fun AdoptionScreen(
     onItemClicked: (NavController, PetInfo, HomeScreenNavigationRoutes) -> Unit
 ) {
     var isFilterMenuVisible by remember { mutableStateOf(false) }
-    var searchText by remember { mutableStateOf("") }
     val filterOptions = listOf(
         MenuOption("Dogs") { viewmodel.filterRecommendedList(AdoptionScreenViewModel.FilterOptions.DOGS) },
         MenuOption("Cats") { viewmodel.filterRecommendedList(AdoptionScreenViewModel.FilterOptions.CATS) }
