@@ -6,7 +6,7 @@ import androidx.annotation.DrawableRes
  * This class is used to depict the entire profile of a pet.
  */
 data class PetInfo(
-    val id:Int,
+    val id:String,
     val name:String,
     val age:String,
     val color:String,

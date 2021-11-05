@@ -57,7 +57,7 @@ fun DetailsScreen() {
         ) {
             Header(
                 PetInfo(
-                    1,
+                    "",
                     "Peter Parker",
                     "",
                     "",
