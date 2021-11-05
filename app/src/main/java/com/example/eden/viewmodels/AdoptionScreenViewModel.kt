@@ -14,32 +14,10 @@ interface AdoptionScreenViewModel {
 
 class EdenAdoptionScreenViewModel : ViewModel(), AdoptionScreenViewModel {
     override val featuredList: List<PetInfo>
-        get() = List(10) {
-            PetInfo(
-                1,
-                "Cherry",
-                "ds",
-                "Dog",
-                "Pug",
-                "breed",
-                25_000f,
-                R.drawable.placeholder
-            )
-        }
+        get() = emptyList()
 
     override val recommendedList: List<PetInfo>
-        get() = List(10) {
-            PetInfo(
-                1,
-                "Cherry",
-                "ds",
-                "Dog",
-                "Pug",
-                "breed",
-                25_000f,
-                R.drawable.placeholder
-            )
-        }
+        get() = emptyList()
 
     override fun addPetToFavourites(petInfo: PetInfo) {
         TODO("Not yet implemented")

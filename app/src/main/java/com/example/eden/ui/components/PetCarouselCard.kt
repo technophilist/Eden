@@ -44,12 +44,12 @@ fun PetCarouselCard(
         onClick = onClick
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            Image(
-                modifier = Modifier.fillMaxSize(),
-                painter = painterResource(id = petInfo.imageResource),
-                contentDescription = "",
-                contentScale = ContentScale.Crop,
-            )
+//            Image(
+//                modifier = Modifier.fillMaxSize(),
+//                painter = painterResource(id = petInfo.imageResource),
+//                contentDescription = "",
+//                contentScale = ContentScale.Crop,
+//            )
             Spacer(
                 modifier = Modifier
                     .background(scrim)

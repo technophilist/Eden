@@ -111,14 +111,14 @@ private fun PetInfoCard(
         onClick = onClick
     ) {
         Row(modifier = Modifier.fillMaxSize()) {
-            Image(
-                modifier = Modifier
-                    .clip(MaterialTheme.shapes.small)
-                    .weight(2f),
-                painter = painterResource(petInfo.imageResource),
-                contentDescription = "",
-                contentScale = ContentScale.Crop,
-            )
+//            Image(
+//                modifier = Modifier
+//                    .clip(MaterialTheme.shapes.small)
+//                    .weight(2f),
+//                painter = painterResource(petInfo.imageResource),
+//                contentDescription = "",
+//                contentScale = ContentScale.Crop,
+//            )
             Column(
                 Modifier
                     .weight(4f)

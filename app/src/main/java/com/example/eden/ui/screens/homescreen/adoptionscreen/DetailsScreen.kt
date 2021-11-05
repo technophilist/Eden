@@ -60,11 +60,13 @@ fun DetailsScreen() {
                     1,
                     "Peter Parker",
                     "",
+                    "",
+                    "",
                     "Dog",
                     "Adelel",
                     "Female",
-                    223515f,
-                    R.drawable.placeholder
+                    "Male",
+                    ""
                 )
             )
             Spacer(modifier = Modifier.size(16.dp))
