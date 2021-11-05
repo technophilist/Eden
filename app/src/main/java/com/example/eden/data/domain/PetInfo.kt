@@ -15,5 +15,5 @@ data class PetInfo(
     val type:String,
     val breed:String,
     val gender:String,
-    @DrawableRes val imageResource:Int
+    val imageResource:String
 )
