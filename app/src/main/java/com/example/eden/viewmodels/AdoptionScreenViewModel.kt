@@ -1,7 +1,7 @@
 package com.example.eden.viewmodels
 
 import androidx.lifecycle.ViewModel
-import com.example.eden.R
+import com.example.eden.data.Repository
 import com.example.eden.data.domain.PetInfo
 
 interface AdoptionScreenViewModel {
@@ -12,7 +12,9 @@ interface AdoptionScreenViewModel {
     enum class FilterOptions { ALL, DOGS, CATS }
 }
 
-class EdenAdoptionScreenViewModel : ViewModel(), AdoptionScreenViewModel {
+class EdenAdoptionScreenViewModel(
+    private val repository: Repository
+) : ViewModel(), AdoptionScreenViewModel {
     override val featuredList: List<PetInfo>
         get() = emptyList()
 
