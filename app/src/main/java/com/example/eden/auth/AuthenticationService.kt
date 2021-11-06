@@ -21,6 +21,17 @@ interface AuthenticationService {
     fun signOut()
 }
 
+/**
+ * A sealed class that encapsulates the status of initiating the
+ * authentication process.
+ *
+ * This sealed class consist of two data classes representing
+ * success and failure states.
+ * The [Success] class contains an [EdenUser] object, which
+ * represents the user who was successfully authenticated.
+ * The [Failure] class contains the [FailureType] which can
+ * be used to infer the type of failure.
+ */
 sealed class AuthenticationResult {
     data class Success(val user: EdenUser) : AuthenticationResult()
     data class Failure(val failureType: FailureType) : AuthenticationResult()
