@@ -15,8 +15,8 @@ interface AdoptionScreenViewModel {
 }
 
 class EdenAdoptionScreenViewModel(
+    private val repository: Repository,
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO,
-    private val repository: Repository
 ) : ViewModel(), AdoptionScreenViewModel {
     override val featuredList: List<PetInfo>
         get() = emptyList()

@@ -34,5 +34,5 @@ class AdoptionScreenViewModelFactory(
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>) =
-        EdenAdoptionScreenViewModel(defaultDispatcher, repository) as T
+        EdenAdoptionScreenViewModel(repository,defaultDispatcher) as T
 }
