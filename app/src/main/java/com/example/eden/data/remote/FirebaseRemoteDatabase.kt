@@ -1,20 +1,30 @@
 package com.example.eden.data.remote
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.eden.data.domain.PetInfo
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.tasks.await
 
 class FirebaseRemoteDatabase : RemoteDatabase {
     private val fireStore = Firebase.firestore
+    private val _petsAvailableForAdoption = MutableLiveData(emptyList<PetInfo>())
+    override val petsAvailableForAdoption = _petsAvailableForAdoption as LiveData<List<PetInfo>>
 
-    override suspend fun fetchAllPetsAvailableForAdoption(): List<PetInfo> =
+    init {
+        listenForRealtimeUpdates()
+    }
+
+    private fun listenForRealtimeUpdates() {
         fireStore.collection("mobile/pet-adoption/availableForAdoption")
-            .get()
-            .await()
-            .documents
-            .map(DocumentSnapshot::toPetInfo)
+            .addSnapshotListener { snapshot, exception ->
+                if (exception == null) {
+                    val list = snapshot!!.documents.map(DocumentSnapshot::toPetInfo)
+                    _petsAvailableForAdoption.value = list
+                }
+            }
+    }
 
     /**
      * Used when a user with [userId] wants to send a request for
