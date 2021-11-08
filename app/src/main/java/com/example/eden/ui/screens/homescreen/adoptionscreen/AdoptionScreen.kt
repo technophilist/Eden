@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,6 +23,7 @@ import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
 import com.example.eden.data.domain.PetInfo
 import com.example.eden.ui.components.FilterChip
 import com.example.eden.ui.components.PetCarouselCard
@@ -34,6 +36,7 @@ fun AdoptionScreen(
     onItemClicked: (PetInfo) -> Unit
 ) {
     val scrollState = rememberScrollState()
+    val featuredList by viewmodel.featuredList.observeAsState()
     Column(modifier = Modifier.fillMaxSize()) {
         // chip Group
         Row(
@@ -64,7 +67,7 @@ fun AdoptionScreen(
             modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(start = 8.dp, end = 8.dp)
         ) {
-            items(viewmodel.featuredList) { item ->
+            items(featuredList!!) { item ->
                 PetCarouselCard(
                     modifier = Modifier.size(200.dp),
                     petInfo = item,
@@ -82,7 +85,7 @@ fun AdoptionScreen(
         )
         // recommended pets - list
         LazyColumn(modifier = Modifier.padding(start = 8.dp, end = 8.dp)) {
-            items(viewmodel.recommendedList) { petInfo ->
+            items(featuredList!!) { petInfo ->
                 var isPetFavourited by remember { mutableStateOf(false) }
                 PetInfoCard(
                     petInfo = petInfo,
@@ -111,14 +114,14 @@ private fun PetInfoCard(
         onClick = onClick
     ) {
         Row(modifier = Modifier.fillMaxSize()) {
-//            Image(
-//                modifier = Modifier
-//                    .clip(MaterialTheme.shapes.small)
-//                    .weight(2f),
-//                painter = painterResource(petInfo.imageResource),
-//                contentDescription = "",
-//                contentScale = ContentScale.Crop,
-//            )
+            Image(
+                modifier = Modifier
+                    .clip(MaterialTheme.shapes.small)
+                    .weight(2f),
+                painter = rememberImagePainter(petInfo.imageResource),
+                contentDescription = "",
+                contentScale = ContentScale.Crop,
+            )
             Column(
                 Modifier
                     .weight(4f)
