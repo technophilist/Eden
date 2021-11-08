@@ -16,6 +16,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberImagePainter
 import com.example.eden.data.domain.PetInfo
 
 /**
@@ -44,12 +45,12 @@ fun PetCarouselCard(
         onClick = onClick
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-//            Image(
-//                modifier = Modifier.fillMaxSize(),
-//                painter = painterResource(id = petInfo.imageResource),
-//                contentDescription = "",
-//                contentScale = ContentScale.Crop,
-//            )
+            Image(
+                modifier = Modifier.fillMaxSize(),
+                painter = rememberImagePainter(petInfo.imageResource),
+                contentDescription = "",
+                contentScale = ContentScale.Crop,
+            )
             Spacer(
                 modifier = Modifier
                     .background(scrim)
