@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
@@ -47,7 +46,10 @@ fun PetCarouselCard(
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
                 modifier = Modifier.fillMaxSize(),
-                painter = rememberImagePainter(petInfo.imageResource),
+                painter = rememberImagePainter(
+                    data = petInfo.imageResource,
+                    builder = { crossfade(true) }
+                ),
                 contentDescription = "",
                 contentScale = ContentScale.Crop,
             )

@@ -18,11 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.example.eden.data.domain.PetInfo
 import com.example.eden.ui.components.FilterChip
@@ -36,7 +34,7 @@ fun AdoptionScreen(
     onItemClicked: (PetInfo) -> Unit
 ) {
     val scrollState = rememberScrollState()
-    val featuredList by viewmodel.featuredList.observeAsState()
+    val featuredList by viewmodel.featuredList.observeAsState() //TODO Observe featured and recommended list
     Column(modifier = Modifier.fillMaxSize()) {
         // chip Group
         Row(
@@ -118,7 +116,10 @@ private fun PetInfoCard(
                 modifier = Modifier
                     .clip(MaterialTheme.shapes.small)
                     .weight(2f),
-                painter = rememberImagePainter(petInfo.imageResource),
+                painter = rememberImagePainter(
+                    data = petInfo.imageResource,
+                    builder = { crossfade(true)}
+                ),
                 contentDescription = "",
                 contentScale = ContentScale.Crop,
             )
