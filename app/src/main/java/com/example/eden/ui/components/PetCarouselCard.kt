@@ -61,7 +61,7 @@ fun PetCarouselCard(
             Column(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .padding(8.dp)
+                    .padding(16.dp)
             ) {
                 Text(
                     modifier = Modifier,
