@@ -22,7 +22,6 @@ enum class SignUpUiFailureType {
 }
 
 sealed class SignUpUiState {
-    object Success : SignUpUiState()
     object Loading : SignUpUiState()
     object SignedOut : SignUpUiState()
     data class Failed(val cause: SignUpUiFailureType) : SignUpUiState()
@@ -35,6 +34,7 @@ interface SignUpViewModel {
         name: String,
         email: String,
         password: String,
+        onSuccess:()->Unit,
         profilePhotoUri: Uri? = null
     )
     fun removeErrorMessage()
@@ -67,7 +67,8 @@ class EdenSignUpViewModel(
         name: String,
         email: String,
         password: String,
-        profilePhotoUri: Uri?
+        onSuccess:()->Unit,
+        profilePhotoUri: Uri?,
     ) {
         if (!isValidEmail(email) || !isValidPassword(password)) _uiState.value =
             SignUpUiState.Failed(SignUpUiFailureType.INVALID_CREDENTIALS)
@@ -75,9 +76,9 @@ class EdenSignUpViewModel(
             _uiState.value = SignUpUiState.Loading
             val authenticationResult =
                 authenticationService.createAccount(name, email.trim(), password, profilePhotoUri)
-            _uiState.value = when (authenticationResult) {
-                is AuthenticationResult.Success -> SignUpUiState.Success
-                is AuthenticationResult.Failure -> getUiStateForFailureType(authenticationResult.failureType)
+            when (authenticationResult) {
+                is AuthenticationResult.Success -> onSuccess()
+                is AuthenticationResult.Failure -> _uiState.value = getUiStateForFailureType(authenticationResult.failureType)
             }
         }
     }

@@ -18,11 +18,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.eden.R
 import com.example.eden.ui.components.CircularLoadingProgressOverlay
 import com.example.eden.ui.components.EdenSingleLineTextField
-import com.example.eden.ui.navigation.OnBoardingNavigationRoutes
 import com.example.eden.viewmodels.SignUpUiFailureType
 import com.example.eden.viewmodels.SignUpUiState
 import com.example.eden.viewmodels.SignUpViewModel
@@ -34,7 +32,7 @@ import com.example.eden.viewmodels.SignUpViewModel
 @Composable
 fun SignUpScreen(
     viewModel: SignUpViewModel,
-    navController: NavController
+    onAccountCreatedSuccessfully: () -> Unit
 ) {
     val invalidCredentialsErrorMessage =
         stringResource(id = R.string.label_enter_valid_email_and_password)
@@ -74,6 +72,12 @@ fun SignUpScreen(
     val keyboardActions = KeyboardActions(onDone = {
         if (firstNameText.isNotBlank() && lastNameText.isNotBlank() && emailAddressText.isNotBlank() && passwordText.isNotEmpty()) {
             keyboardController?.hide()
+            viewModel.createNewAccount(
+                name = "$firstNameText $lastNameText",
+                email = emailAddressText,
+                password = passwordText,
+                onSuccess = onAccountCreatedSuccessfully
+            )
         }
     })
 
@@ -104,21 +108,15 @@ fun SignUpScreen(
         isSignUpButtonEnabled = isSignUpButtonEnabled,
         onSignUpButtonClick = {
             viewModel.createNewAccount(
-                "$firstNameText $lastNameText",
-                emailAddressText,
-                passwordText
+                name = "$firstNameText $lastNameText",
+                email = emailAddressText,
+                password = passwordText,
+                onSuccess = onAccountCreatedSuccessfully
             )
         },
         keyboardActions = keyboardActions
     )
-    SideEffect {
-        if (
-            uiState == SignUpUiState.Success &&
-            navController.currentBackStackEntry?.destination?.route != OnBoardingNavigationRoutes.homeScreenRoute
-        ) navController.navigate(OnBoardingNavigationRoutes.homeScreenRoute) {
-            popUpTo(OnBoardingNavigationRoutes.welcomeScreenRoute) { inclusive = true }
-        }
-    }
+
 }
 
 /**
