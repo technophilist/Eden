@@ -35,11 +35,7 @@ fun NavGraphBuilder.onBoardingNavGraph(
                     viewModelStoreOwner = it,
                     factory = signUpViewModelFactory
                 ),
-                onAccountCreatedSuccessfully = {
-                    navController.navigate(EdenAppNavigationRoutes.homeScreenRoute) {
-                        popUpTo(OnBoardingNavigationRoutes.welcomeScreenRoute)
-                    }
-                }
+                onAccountCreatedSuccessfully = { navigateToHomeScreen(navController) }
             )
         }
         composable(OnBoardingNavigationRoutes.loginScreenRoute) {
@@ -48,12 +44,14 @@ fun NavGraphBuilder.onBoardingNavGraph(
                     viewModelStoreOwner = it,
                     factory = logInViewModelFactory
                 ),
-                onSuccessfulAuthentication = {
-                    navController.navigate(EdenAppNavigationRoutes.homeScreenRoute) {
-                        popUpTo(OnBoardingNavigationRoutes.welcomeScreenRoute)
-                    }
-                }
+                onSuccessfulAuthentication = { navigateToHomeScreen(navController) }
             )
         }
+    }
+}
+
+private fun navigateToHomeScreen(navController: NavController) {
+    navController.navigate(EdenAppNavigationRoutes.homeScreenRoute) {
+        popUpTo(OnBoardingNavigationRoutes.welcomeScreenRoute) { inclusive = true }
     }
 }
