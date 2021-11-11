@@ -49,7 +49,11 @@ fun LoginScreen(
     val keyboardActions = KeyboardActions(onDone = {
         if (emailAddressText.isNotBlank() && passwordText.isNotEmpty()) {
             keyboardController?.hide()
-            viewModel.authenticate(emailAddressText, passwordText)
+            viewModel.authenticate(
+                emailAddress = emailAddressText,
+                password = passwordText,
+                onSuccess = onSuccessfulAuthentication
+            )
         }
     })
 
