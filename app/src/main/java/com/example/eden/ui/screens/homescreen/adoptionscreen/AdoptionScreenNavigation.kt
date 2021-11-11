@@ -4,33 +4,33 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import com.example.eden.ui.navigation.AdoptionScreenNavigationRoutes
+import com.example.eden.utils.AdoptionScreenViewModelFactory
 import com.example.eden.viewmodels.EdenAdoptionScreenViewModel
 
 
 @ExperimentalMaterialApi
-@Composable
-fun AdoptionScreenNavigation(modifier: Modifier = Modifier) {
-    val navController = rememberNavController()
-    NavHost(
-        modifier = modifier,
-        navController = navController,
-        startDestination = AdoptionScreenNavigationRoutes.homeScreenRoute
-    ) {
-        composable(AdoptionScreenNavigationRoutes.homeScreenRoute) {
+fun NavGraphBuilder.adoptionScreenGraph(
+    adoptionScreenViewModelFactory: AdoptionScreenViewModelFactory,
+    navController: NavController,
+    route: String
+) {
+    navigation(route = route, startDestination = AdoptionScreenNavigationRoutes.homeScreenRoute) {
+        composable(route = AdoptionScreenNavigationRoutes.homeScreenRoute) {
             AdoptionScreen(
-                viewmodel = viewModel<EdenAdoptionScreenViewModel>(viewModelStoreOwner = it),
-                onItemClicked = { petInfo ->
-                    navController.navigate(
-                        AdoptionScreenNavigationRoutes.detailsScreenRoute
-                    )
+                viewmodel = viewModel(it, factory = adoptionScreenViewModelFactory),
+                onItemClicked = {
+                    navController.navigate(AdoptionScreenNavigationRoutes.detailsScreenRoute)
                 }
             )
         }
-        composable(AdoptionScreenNavigationRoutes.detailsScreenRoute) {
+        composable(route = AdoptionScreenNavigationRoutes.detailsScreenRoute) {
             DetailsScreen()
         }
     }
