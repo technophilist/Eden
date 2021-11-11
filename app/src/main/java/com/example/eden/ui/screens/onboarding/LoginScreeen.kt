@@ -34,7 +34,7 @@ import com.example.eden.viewmodels.LoginUiState
 @Composable
 fun LoginScreen(
     viewModel: LogInViewModel,
-    navController: NavController
+    onSuccessfulAuthentication:()->Unit
 ) {
     val uiState by viewModel.uiState
     var emailAddressText by rememberSaveable { mutableStateOf("") }
@@ -66,7 +66,13 @@ fun LoginScreen(
         },
         isPasswordVisible = isPasswordVisible,
         onPasswordVisibilityIconClick = { isPasswordVisible = !isPasswordVisible },
-        onLoginButtonClick = { viewModel.authenticate(emailAddressText, passwordText) },
+        onLoginButtonClick = {
+            viewModel.authenticate(
+                emailAddress = emailAddressText,
+                password = passwordText,
+                onSuccess = onSuccessfulAuthentication
+            )
+        },
         errorMessage = {
             Text(
                 text = when (uiState) {
@@ -82,14 +88,6 @@ fun LoginScreen(
         isLoadingOverlayVisible = uiState == LoginUiState.LOADING,
         isErrorMessageVisible = uiState == LoginUiState.WRONG_CREDENTIALS || uiState == LoginUiState.NETWORK_ERROR,
     )
-    SideEffect {
-        if (
-            uiState == LoginUiState.SUCCESS &&
-            navController.currentBackStackEntry?.destination?.route != OnBoardingNavigationRoutes.homeScreenRoute
-        ) navController.navigate(OnBoardingNavigationRoutes.homeScreenRoute) {
-            popUpTo(OnBoardingNavigationRoutes.welcomeScreenRoute) { inclusive = true }
-        }
-    }
 }
 
 /**

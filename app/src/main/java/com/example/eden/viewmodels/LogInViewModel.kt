@@ -12,7 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 enum class LoginUiState {
-    SUCCESS,
     LOADING,
     WRONG_CREDENTIALS,
     NETWORK_ERROR,
@@ -21,7 +20,7 @@ enum class LoginUiState {
 
 interface LogInViewModel {
     val uiState: State<LoginUiState>
-    fun authenticate(emailAddress: String, password: String)
+    fun authenticate(emailAddress: String, password: String,onSuccess:()->Unit)
     fun removeErrorMessage()
 }
 
@@ -32,11 +31,11 @@ class EdenLogInViewModel(
     private var _uiState = mutableStateOf(LoginUiState.SIGNED_OUT)
     override val uiState = _uiState as State<LoginUiState>
 
-    override fun authenticate(emailAddress: String, password: String) {
+    override fun authenticate(emailAddress: String, password: String,onSuccess:()->Unit) {
         viewModelScope.launch(defaultDispatcher) {
             _uiState.value = LoginUiState.LOADING
             when (val result = authenticationService.signIn(emailAddress.trimEnd(), password)) {
-                is AuthenticationResult.Success -> _uiState.value = LoginUiState.SUCCESS
+                is AuthenticationResult.Success -> onSuccess()
                 is AuthenticationResult.Failure -> setUiStateForFailureType(result.failureType)
             }
         }
