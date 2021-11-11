@@ -14,6 +14,7 @@ import com.example.eden.utils.containsUppercase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 enum class SignUpUiFailureType {
     INVALID_CREDENTIALS,
@@ -34,9 +35,10 @@ interface SignUpViewModel {
         name: String,
         email: String,
         password: String,
-        onSuccess:()->Unit,
+        onSuccess: () -> Unit,
         profilePhotoUri: Uri? = null
     )
+
     fun removeErrorMessage()
 }
 
@@ -61,13 +63,14 @@ class EdenSignUpViewModel(
      */
     private fun isValidPassword(
         password: String
-    ) = password.length >= 8 && password.containsUppercase() && password.containsLowercase() && password.containsDigit()
+    ) =
+        password.length >= 8 && password.containsUppercase() && password.containsLowercase() && password.containsDigit()
 
     override fun createNewAccount(
         name: String,
         email: String,
         password: String,
-        onSuccess:()->Unit,
+        onSuccess: () -> Unit,
         profilePhotoUri: Uri?,
     ) {
         if (!isValidEmail(email) || !isValidPassword(password)) _uiState.value =
@@ -77,14 +80,17 @@ class EdenSignUpViewModel(
             val authenticationResult =
                 authenticationService.createAccount(name, email.trim(), password, profilePhotoUri)
             when (authenticationResult) {
-                is AuthenticationResult.Success -> onSuccess()
-                is AuthenticationResult.Failure -> _uiState.value = getUiStateForFailureType(authenticationResult.failureType)
+                is AuthenticationResult.Success -> withContext(Dispatchers.Main) {
+                    onSuccess()
+                }
+                is AuthenticationResult.Failure -> _uiState.value =
+                    getUiStateForFailureType(authenticationResult.failureType)
             }
         }
     }
 
     override fun removeErrorMessage() {
-        if(_uiState.value is SignUpUiState.Failed){
+        if (_uiState.value is SignUpUiState.Failed) {
             _uiState.value = SignUpUiState.SignedOut
         }
     }
