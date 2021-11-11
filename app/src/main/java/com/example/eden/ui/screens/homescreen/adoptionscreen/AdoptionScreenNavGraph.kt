@@ -17,9 +17,9 @@ import com.example.eden.viewmodels.EdenAdoptionScreenViewModel
 
 @ExperimentalMaterialApi
 fun NavGraphBuilder.adoptionScreenGraph(
-    adoptionScreenViewModelFactory: AdoptionScreenViewModelFactory,
     navController: NavController,
-    route: String
+    route: String,
+    adoptionScreenViewModelFactory: AdoptionScreenViewModelFactory,
 ) {
     navigation(route = route, startDestination = AdoptionScreenNavigationRoutes.homeScreenRoute) {
         composable(route = AdoptionScreenNavigationRoutes.homeScreenRoute) {
