@@ -65,7 +65,7 @@ fun AdoptionScreen(
             modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(start = 8.dp, end = 8.dp)
         ) {
-            items(featuredList!!) { item ->
+            items(featuredList ?: emptyList()) { item ->
                 PetCarouselCard(
                     modifier = Modifier.size(200.dp),
                     petInfo = item,
@@ -83,7 +83,7 @@ fun AdoptionScreen(
         )
         // recommended pets - list
         LazyColumn(modifier = Modifier.padding(start = 8.dp, end = 8.dp)) {
-            items(featuredList!!) { petInfo ->
+            items(featuredList ?: emptyList()) { petInfo ->
                 var isPetFavourited by remember { mutableStateOf(false) }
                 PetInfoCard(
                     petInfo = petInfo,
@@ -118,7 +118,7 @@ private fun PetInfoCard(
                     .weight(2f),
                 painter = rememberImagePainter(
                     data = petInfo.imageResource,
-                    builder = { crossfade(true)}
+                    builder = { crossfade(true) }
                 ),
                 contentDescription = "",
                 contentScale = ContentScale.Crop,
