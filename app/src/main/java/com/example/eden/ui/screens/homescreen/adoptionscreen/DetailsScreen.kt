@@ -14,13 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.eden.R
+import coil.compose.rememberImagePainter
 import com.example.eden.data.domain.PetInfo
 
 private data class Highlight(
@@ -30,14 +29,14 @@ private data class Highlight(
 
 @ExperimentalMaterialApi
 @Composable
-fun DetailsScreen() {
+fun DetailsScreen(petInfo: PetInfo) {
     var isLiked by remember { mutableStateOf(false) }
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             modifier = Modifier
                 .fillMaxHeight(0.6f)
                 .fillMaxWidth(),
-            painter = painterResource(id = R.drawable.placeholder), // replace with petInfo.image
+            painter = rememberImagePainter(petInfo.imageResource, builder = { crossfade(true) }),
             contentDescription = "",
             contentScale = ContentScale.Crop
         )
@@ -55,34 +54,21 @@ fun DetailsScreen() {
                 .padding(16.dp)
                 .fillMaxWidth()
         ) {
-            Header(
-                PetInfo(
-                    "",
-                    "Peter Parker",
-                    "",
-                    "",
-                    "",
-                    "Dog",
-                    "Adelel",
-                    "Female",
-                    "Male",
-                    ""
-                )
-            )
+            Header(petInfo = petInfo)
             Spacer(modifier = Modifier.size(16.dp))
             HighlightsCarousel(
                 arrayOf(
-                    Highlight("Friendly", Icons.Filled.Home),
-                    Highlight("Neat", Icons.Filled.AutoAwesome),
-                    Highlight("Vocal", Icons.Filled.MusicNote),
+                    Highlight("Friendly", Icons.Filled.Home), //
+                    Highlight("Neat", Icons.Filled.AutoAwesome), //
+                    Highlight("Vocal", Icons.Filled.MusicNote), //
                 )
             )
             Spacer(modifier = Modifier.size(8.dp))
-            Description("Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,")
+            Description(petInfo.description)
             Spacer(modifier = Modifier.size(16.dp))
             Footer(
-                onAdoptButtonClick = {},
-                onLikeButtonClick = { isLiked = !isLiked },
+                onAdoptButtonClick = {},//
+                onLikeButtonClick = { isLiked = !isLiked },//
                 isLiked = isLiked
             )
         }
