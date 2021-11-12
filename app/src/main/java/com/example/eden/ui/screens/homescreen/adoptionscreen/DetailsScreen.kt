@@ -7,12 +7,12 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -21,11 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.example.eden.data.domain.PetInfo
-
-private data class Highlight(
-    val label: String,
-    val imageVector: ImageVector,
-)
 
 @ExperimentalMaterialApi
 @Composable
@@ -57,11 +52,9 @@ fun DetailsScreen(petInfo: PetInfo) {
             Header(petInfo = petInfo)
             Spacer(modifier = Modifier.size(16.dp))
             HighlightsCarousel(
-                arrayOf(
-                    Highlight("Friendly", Icons.Filled.Home), //
-                    Highlight("Neat", Icons.Filled.AutoAwesome), //
-                    Highlight("Vocal", Icons.Filled.MusicNote), //
-                )
+                age = petInfo.age,
+                weight = petInfo.weight,
+                color = petInfo.color
             )
             Spacer(modifier = Modifier.size(8.dp))
             Description(petInfo.description)
@@ -104,22 +97,21 @@ private fun Header(petInfo: PetInfo) {
             style = MaterialTheme.typography.subtitle1,
             fontWeight = FontWeight.SemiBold
         )
-//        Text(
-//            text = "Rs. ${petInfo.price}",
-//            style = MaterialTheme.typography.subtitle1,
-//            fontWeight = FontWeight.SemiBold
-//        )
     }
 }
 
 
 @Composable
-private fun HighlightsCarousel(highlights: Array<Highlight>) {
+private fun HighlightsCarousel(
+    age: String,
+    color: String,
+    weight: String
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceAround
     ) {
-        highlights.forEach {
+        listOf("Age", "Color", "Weight").zip(listOf(age, color, weight)).forEach {
             Card(
                 modifier = Modifier.size(width = 100.dp, height = 90.dp),
                 shape = RoundedCornerShape(20.0f)
@@ -129,15 +121,18 @@ private fun HighlightsCarousel(highlights: Array<Highlight>) {
                         .background(MaterialTheme.colors.primary)
                         .padding(16.dp)
                         .fillMaxSize(),
-                    verticalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Icon(
-                        imageVector = it.imageVector,
-                        contentDescription = ""
-                    )
                     Text(
-                        text = it.label,
-                        fontWeight = FontWeight.Bold
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        text = it.first,
+                        fontWeight = FontWeight.ExtraBold,
+                        style = MaterialTheme.typography.h1
+                    )
+                    Spacer(modifier = Modifier.size(8.dp))
+                    Text(
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        text = it.second,
+                        style = MaterialTheme.typography.caption
                     )
                 }
             }
