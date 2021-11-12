@@ -1,10 +1,12 @@
 package com.example.eden.data.domain
 
-import androidx.annotation.DrawableRes
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
 /**
  * This class is used to depict the entire profile of a pet.
  */
+@Parcelize
 data class PetInfo(
     val id:String,
     val name:String,
@@ -16,4 +18,4 @@ data class PetInfo(
     val breed:String,
     val gender:String,
     val imageResource:String
-)
+):Parcelable
