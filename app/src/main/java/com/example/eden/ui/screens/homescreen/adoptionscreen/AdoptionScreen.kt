@@ -130,7 +130,7 @@ private suspend fun onLikeButtonClicked(
     hostState.currentSnackbarData?.dismiss()
     hostState.showSnackbar(if (isPetFavourited) "Added pet to favourites" else "Removed pet from favourites")
     if (isPetFavourited) viewmodel.addPetToFavourites(petInfo)
-//    else viewmodel.removePetFromFavourites(petInfo) TODO
+    else viewmodel.removePetFromFavourites(petInfo)
 }
 
 
