@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.example.eden.data.domain.PetInfo
+import com.google.accompanist.insets.navigationBarsPadding
 
 @ExperimentalMaterialApi
 @Composable
@@ -170,7 +171,11 @@ private fun Footer(
     onLikeButtonClick: () -> Unit,
     isLiked: Boolean
 ) {
-    Row(modifier = Modifier.fillMaxWidth()) {
+    Row(
+        modifier = Modifier
+            .navigationBarsPadding()
+            .fillMaxWidth()
+    ) {
         Button(
             modifier = Modifier
                 .weight(2f)
