@@ -32,9 +32,9 @@ fun AdoptionScreen(
     onItemClicked: (PetInfo) -> Unit
 ) {
     val scrollState = rememberScrollState()
-    val featuredList by viewmodel.featuredList.observeAsState()
-    val recommendedList by viewmodel.recommendedList.observeAsState()
-    val currentlyAppliedFilter by viewmodel.currentlyAppliedFilter.observeAsState()
+    val featuredList by viewmodel.featuredList
+    val recommendedList by viewmodel.recommendedList
+    val currentlyAppliedFilter by viewmodel.currentlyAppliedFilter
     Column(modifier = Modifier.fillMaxSize()) {
         // chip Group
         Row(
