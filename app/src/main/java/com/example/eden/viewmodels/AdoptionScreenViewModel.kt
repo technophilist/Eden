@@ -1,7 +1,7 @@
 package com.example.eden.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.example.eden.data.Repository
@@ -10,9 +10,9 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
 interface AdoptionScreenViewModel {
-    val featuredList: LiveData<List<PetInfo>>
-    val recommendedList: LiveData<List<PetInfo>>
-    val currentlyAppliedFilter: LiveData<FilterOptions>
+    val featuredList: State<List<PetInfo>>
+    val recommendedList: State<List<PetInfo>>
+    val currentlyAppliedFilter: State<FilterOptions>
     fun addPetToFavourites(petInfo: PetInfo)
     fun applyFilter(filterOptions: FilterOptions)
     enum class FilterOptions { ALL, DOGS, CATS }
@@ -24,22 +24,20 @@ class EdenAdoptionScreenViewModel(
 ) : ViewModel(), AdoptionScreenViewModel {
     private val petsAvailableForAdoption = repository.petsAvailableForAdoption
 
-    private val _currentlyAppliedFilter = MutableLiveData(AdoptionScreenViewModel.FilterOptions.ALL)
+    private val _currentlyAppliedFilter = mutableStateOf(AdoptionScreenViewModel.FilterOptions.ALL)
     override val currentlyAppliedFilter =
-        _currentlyAppliedFilter as LiveData<AdoptionScreenViewModel.FilterOptions>
+        _currentlyAppliedFilter as State<AdoptionScreenViewModel.FilterOptions>
 
-    private val _featuredList = MutableLiveData(emptyList<PetInfo>())
-    override val featuredList = _featuredList as LiveData<List<PetInfo>>
+    private val _featuredList = mutableStateOf(emptyList<PetInfo>())
+    override val featuredList = _featuredList as State<List<PetInfo>>
 
-    private val _recommendedList = MutableLiveData(emptyList<PetInfo>())
-    override val recommendedList = _recommendedList as LiveData<List<PetInfo>>
+    private val _recommendedList = mutableStateOf(emptyList<PetInfo>())
+    override val recommendedList = _recommendedList as State<List<PetInfo>>
 
     private val petsAvailableForAdoptionObserver = Observer<List<PetInfo>> { newPetInfoList ->
-        currentlyAppliedFilter.value?.let { filterOption ->
-            val filteredList = applyFilterToList(filterOption, newPetInfoList)
-            _featuredList.value = filteredList
-            _recommendedList.value = filteredList
-        }
+        val filteredList = applyFilterToList(currentlyAppliedFilter.value, newPetInfoList)
+        _featuredList.value = filteredList
+        _recommendedList.value = filteredList
     }
 
     init {
