@@ -1,6 +1,9 @@
 package com.example.eden.viewmodels
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import com.example.eden.data.Repository
 import com.example.eden.data.domain.PetInfo
 import kotlinx.coroutines.CoroutineDispatcher
@@ -38,17 +41,9 @@ class EdenAdoptionScreenViewModel(
             _recommendedList.value = filteredList
         }
     }
-    private val currentlyAppliedFilterObserver = Observer<AdoptionScreenViewModel.FilterOptions> { selectedFilter ->
-            petsAvailableForAdoption.value?.let { petInfoList ->
-                val filteredList = applyFilterToList(selectedFilter, petInfoList)
-                _featuredList.value = filteredList
-                _recommendedList.value = filteredList
-            }
-        }
 
     init {
         petsAvailableForAdoption.observeForever(petsAvailableForAdoptionObserver)
-        currentlyAppliedFilter.observeForever(currentlyAppliedFilterObserver)
     }
 
     /**
@@ -70,12 +65,17 @@ class EdenAdoptionScreenViewModel(
 
     override fun applyFilter(filterOptions: AdoptionScreenViewModel.FilterOptions) {
         _currentlyAppliedFilter.value = filterOptions
+        // filter list
+        petsAvailableForAdoption.value?.let { petInfoList ->
+            val filteredList = applyFilterToList(filterOptions, petInfoList)
+            _featuredList.value = filteredList
+            _recommendedList.value = filteredList
+        }
     }
 
     override fun onCleared() {
         super.onCleared()
         petsAvailableForAdoption.removeObserver(petsAvailableForAdoptionObserver)
-        currentlyAppliedFilter.removeObserver(currentlyAppliedFilterObserver)
 
     }
 }
