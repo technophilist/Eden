@@ -9,6 +9,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import com.example.eden.di.EdenApplication
 import com.example.eden.ui.screens.EdenApp
 import com.example.eden.ui.theme.EdenAppTheme
+import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 class MainActivity : ComponentActivity() {
@@ -19,9 +20,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val appContainer = (application as EdenApplication).appContainer
         setContent {
-            EdenAppTheme {
-                Surface {
-                    EdenApp(appContainer)
+            ProvideWindowInsets {
+                EdenAppTheme {
+                    Surface {
+                        EdenApp(appContainer)
+                    }
                 }
             }
         }
