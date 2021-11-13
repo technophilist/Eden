@@ -18,8 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.capitalize
-import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.example.eden.data.domain.PetInfo
@@ -34,7 +32,9 @@ fun AdoptionScreen(
     onItemClicked: (PetInfo) -> Unit
 ) {
     val scrollState = rememberScrollState()
-    val featuredList by viewmodel.featuredList.observeAsState() //TODO Observe featured and recommended list
+    val featuredList by viewmodel.featuredList.observeAsState()
+    val recommendedList by viewmodel.recommendedList.observeAsState()
+    val currentlyAppliedFilter by viewmodel.currentlyAppliedFilter.observeAsState()
     Column(modifier = Modifier.fillMaxSize()) {
         // chip Group
         Row(
@@ -43,12 +43,16 @@ fun AdoptionScreen(
                 .padding(start = 8.dp, top = 16.dp)
                 .fillMaxWidth()
         ) {
-            AdoptionScreenViewModel.FilterOptions.values().forEach {
-                var isSelected by remember { mutableStateOf(false) }
+            AdoptionScreenViewModel.FilterOptions.values().forEach { selectedFilter ->
                 FilterChip(
-                    onClick = { isSelected = !isSelected },
-                    isSelected = isSelected,
-                    content = { Text(text = it.name.lowercase().capitalize(Locale.current)) }
+                    onClick = { viewmodel.applyFilter(selectedFilter) },
+                    isSelected = currentlyAppliedFilter == selectedFilter,
+                    content = {
+                        Text(
+                            text = selectedFilter.name
+                                .lowercase()
+                                .replaceFirstChar { it.uppercase() })
+                    }
                 )
                 Spacer(modifier = Modifier.width(8.dp))
             }
@@ -83,7 +87,7 @@ fun AdoptionScreen(
         )
         // recommended pets - list
         LazyColumn(modifier = Modifier.padding(start = 8.dp, end = 8.dp)) {
-            items(featuredList ?: emptyList()) { petInfo ->
+            items(recommendedList ?: emptyList()) { petInfo ->
                 var isPetFavourited by remember { mutableStateOf(false) }
                 PetInfoCard(
                     petInfo = petInfo,
