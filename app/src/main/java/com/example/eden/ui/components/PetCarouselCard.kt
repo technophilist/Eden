@@ -2,6 +2,7 @@ package com.example.eden.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
@@ -63,18 +64,24 @@ fun PetCarouselCard(
                     .align(Alignment.BottomStart)
                     .padding(16.dp)
             ) {
+                // The onPrimary color for light mode(Gray) is not
+                // suitable for displaying text on top of the image.
+                // Therefore, use onSecondary color instead when in
+                // light mode.
+                val textColor = if (isSystemInDarkTheme()) MaterialTheme.colors.onPrimary
+                else MaterialTheme.colors.onSecondary
                 Text(
                     modifier = Modifier,
                     text = petInfo.name,
                     style = MaterialTheme.typography.h1,
-                    color = MaterialTheme.colors.surface,
+                    color = textColor,
                     textAlign = TextAlign.Center
                 )
                 Text(
                     modifier = Modifier,
                     text = "${petInfo.type} | ${petInfo.breed}",
                     style = MaterialTheme.typography.caption,
-                    color = MaterialTheme.colors.surface,
+                    color = textColor,
                     textAlign = TextAlign.Center
                 )
             }
