@@ -1,5 +1,9 @@
 package com.example.eden.ui.screens.homescreen.adoptionscreen
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -29,6 +33,7 @@ import com.example.eden.R
 import com.example.eden.data.domain.PetInfo
 import com.google.accompanist.insets.navigationBarsPadding
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @Composable
 fun DetailsScreen(petInfo: PetInfo) {
@@ -85,7 +90,11 @@ fun DetailsScreen(petInfo: PetInfo) {
                 )
             )
         }
-        if (isSuccessAnimationVisible && lottieAnimationState.isPlaying) {
+        AnimatedVisibility (
+            visible = isSuccessAnimationVisible && lottieAnimationState.isPlaying,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
             LottieAnimation(
                 composition = lottieComposition,
                 progress = lottieAnimationState.progress
