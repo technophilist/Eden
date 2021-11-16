@@ -1,5 +1,6 @@
 package com.example.eden.ui.screens.homescreen.adoptionscreen
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -11,6 +12,7 @@ import com.example.eden.ui.navigation.AdoptionScreenNavigationRoutes
 import com.example.eden.utils.AdoptionScreenViewModelFactory
 
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 fun NavGraphBuilder.adoptionScreenGraph(
     navController: NavController,
