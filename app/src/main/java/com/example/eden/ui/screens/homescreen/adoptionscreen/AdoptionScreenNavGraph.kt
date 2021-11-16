@@ -10,6 +10,7 @@ import androidx.navigation.navigation
 import com.example.eden.data.domain.PetInfo
 import com.example.eden.ui.navigation.AdoptionScreenNavigationRoutes
 import com.example.eden.utils.AdoptionScreenViewModelFactory
+import com.example.eden.viewmodels.EdenAdoptionScreenViewModel
 
 
 @ExperimentalAnimationApi
@@ -31,7 +32,12 @@ fun NavGraphBuilder.adoptionScreenGraph(
         }
         composable(route = AdoptionScreenNavigationRoutes.detailsScreenRoute) {
             navController.previousBackStackEntry?.savedStateHandle?.get<PetInfo>("a")
-                ?.let { selectedPet -> DetailsScreen(selectedPet) }
+                ?.let { selectedPet ->
+                    DetailsScreen(
+                        viewModel = viewModel<EdenAdoptionScreenViewModel>(factory = adoptionScreenViewModelFactory),
+                        petInfo = selectedPet
+                    )
+                }
         }
     }
 }

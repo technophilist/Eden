@@ -31,12 +31,16 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.eden.R
 import com.example.eden.data.domain.PetInfo
+import com.example.eden.viewmodels.AdoptionScreenViewModel
 import com.google.accompanist.insets.navigationBarsPadding
 
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @Composable
-fun DetailsScreen(petInfo: PetInfo) {
+fun DetailsScreen(
+    viewModel: AdoptionScreenViewModel,
+    petInfo: PetInfo
+) {
     var isLiked by remember { mutableStateOf(false) }
     var isSuccessAnimationVisible by remember { mutableStateOf(false) }
     var isAdoptButtonEnabled by remember { mutableStateOf(true) }
@@ -81,7 +85,15 @@ fun DetailsScreen(petInfo: PetInfo) {
             Spacer(modifier = Modifier.size(16.dp))
             Footer(
                 onAdoptButtonClick = { isSuccessAnimationVisible = true },
-                onLikeButtonClick = { isLiked = !isLiked },//
+                onLikeButtonClick = {
+                    isLiked = if (isLiked) {
+                        viewModel.addPetToFavourites(petInfo)
+                        false
+                    } else {
+                        viewModel.removePetFromFavourites(petInfo)
+                        true
+                    }
+                },
                 isLiked = isLiked,
                 isAdoptButtonEnabled = isAdoptButtonEnabled,
                 adoptButtonText = stringResource(
@@ -90,7 +102,7 @@ fun DetailsScreen(petInfo: PetInfo) {
                 )
             )
         }
-        AnimatedVisibility (
+        AnimatedVisibility(
             visible = isSuccessAnimationVisible && lottieAnimationState.isPlaying,
             enter = fadeIn(),
             exit = fadeOut()
