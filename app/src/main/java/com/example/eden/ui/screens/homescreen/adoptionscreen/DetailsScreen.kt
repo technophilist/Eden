@@ -14,12 +14,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
+import com.example.eden.R
 import com.example.eden.data.domain.PetInfo
 import com.google.accompanist.insets.navigationBarsPadding
 
@@ -27,6 +33,14 @@ import com.google.accompanist.insets.navigationBarsPadding
 @Composable
 fun DetailsScreen(petInfo: PetInfo) {
     var isLiked by remember { mutableStateOf(false) }
+    var isSuccessAnimationVisible by remember { mutableStateOf(false) }
+    var isAdoptButtonEnabled by remember { mutableStateOf(true) }
+    val lottieComposition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.adoption_request_sent_anim))
+    val lottieAnimationState = animateLottieCompositionAsState(
+        composition = lottieComposition,
+        isPlaying = isSuccessAnimationVisible,
+    )
+
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             modifier = Modifier
@@ -61,10 +75,22 @@ fun DetailsScreen(petInfo: PetInfo) {
             Description(petInfo.description)
             Spacer(modifier = Modifier.size(16.dp))
             Footer(
-                onAdoptButtonClick = {},//
+                onAdoptButtonClick = { isSuccessAnimationVisible = true },
                 onLikeButtonClick = { isLiked = !isLiked },//
-                isLiked = isLiked
+                isLiked = isLiked,
+                isAdoptButtonEnabled = isAdoptButtonEnabled,
+                adoptButtonText = stringResource(
+                    id = if (isAdoptButtonEnabled) R.string.label_adopt_pet
+                    else R.string.label_adopt_pet_request_sent
+                )
             )
+        }
+        if (isSuccessAnimationVisible && lottieAnimationState.isPlaying) {
+            LottieAnimation(
+                composition = lottieComposition,
+                progress = lottieAnimationState.progress
+            )
+            isAdoptButtonEnabled = false
         }
     }
 }
@@ -169,7 +195,9 @@ private fun Description(content: String) {
 private fun Footer(
     onAdoptButtonClick: () -> Unit,
     onLikeButtonClick: () -> Unit,
-    isLiked: Boolean
+    isLiked: Boolean,
+    adoptButtonText: String,
+    isAdoptButtonEnabled: Boolean = true,
 ) {
     Row(
         modifier = Modifier
@@ -181,7 +209,8 @@ private fun Footer(
                 .weight(2f)
                 .fillMaxHeight(),
             onClick = onAdoptButtonClick,
-            content = { Text(text = "Adopt Pet", fontWeight = FontWeight.Bold) }
+            content = { Text(text = adoptButtonText, fontWeight = FontWeight.Bold) },
+            enabled = isAdoptButtonEnabled
         )
         Spacer(modifier = Modifier.size(16.dp))
         Card(
