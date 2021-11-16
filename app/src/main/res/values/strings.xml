@@ -32,16 +32,9 @@
     <string name="label_create_account">Create account</string>
     <string name="text_login">Log in</string>
 
-    <!-- Home Screen -->
-    <string name="label_list_empty_header">Your list is empty</string>
-    <string name="label_list_empty_desc">It\'s easy to add items to Pocket.Use the share button of any browser and tap on the Pocket icon to add an item</string>
-    <string name="label_item_deleted">Item Deleted</string>
-    <string name="label_undo">Undo</string>
-    <string name="label_log_out_message">Are you sure want to log out?</string>
-    <string name="label_no">No</string>
-    <string name="label_yes">Yes</string>
-    <string name="label_log_out_alert_dialog_text">If you log out, all saved items will be permanently deleted.</string>
-    <string name="label_network_unavailable_message">Unable to connect to Network. There might be missing items.</string>
+    <!-- Details Screen -->
+    <string name="label_adopt_pet">Adopt Pet</string>
+    <string name="label_adopt_pet_request_sent">Sent request for adoption</string>
 
     <!-- Login Screen -->
     <string name="label_login_with_email">Log in with mail</string>
