@@ -15,6 +15,7 @@ interface AdoptionScreenViewModel {
     val currentlyAppliedFilter: State<FilterOptions>
     fun addPetToFavourites(petInfo: PetInfo)
     fun removePetFromFavourites(petInfo: PetInfo)
+    fun sendRequestForAdoption(petInfo: PetInfo)
     fun applyFilter(filterOption: FilterOptions)
     enum class FilterOptions { ALL, DOGS, CATS }
 }
@@ -56,6 +57,10 @@ class EdenAdoptionScreenViewModel(
         AdoptionScreenViewModel.FilterOptions.ALL -> list
         AdoptionScreenViewModel.FilterOptions.DOGS -> list.filter { it.type == "Dog" }
         AdoptionScreenViewModel.FilterOptions.CATS -> list.filter { it.type == "Cat" }
+    }
+
+    override fun sendRequestForAdoption(petInfo: PetInfo) {
+        TODO("Not yet implemented")
     }
 
     override fun addPetToFavourites(petInfo: PetInfo) {
