@@ -84,7 +84,10 @@ fun DetailsScreen(
             Description(petInfo.description)
             Spacer(modifier = Modifier.size(16.dp))
             Footer(
-                onAdoptButtonClick = { isSuccessAnimationVisible = true },
+                onAdoptButtonClick = {
+                    viewModel.sendRequestForAdoption(petInfo)
+                    isSuccessAnimationVisible = true
+                },
                 onLikeButtonClick = {
                     isLiked = if (isLiked) {
                         viewModel.addPetToFavourites(petInfo)
