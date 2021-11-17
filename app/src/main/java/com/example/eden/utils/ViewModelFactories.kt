@@ -30,9 +30,10 @@ class SignUpViewModelFactory(
 
 class AdoptionScreenViewModelFactory(
     private val repository: Repository,
+    private val authenticationService: AuthenticationService,
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>) =
-        EdenAdoptionScreenViewModel(repository,defaultDispatcher) as T
+        EdenAdoptionScreenViewModel(repository, authenticationService, defaultDispatcher) as T
 }
