@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import com.example.eden.auth.AuthenticationService
 import com.example.eden.data.Repository
 import com.example.eden.data.domain.PetInfo
 import kotlinx.coroutines.CoroutineDispatcher
@@ -22,6 +23,7 @@ interface AdoptionScreenViewModel {
 
 class EdenAdoptionScreenViewModel(
     private val repository: Repository,
+    private val authenticationService: AuthenticationService,
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : ViewModel(), AdoptionScreenViewModel {
     private val petsAvailableForAdoption = repository.petsAvailableForAdoption
