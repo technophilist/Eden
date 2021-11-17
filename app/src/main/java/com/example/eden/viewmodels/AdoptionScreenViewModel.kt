@@ -4,11 +4,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.eden.auth.AuthenticationService
 import com.example.eden.data.Repository
 import com.example.eden.data.domain.PetInfo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 interface AdoptionScreenViewModel {
     val featuredList: State<List<PetInfo>>
@@ -62,7 +64,11 @@ class EdenAdoptionScreenViewModel(
     }
 
     override fun sendRequestForAdoption(petInfo: PetInfo) {
-        TODO("Not yet implemented")
+        authenticationService.currentUser?.let { currentUser ->
+            viewModelScope.launch(defaultDispatcher) {
+                repository.sendRequestForAdoption(currentUser, petInfo)
+            }
+        }
     }
 
     override fun addPetToFavourites(petInfo: PetInfo) {
