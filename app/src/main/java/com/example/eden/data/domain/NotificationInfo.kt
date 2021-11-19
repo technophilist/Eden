@@ -8,7 +8,8 @@ data class NotificationInfo(
     val id: Int,
     val type: NotificationType,
     val header: String,
-    val content: String
+    val content: String,
+    val urlString: String? = null
 ) {
     enum class NotificationType { ORDERS, APPOINTMENTS, NGO }
 }
