@@ -7,6 +7,7 @@ import com.example.eden.data.Repository
 import com.example.eden.data.remote.FirebaseRemoteDatabase
 import com.example.eden.utils.AdoptionScreenViewModelFactory
 import com.example.eden.utils.LogInViewModelFactory
+import com.example.eden.utils.NotificationScreenViewModelFactory
 import com.example.eden.utils.SignUpViewModelFactory
 import kotlinx.coroutines.Dispatchers
 
@@ -22,4 +23,5 @@ class AppContainer {
     val loginViewModelFactory = LogInViewModelFactory(authenticationService, defaultDispatcher)
     val signUpViewModelFactory = SignUpViewModelFactory(authenticationService, defaultDispatcher)
     val adoptionScreenViewModelFactory = AdoptionScreenViewModelFactory(repository, authenticationService, defaultDispatcher)
+    val notificationScreenViewModelFactory = NotificationScreenViewModelFactory(repository)
 }
