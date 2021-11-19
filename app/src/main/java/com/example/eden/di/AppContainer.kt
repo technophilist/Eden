@@ -23,5 +23,5 @@ class AppContainer {
     val loginViewModelFactory = LogInViewModelFactory(authenticationService, defaultDispatcher)
     val signUpViewModelFactory = SignUpViewModelFactory(authenticationService, defaultDispatcher)
     val adoptionScreenViewModelFactory = AdoptionScreenViewModelFactory(repository, authenticationService, defaultDispatcher)
-    val notificationScreenViewModelFactory = NotificationScreenViewModelFactory(repository)
+    val notificationScreenViewModelFactory = NotificationScreenViewModelFactory(repository,authenticationService)
 }
