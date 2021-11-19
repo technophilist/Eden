@@ -6,7 +6,7 @@ import com.example.eden.auth.AuthenticationService
 import com.example.eden.data.Repository
 import com.example.eden.viewmodels.EdenAdoptionScreenViewModel
 import com.example.eden.viewmodels.EdenLogInViewModel
-import com.example.eden.viewmodels.EdenNotificationsScreenViewModel
+import com.example.eden.viewmodels.EdenNotificationScreenViewmodel
 import com.example.eden.viewmodels.EdenSignUpViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -44,5 +44,5 @@ class NotificationScreenViewModelFactory(
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>) =
-        EdenNotificationsScreenViewModel(repository) as T
+        EdenNotificationScreenViewmodel(repository) as T
 }
