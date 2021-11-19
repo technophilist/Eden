@@ -8,6 +8,8 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -18,6 +20,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.eden.di.AppContainer
+import com.example.eden.ui.navigation.AdoptionScreenNavigationRoutes
 import com.example.eden.ui.navigation.BottomNavigationRoutes
 import com.example.eden.ui.navigation.EdenAppNavigationRoutes
 import com.example.eden.ui.screens.homescreen.NotificationsScreen
@@ -34,21 +37,29 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 @Composable
 fun EdenApp(appContainer: AppContainer) {
     val navController = rememberNavController()
-    val bottomBar = @Composable {
-        EdenBottomNavigation(
-            modifier = Modifier.navigationBarsPadding(),
-            navController = navController,
-            navigationDestinations = listOf(
-                BottomNavigationRoutes.AdoptionScreen,
-                BottomNavigationRoutes.NotificationsScreen
-            )
-        )
+    val currentBackStackEntry = navController.currentBackStackEntryAsState()
+    val isBottomBarVisible by remember(currentBackStackEntry.value?.destination?.route) {
+        val currentRoute = currentBackStackEntry.value?.destination?.route
+        mutableStateOf(currentRoute != AdoptionScreenNavigationRoutes.detailsScreenRoute)
     }
-    Scaffold(bottomBar = bottomBar) {
+
+    val bottomBar = @Composable {
+        if (isBottomBarVisible) {
+            EdenBottomNavigation(
+                modifier = Modifier.navigationBarsPadding(),
+                navController = navController,
+                navigationDestinations = listOf(
+                    BottomNavigationRoutes.AdoptionScreen,
+                    BottomNavigationRoutes.NotificationsScreen
+                )
+            )
+        }
+    }
+    Scaffold(bottomBar = bottomBar) { scaffoldPaddingValues ->
         NavHost(
-            modifier = Modifier.padding(it),
+            modifier = Modifier.padding(scaffoldPaddingValues),
             navController = navController,
-            startDestination = EdenAppNavigationRoutes.notificationsScreenRoute
+            startDestination = EdenAppNavigationRoutes.homeScreenRoute
         ) {
 
             onBoardingNavGraph(
