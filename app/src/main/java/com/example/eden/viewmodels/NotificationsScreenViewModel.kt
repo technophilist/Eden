@@ -2,6 +2,7 @@ package com.example.eden.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.eden.auth.AuthenticationService
 import com.example.eden.data.Repository
 import com.example.eden.data.domain.NotificationInfo
 
@@ -10,9 +11,13 @@ interface NotificationsScreenViewModel {
 }
 
 class EdenNotificationsScreenViewmodel(
-    private val repository: Repository
+    repository: Repository,
+    authenticationService: AuthenticationService
 ) : ViewModel(), NotificationsScreenViewModel {
-    override val notificationList: LiveData<List<NotificationInfo>>
-        get() = TODO("Not yet implemented")
+
+    //TODO(Remove non-null assertion)
+    override val notificationList: LiveData<List<NotificationInfo>> =
+        repository.listenForNotifications(authenticationService.currentUser!!)
+
 
 }
