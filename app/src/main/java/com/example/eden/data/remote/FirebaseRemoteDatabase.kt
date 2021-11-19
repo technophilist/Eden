@@ -62,7 +62,7 @@ class FirebaseRemoteDatabase : RemoteDatabase {
 
     override fun listenForNotifications(currentUser: EdenUser): LiveData<List<NotificationInfo>> {
         val liveData = MutableLiveData(emptyList<NotificationInfo>())
-        fireStore.collection(NOTIFICATIONS_COLLECTION_PATH)
+        fireStore.collection(RECENTLY_SENT_NOTIFICATIONS_COLLECTION_PATH)
             .whereEqualTo("uid", currentUser.id)
             .addSnapshotListener { snapshot, exception ->
                 if (exception == null) {
@@ -78,6 +78,6 @@ class FirebaseRemoteDatabase : RemoteDatabase {
             "mobile/pet-adoption/availableForAdoption"
         private const val PETS_REQUESTED_FOR_ADOPTION_COLLECTION_PATH =
             "mobile/pet-adoption/requestedForAdoption"
-        private const val NOTIFICATIONS_COLLECTION_PATH = "mobile/notifications/users"
+        private const val RECENTLY_SENT_NOTIFICATIONS_COLLECTION_PATH = "mobile/notifications/recentlySent"
     }
 }
