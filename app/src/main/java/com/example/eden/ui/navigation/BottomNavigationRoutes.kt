@@ -11,12 +11,12 @@ sealed class BottomNavigationRoutes(
     val label: String
 ) {
     object AdoptionScreen : BottomNavigationRoutes(
-        "route_adoption",
+        EdenAppNavigationRoutes.homeScreenRoute,
         Icons.Filled.Home,
         "Adopt"
     )
     object NotificationsScreen : BottomNavigationRoutes(
-        "route_notifications",
+        EdenAppNavigationRoutes.notificationsScreenRoute,
         Icons.Filled.Notifications,
         "Notifications"
     )
