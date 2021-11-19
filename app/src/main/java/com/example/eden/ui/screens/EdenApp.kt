@@ -1,75 +1,68 @@
 package com.example.eden.ui.screens
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import android.content.Intent
+import android.net.Uri
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.eden.data.domain.NotificationInfo
+import com.example.eden.di.AppContainer
 import com.example.eden.ui.navigation.BottomNavigationRoutes
-import com.example.eden.ui.navigation.HomeScreenNavigationRoutes
-import com.example.eden.viewmodels.EdenHomeScreenViewModel
+import com.example.eden.ui.navigation.EdenAppNavigationRoutes
+import com.example.eden.ui.screens.homescreen.NotificationsScreen
+import com.example.eden.ui.screens.homescreen.adoptionscreen.adoptionScreenGraph
+import com.example.eden.ui.screens.onboarding.onBoardingNavGraph
+import com.example.eden.viewmodels.EdenNotificationsScreenViewmodel
+import com.google.accompanist.pager.ExperimentalPagerApi
 
+@ExperimentalAnimationApi
+@ExperimentalPagerApi
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @Composable
-fun EdenApp() {
+fun EdenApp(appContainer: AppContainer) {
     val navController = rememberNavController()
-    val bottomNavigationDestinations = listOf(
-        BottomNavigationRoutes.HomeScreen,
-        BottomNavigationRoutes.NotificationsScreen
-    )
-    var isBottomNavigationVisible by remember { mutableStateOf(true) }
-    val testNotifications = listOf(
-        NotificationInfo(
-            1,
-            NotificationInfo.NotificationType.ORDERS,
-            header = "Hurray! Order Placed !",
-            content = "Lore Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-        ),
-        NotificationInfo(
-            1,
-            NotificationInfo.NotificationType.APPOINTMENTS,
-            header = "Appointment Granted !",
-            content = "Lore Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-        ),
-        NotificationInfo(
-            1,
-            NotificationInfo.NotificationType.NGO,
-            header = "New NGO event annocement",
-            content = "Lore Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-        )
-    )
-    Box(modifier = Modifier.fillMaxSize()) {
-        NavHost(
+
+    NavHost(
+        navController = navController,
+        startDestination = EdenAppNavigationRoutes.notificationsScreenRoute
+    ) {
+
+        onBoardingNavGraph(
+            route = EdenAppNavigationRoutes.onBoardingRoute,
             navController = navController,
-            startDestination = BottomNavigationRoutes.HomeScreen.route
-        ) {
-            composable(BottomNavigationRoutes.HomeScreen.route) {
-                HomeScreen(
-                    viewmodel = EdenHomeScreenViewModel(),
-                    onItemClicked = { homeScreenNavController, _, homeScreenRoutes ->
-                        homeScreenNavController.addOnDestinationChangedListener { _, destination, _ ->
-                            isBottomNavigationVisible = destination.route != homeScreenRoutes.detailsScreenRoute
-                        }
-                        homeScreenNavController.navigate(HomeScreenNavigationRoutes.detailsScreenRoute)
-                    }
-                )
-            }
-            composable(BottomNavigationRoutes.NotificationsScreen.route) {
-                NotificationsScreen(testNotifications)
-            }
-        }
-        if (isBottomNavigationVisible) {
-            EdenBottomNavigation(
-                modifier = Modifier.align(Alignment.BottomCenter),
-                navController = navController,
-                navigationDestinations = bottomNavigationDestinations
+            signUpViewModelFactory = appContainer.signUpViewModelFactory,
+            logInViewModelFactory = appContainer.loginViewModelFactory,
+        )
+
+        adoptionScreenGraph(
+            route = EdenAppNavigationRoutes.homeScreenRoute,
+            navController = navController,
+            adoptionScreenViewModelFactory = appContainer.adoptionScreenViewModelFactory
+        )
+        composable(EdenAppNavigationRoutes.notificationsScreenRoute) {
+            val viewModel = viewModel<EdenNotificationsScreenViewmodel>(
+                viewModelStoreOwner = it,
+                factory = appContainer.notificationScreenViewModelFactory
+            )
+            val currentContext = LocalContext.current
+            NotificationsScreen(
+                notifications = viewModel.notificationList.observeAsState().value ?: emptyList(),
+                onNotificationClicked = { notificationInfo ->
+                    val openUrlIntent =
+                        Intent(Intent.ACTION_VIEW, Uri.parse(notificationInfo.urlString))
+                    currentContext.startActivity(openUrlIntent)
+                }
             )
         }
     }
