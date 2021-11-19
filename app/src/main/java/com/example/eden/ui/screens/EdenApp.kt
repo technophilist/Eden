@@ -3,6 +3,7 @@ package com.example.eden.ui.screens
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,6 +24,7 @@ import com.example.eden.ui.screens.homescreen.NotificationsScreen
 import com.example.eden.ui.screens.homescreen.adoptionscreen.adoptionScreenGraph
 import com.example.eden.ui.screens.onboarding.onBoardingNavGraph
 import com.example.eden.viewmodels.EdenNotificationsScreenViewmodel
+import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 @ExperimentalAnimationApi
@@ -32,47 +34,60 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 @Composable
 fun EdenApp(appContainer: AppContainer) {
     val navController = rememberNavController()
-
-    NavHost(
-        navController = navController,
-        startDestination = EdenAppNavigationRoutes.notificationsScreenRoute
-    ) {
-
-        onBoardingNavGraph(
-            route = EdenAppNavigationRoutes.onBoardingRoute,
+    val bottomBar = @Composable {
+        EdenBottomNavigation(
+            modifier = Modifier.navigationBarsPadding(),
             navController = navController,
-            signUpViewModelFactory = appContainer.signUpViewModelFactory,
-            logInViewModelFactory = appContainer.loginViewModelFactory,
+            navigationDestinations = listOf(
+                BottomNavigationRoutes.AdoptionScreen,
+                BottomNavigationRoutes.NotificationsScreen
+            )
         )
-
-        adoptionScreenGraph(
-            route = EdenAppNavigationRoutes.homeScreenRoute,
+    }
+    Scaffold(bottomBar = bottomBar) {
+        NavHost(
+            modifier = Modifier.padding(it),
             navController = navController,
-            adoptionScreenViewModelFactory = appContainer.adoptionScreenViewModelFactory
-        )
-        composable(EdenAppNavigationRoutes.notificationsScreenRoute) {
-            val viewModel = viewModel<EdenNotificationsScreenViewmodel>(
-                viewModelStoreOwner = it,
-                factory = appContainer.notificationScreenViewModelFactory
+            startDestination = EdenAppNavigationRoutes.notificationsScreenRoute
+        ) {
+
+            onBoardingNavGraph(
+                route = EdenAppNavigationRoutes.onBoardingRoute,
+                navController = navController,
+                signUpViewModelFactory = appContainer.signUpViewModelFactory,
+                logInViewModelFactory = appContainer.loginViewModelFactory,
             )
-            val currentContext = LocalContext.current
-            NotificationsScreen(
-                notifications = viewModel.notificationList.observeAsState().value ?: emptyList(),
-                onNotificationClicked = { notificationInfo ->
-                    val openUrlIntent =
-                        Intent(Intent.ACTION_VIEW, Uri.parse(notificationInfo.urlString))
-                    currentContext.startActivity(openUrlIntent)
-                }
+
+            adoptionScreenGraph(
+                route = EdenAppNavigationRoutes.homeScreenRoute,
+                navController = navController,
+                adoptionScreenViewModelFactory = appContainer.adoptionScreenViewModelFactory
             )
+            composable(EdenAppNavigationRoutes.notificationsScreenRoute) {
+                val viewModel = viewModel<EdenNotificationsScreenViewmodel>(
+                    viewModelStoreOwner = it,
+                    factory = appContainer.notificationScreenViewModelFactory
+                )
+                val currentContext = LocalContext.current
+                NotificationsScreen(
+                    notifications = viewModel.notificationList.observeAsState().value
+                        ?: emptyList(),
+                    onNotificationClicked = { notificationInfo ->
+                        val openUrlIntent =
+                            Intent(Intent.ACTION_VIEW, Uri.parse(notificationInfo.urlString))
+                        currentContext.startActivity(openUrlIntent)
+                    }
+                )
+            }
         }
     }
 }
 
 @Composable
 private fun EdenBottomNavigation(
-    modifier: Modifier,
     navController: NavController,
-    navigationDestinations: List<BottomNavigationRoutes>
+    navigationDestinations: List<BottomNavigationRoutes>,
+    modifier: Modifier = Modifier,
 ) {
     BottomNavigation(modifier = modifier) {
         val currentBackStackEntry by navController.currentBackStackEntryAsState()
