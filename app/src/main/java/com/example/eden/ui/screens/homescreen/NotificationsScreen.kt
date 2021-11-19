@@ -1,4 +1,4 @@
-package com.example.eden.ui.screens
+package com.example.eden.ui.screens.homescreen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,7 +21,10 @@ import com.example.eden.data.domain.NotificationInfo
 @ExperimentalMaterialApi
 @Suppress("FunctionName")
 @Composable
-fun NotificationsScreen(notifications: List<NotificationInfo>) {
+fun NotificationsScreen(
+    notifications: List<NotificationInfo>,
+    onNotificationClicked: (NotificationInfo) -> Unit
+) {
     Column(
         modifier = Modifier
             .padding(start = 16.dp, top = 16.dp, end = 16.dp)
@@ -30,13 +33,13 @@ fun NotificationsScreen(notifications: List<NotificationInfo>) {
         Text(text = "Notifications", style = MaterialTheme.typography.h3)
         Spacer(modifier = Modifier.padding(16.dp))
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            items(notifications) { notification ->
+            items(notifications) { notificationInfo ->
                 NotificationCard(
                     modifier = Modifier
                         .height(80.dp)
                         .fillMaxWidth(),
-                    notificationInfo = notification,
-                    onClick = { /*TODO*/ }
+                    notificationInfo = notificationInfo,
+                    onClick = { onNotificationClicked(notificationInfo) }
                 )
                 Spacer(modifier = Modifier.size(8.dp))
             }
