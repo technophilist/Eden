@@ -40,7 +40,11 @@ fun EdenApp(appContainer: AppContainer) {
     val currentBackStackEntry = navController.currentBackStackEntryAsState()
     val isBottomBarVisible by remember(currentBackStackEntry.value?.destination?.route) {
         val currentRoute = currentBackStackEntry.value?.destination?.route
-        mutableStateOf(currentRoute != AdoptionScreenNavigationRoutes.detailsScreenRoute)
+        val currentNavGraphRoute = currentBackStackEntry.value?.destination?.parent?.route
+        mutableStateOf(
+            currentRoute != AdoptionScreenNavigationRoutes.detailsScreenRoute &&
+                    currentNavGraphRoute != EdenAppNavigationRoutes.onBoardingRoute
+        )
     }
 
     val bottomBar = @Composable {
@@ -59,7 +63,7 @@ fun EdenApp(appContainer: AppContainer) {
         NavHost(
             modifier = Modifier.padding(scaffoldPaddingValues),
             navController = navController,
-            startDestination = EdenAppNavigationRoutes.homeScreenRoute
+            startDestination = EdenAppNavigationRoutes.onBoardingRoute
         ) {
 
             onBoardingNavGraph(
