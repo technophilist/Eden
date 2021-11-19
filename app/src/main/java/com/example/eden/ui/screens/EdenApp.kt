@@ -63,7 +63,7 @@ fun EdenApp(appContainer: AppContainer) {
         NavHost(
             modifier = Modifier.padding(scaffoldPaddingValues),
             navController = navController,
-            startDestination = EdenAppNavigationRoutes.onBoardingRoute
+            startDestination = EdenAppNavigationRoutes.homeScreenRoute
         ) {
 
             onBoardingNavGraph(
@@ -118,7 +118,8 @@ private fun EdenBottomNavigation(
                         style = MaterialTheme.typography.caption,
                         color = MaterialTheme.colors.onPrimary
                     )
-                }
+                },
+                alwaysShowLabel = false
             )
         }
     }
