@@ -40,9 +40,10 @@ class AdoptionScreenViewModelFactory(
 }
 
 class NotificationScreenViewModelFactory(
-    private val repository: Repository
+    private val repository: Repository,
+    private val authenticationService: AuthenticationService
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>) =
-        EdenNotificationsScreenViewmodel(repository) as T
+        EdenNotificationsScreenViewmodel(repository, authenticationService) as T
 }
