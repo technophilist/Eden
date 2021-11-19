@@ -11,7 +11,7 @@ sealed class BottomNavigationRoutes(
     val label: String
 ) {
     object AdoptionScreen : BottomNavigationRoutes(
-        EdenAppNavigationRoutes.homeScreenRoute,
+        AdoptionScreenNavigationRoutes.homeScreenRoute,
         Icons.Filled.Home,
         "Adopt"
     )
