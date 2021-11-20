@@ -23,7 +23,6 @@ import com.example.eden.data.domain.PetInfo
 import com.example.eden.ui.components.FilterChip
 import com.example.eden.ui.components.PetCarouselCard
 import com.example.eden.viewmodels.AdoptionScreenViewModel
-import com.google.accompanist.insets.statusBarsPadding
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
@@ -46,7 +45,6 @@ fun AdoptionScreen(
                 modifier = Modifier
                     .horizontalScroll(scrollState)
                     .padding(start = 8.dp, top = 16.dp)
-                    .statusBarsPadding()
                     .fillMaxWidth(),
             ) {
                 AdoptionScreenViewModel.FilterOptions.values().forEach { selectedFilter ->
