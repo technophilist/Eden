@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.eden.R
+import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -53,8 +54,9 @@ fun WelcomeScreen(
     )
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(8.dp),
+            .padding(8.dp)
+            .statusBarsPadding()
+            .fillMaxSize(),
     ) {
 
         Text(
