@@ -32,6 +32,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.eden.R
 import com.example.eden.data.domain.PetInfo
 import com.example.eden.viewmodels.AdoptionScreenViewModel
+import com.google.accompanist.insets.navigationBarsPadding
 
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi
@@ -222,7 +223,11 @@ private fun Footer(
     adoptButtonText: String,
     isAdoptButtonEnabled: Boolean = true,
 ) {
-    Row(modifier = Modifier.fillMaxWidth()) {
+    Row(
+        modifier = Modifier
+            .navigationBarsPadding()
+            .fillMaxWidth()
+    ) {
         Button(
             modifier = Modifier
                 .weight(2f)
