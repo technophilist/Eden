@@ -4,10 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.eden.auth.AuthenticationService
 import com.example.eden.data.Repository
-import com.example.eden.viewmodels.EdenAdoptionScreenViewModel
-import com.example.eden.viewmodels.EdenLogInViewModel
-import com.example.eden.viewmodels.EdenNotificationsScreenViewmodel
-import com.example.eden.viewmodels.EdenSignUpViewModel
+import com.example.eden.viewmodels.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
@@ -46,4 +43,14 @@ class NotificationScreenViewModelFactory(
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>) =
         EdenNotificationsScreenViewmodel(repository, authenticationService) as T
+}
+
+class ReportsScreenViewModelFactory(
+    private val repository: Repository,
+    private val authenticationService: AuthenticationService,
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
+) : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel?> create(modelClass: Class<T>) =
+        EdenReportScreenViewModel(repository, authenticationService, defaultDispatcher) as T
 }
