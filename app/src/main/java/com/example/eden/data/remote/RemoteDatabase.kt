@@ -7,8 +7,8 @@ import com.example.eden.data.domain.NotificationInfo
 import com.example.eden.data.domain.PetInfo
 
 interface RemoteDatabase {
-    val petsAvailableForAdoption:LiveData<List<PetInfo>>
-    fun listenForNotifications(currentUser:EdenUser):LiveData<List<NotificationInfo>>
+    val petsAvailableForAdoption: LiveData<List<PetInfo>>
+    fun listenForNotifications(currentUser: EdenUser): LiveData<List<NotificationInfo>>
     suspend fun sendRequestForAdoption(userId: String, petId: String)
-    suspend fun saveIncidentReport(reportInfo: IncidentReportInfo)
+    suspend fun saveIncidentReport(userId: String, email: String, reportInfo: IncidentReportInfo)
 }
