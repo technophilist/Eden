@@ -7,10 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -28,16 +25,18 @@ fun ReportScreen() {
     val capturePhotoLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.TakePicturePreview()
     ) {}
+    var typeOfIncident by remember { mutableStateOf("") }
+    var description by remember { mutableStateOf("") }
     val addressAndPhoneNumberTextFieldContentList = remember {
-        listOf(
-            ReportScreenTextFieldContent("Address", Icons.Filled.Place),
-            ReportScreenTextFieldContent("Phone Number", Icons.Filled.PhoneAndroid)
+        mutableMapOf(
+            "address" to ReportScreenTextFieldContent("Address", Icons.Filled.Place),
+            "phoneNumber" to ReportScreenTextFieldContent("Phone Number", Icons.Filled.PhoneAndroid)
         )
     }
     val cityAndStateReportTextFieldContentList = remember {
-        listOf(
-            ReportScreenTextFieldContent("City", Icons.Filled.LocationCity),
-            ReportScreenTextFieldContent("State", Icons.Filled.Apartment)
+        mutableMapOf(
+            "city" to ReportScreenTextFieldContent("City", Icons.Filled.LocationCity),
+            "state" to ReportScreenTextFieldContent("State", Icons.Filled.Apartment)
         )
     }
     Box(
@@ -48,18 +47,18 @@ fun ReportScreen() {
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(text = "Report incident", style = MaterialTheme.typography.h3)// TODO string res
-            addressAndPhoneNumberTextFieldContentList.forEach { reportTextFieldContent ->
+            addressAndPhoneNumberTextFieldContentList.values.forEach { reportScreenTextFieldContent ->
                 ReportScreenTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text(text = reportTextFieldContent.label) },
-                    leadingIcon = { Icon(reportTextFieldContent.imageVector, null) },
-                    value = reportTextFieldContent.stringValue.value,
-                    onValueChange = { reportTextFieldContent.stringValue.value = it },
+                    label = { Text(text = reportScreenTextFieldContent.label) },
+                    leadingIcon = { Icon(reportScreenTextFieldContent.imageVector, null) },
+                    value = reportScreenTextFieldContent.stringValue.value,
+                    onValueChange = { reportScreenTextFieldContent.stringValue.value = it },
                     maxLines = 1
                 )
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                cityAndStateReportTextFieldContentList.forEach { reportTextFieldContent ->
+                cityAndStateReportTextFieldContentList.values.forEach { reportTextFieldContent ->
                     ReportScreenTextField(
                         modifier = Modifier.weight(1f),
                         label = { Text(text = reportTextFieldContent.label) },
@@ -73,8 +72,8 @@ fun ReportScreen() {
             ReportScreenTextField(
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text(text = "Type Of Incident") },
-                value = "",
-                onValueChange = {},
+                value = typeOfIncident,
+                onValueChange = { typeOfIncident = it },
                 maxLines = 1
             )
             ReportScreenTextField(
@@ -82,8 +81,8 @@ fun ReportScreen() {
                     .height(200.dp)
                     .fillMaxWidth(),
                 label = { Text(text = "Description") },
-                value = "",
-                onValueChange = {},
+                value = description,
+                onValueChange = { description = it },
             )
             Button(onClick = { capturePhotoLauncher.launch() }) {
                 Icon(imageVector = Icons.Filled.PhotoCamera, contentDescription = null)
