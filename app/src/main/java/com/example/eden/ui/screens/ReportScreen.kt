@@ -4,6 +4,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -11,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 
@@ -54,7 +56,11 @@ fun ReportScreen() {
                     leadingIcon = { Icon(reportScreenTextFieldContent.imageVector, null) },
                     value = reportScreenTextFieldContent.stringValue.value,
                     onValueChange = { reportScreenTextFieldContent.stringValue.value = it },
-                    maxLines = 1
+                    maxLines = 1,
+                    keyboardOptions = if (reportScreenTextFieldContent.label == "Phone Number") KeyboardOptions(
+                        keyboardType = KeyboardType.Phone
+                    )
+                    else KeyboardOptions.Default
                 )
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -115,6 +121,7 @@ fun ReportScreenTextField(
     leadingIcon: (@Composable () -> Unit)? = null,
     label: (@Composable () -> Unit)? = null,
     maxLines: Int = Int.MAX_VALUE,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
 ) {
     TextField(
         modifier = modifier,
@@ -127,6 +134,7 @@ fun ReportScreenTextField(
         ),
         maxLines = maxLines,
         value = value,
-        onValueChange = onValueChange
+        onValueChange = onValueChange,
+        keyboardOptions = keyboardOptions
     )
 }
