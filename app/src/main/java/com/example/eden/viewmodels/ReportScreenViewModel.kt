@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 interface ReportScreenViewModel {
-    fun sendReport(incidentReport: IncidentReportInfo)
+    fun sendReport(incidentReportInfo: IncidentReportInfo)
 }
 
 class EdenReportScreenViewModel(
@@ -18,10 +18,10 @@ class EdenReportScreenViewModel(
     private val authenticationService: AuthenticationService,
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel(), ReportScreenViewModel {
-    override fun sendReport(incidentReport: IncidentReportInfo) {
+    override fun sendReport(incidentReportInfo: IncidentReportInfo) {
         authenticationService.currentUser?.let { currentUser ->
             viewModelScope.launch(defaultDispatcher) {
-                repository.sendIncidentReport(currentUser, incidentReport)
+                repository.sendIncidentReport(currentUser, incidentReportInfo)
             }
         }
     }
