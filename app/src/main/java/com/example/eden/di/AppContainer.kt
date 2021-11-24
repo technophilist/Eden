@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 
 class AppContainer {
     private val defaultDispatcher = Dispatchers.IO
-    private val authenticationService = FirebaseAuthenticationService() as AuthenticationService
+    val authenticationService = FirebaseAuthenticationService() as AuthenticationService
 
     //repository
     private val remoteDatabase = FirebaseRemoteDatabase()
