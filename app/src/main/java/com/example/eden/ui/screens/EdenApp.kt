@@ -89,7 +89,8 @@ fun EdenApp(appContainer: AppContainer) {
         NavHost(
             modifier = Modifier.padding(scaffoldPaddingValues),
             navController = navController,
-            startDestination = EdenAppNavigationRoutes.onBoardingRoute
+            startDestination = if (appContainer.authenticationService.currentUser == null)
+                EdenAppNavigationRoutes.onBoardingRoute else EdenAppNavigationRoutes.homeScreenRoute
         ) {
 
             onBoardingNavGraph(
