@@ -71,10 +71,12 @@ fun EdenApp(appContainer: AppContainer) {
         }
     }
     val navigationDrawerRoutes = remember { listOf(NavigationDrawerRoutes.ReportScreenRoutes) }
+    val isNavigationDrawerEnabled  = currentBackStackEntry.value?.destination?.parent?.route != EdenAppNavigationRoutes.onBoardingRoute &&
+                currentBackStackEntry.value?.destination?.route != EdenAppNavigationRoutes.reportScreenRoute
     Scaffold(
         scaffoldState = scaffoldState,
         bottomBar = bottomBar,
-        drawerContent = if (currentBackStackEntry.value?.destination?.parent?.route != EdenAppNavigationRoutes.onBoardingRoute) {
+        drawerContent = if (isNavigationDrawerEnabled) {
             {
                 EdenNavigationDrawer(
                     appContainer.authenticationService.currentUser,
