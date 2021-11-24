@@ -35,6 +35,7 @@ private data class ReportScreenTextFieldContent(
     val stringValue: MutableState<String> = mutableStateOf("")
 )
 
+// TODO Rushed implementation, may have scopes for improvement
 @ExperimentalAnimationApi
 @Composable
 fun ReportScreen(viewModel: ReportScreenViewModel) {
@@ -187,7 +188,7 @@ fun ReportScreen(viewModel: ReportScreenViewModel) {
 }
 
 @Composable
-fun ReportScreenTextField(
+private fun ReportScreenTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
