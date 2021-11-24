@@ -4,6 +4,10 @@ import android.graphics.Bitmap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -15,6 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
+import com.example.eden.R
 import com.example.eden.data.domain.IncidentReportInfo
 import com.example.eden.viewmodels.ReportScreenViewModel
 import com.google.accompanist.insets.systemBarsPadding
@@ -26,6 +35,7 @@ private data class ReportScreenTextFieldContent(
     val stringValue: MutableState<String> = mutableStateOf("")
 )
 
+@ExperimentalAnimationApi
 @Composable
 fun ReportScreen(viewModel: ReportScreenViewModel) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -61,10 +71,18 @@ fun ReportScreen(viewModel: ReportScreenViewModel) {
                     description.isNotBlank()
         )
     }
+    // states for image capture
     var imageBitmap: Bitmap? by remember { mutableStateOf(null) }
     val capturePhotoLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.TakePicturePreview()
     ) { imageBitmap = it }
+    // states for animation
+    var isSentAnimationVisible by remember { mutableStateOf(false) }
+    val lottieComposition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.incident_report_sent_anim))
+    val lottieAnimationState = animateLottieCompositionAsState(
+        composition = lottieComposition,
+        isPlaying = isSentAnimationVisible,
+    )
     Box(
         modifier = Modifier
             .padding(start = 16.dp, top = 16.dp, end = 16.dp)
@@ -136,6 +154,7 @@ fun ReportScreen(viewModel: ReportScreenViewModel) {
                         image = image,
                     )
                     viewModel.sendReport(reportInfo)
+                    isSentAnimationVisible = true
                 }
                 if (imageBitmap == null) coroutineScope.launch {
                     snackbarHostState.showSnackbar("Please attach an image before reporting")
@@ -154,6 +173,16 @@ fun ReportScreen(viewModel: ReportScreenViewModel) {
             modifier = Modifier.align(Alignment.BottomCenter),
             hostState = snackbarHostState
         )
+        AnimatedVisibility(
+            visible = isSentAnimationVisible && lottieAnimationState.isPlaying,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            LottieAnimation(
+                composition = lottieComposition,
+                progress = lottieAnimationState.progress
+            )
+        }
     }
 }
 
