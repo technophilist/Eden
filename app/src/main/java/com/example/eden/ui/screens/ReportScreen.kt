@@ -1,5 +1,6 @@
 package com.example.eden.ui.screens
 
+import android.graphics.Bitmap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
@@ -14,7 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.navigationBarsPadding
+import com.example.eden.data.domain.IncidentReportInfo
+import com.example.eden.viewmodels.ReportScreenViewModel
 import com.google.accompanist.insets.systemBarsPadding
 
 private data class ReportScreenTextFieldContent(
@@ -24,10 +26,7 @@ private data class ReportScreenTextFieldContent(
 )
 
 @Composable
-fun ReportScreen() {
-    val capturePhotoLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.TakePicturePreview()
-    ) {}
+fun ReportScreen(viewModel: ReportScreenViewModel) {
     var typeOfIncident by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     val addressAndPhoneNumberTextFieldContentList = remember {
@@ -55,10 +54,14 @@ fun ReportScreen() {
             cityAndStateReportTextFieldContentList.values.all { it.stringValue.value.isNotBlank() }
         mutableStateOf(
             isAddressAndPhoneNumberTextNotBlank &&
-                isCityAndStateTextNotBlank &&
-                description.isNotBlank()
+                    isCityAndStateTextNotBlank &&
+                    description.isNotBlank()
         )
     }
+    var imageBitmap: Bitmap? by remember { mutableStateOf(null) }
+    val capturePhotoLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.TakePicturePreview()
+    ) { imageBitmap = it }
     Box(
         modifier = Modifier
             .padding(start = 16.dp, top = 16.dp, end = 16.dp)
@@ -119,7 +122,19 @@ fun ReportScreen() {
                 .align(Alignment.BottomStart)
                 .fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.error),
-            onClick = {},
+            onClick = {
+                imageBitmap?.let { image ->
+                    val reportInfo = IncidentReportInfo(
+                        address = addressAndPhoneNumberTextFieldContentList.getValue("address").stringValue.value,
+                        city = cityAndStateReportTextFieldContentList.getValue("city").stringValue.value,
+                        state = cityAndStateReportTextFieldContentList.getValue("state").stringValue.value,
+                        typeOfIncident = typeOfIncident,
+                        description = description,
+                        image = image,
+                    )
+                    viewModel.sendReport(reportInfo)
+                }
+            },
             enabled = isReportButtonEnabled
         ) {
             Icon(
