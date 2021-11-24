@@ -27,6 +27,7 @@ import com.example.eden.ui.screens.homescreen.NotificationsScreen
 import com.example.eden.ui.screens.homescreen.adoptionscreen.adoptionScreenGraph
 import com.example.eden.ui.screens.onboarding.onBoardingNavGraph
 import com.example.eden.viewmodels.EdenNotificationsScreenViewmodel
+import com.example.eden.viewmodels.EdenReportScreenViewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.pager.ExperimentalPagerApi
 
@@ -93,6 +94,13 @@ fun EdenApp(appContainer: AppContainer) {
                         currentContext.startActivity(openUrlIntent)
                     }
                 )
+            }
+            composable(EdenAppNavigationRoutes.reportScreenRoute) {
+                val viewModel = viewModel<EdenReportScreenViewModel>(
+                    viewModelStoreOwner = it,
+                    factory = appContainer.reportScreenViewModelFactory
+                )
+                ReportScreen(viewModel)
             }
         }
     }
