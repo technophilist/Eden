@@ -16,6 +16,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.eden.data.domain.NotificationInfo
+import com.google.accompanist.insets.statusBarsPadding
+import com.google.accompanist.insets.systemBarsPadding
 
 
 @ExperimentalMaterialApi
@@ -29,6 +31,7 @@ fun NotificationsScreen(
         modifier = Modifier
             .padding(start = 16.dp, top = 16.dp, end = 16.dp)
             .fillMaxSize()
+            .statusBarsPadding()
     ) {
         Text(text = "Notifications", style = MaterialTheme.typography.h3)
         Spacer(modifier = Modifier.padding(16.dp))
