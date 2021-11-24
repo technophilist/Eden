@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.systemBarsPadding
 
 private data class ReportScreenTextFieldContent(
     val label: String,
@@ -41,11 +42,28 @@ fun ReportScreen() {
             "state" to ReportScreenTextFieldContent("State", Icons.Filled.Apartment)
         )
     }
+    val isReportButtonEnabled by remember(
+        addressAndPhoneNumberTextFieldContentList.getValue("address").stringValue.value,
+        addressAndPhoneNumberTextFieldContentList.getValue("phoneNumber").stringValue.value,
+        cityAndStateReportTextFieldContentList.getValue("city").stringValue.value,
+        cityAndStateReportTextFieldContentList.getValue("state").stringValue.value,
+        description
+    ) {
+        val isAddressAndPhoneNumberTextNotBlank =
+            addressAndPhoneNumberTextFieldContentList.values.all { it.stringValue.value.isNotBlank() }
+        val isCityAndStateTextNotBlank =
+            cityAndStateReportTextFieldContentList.values.all { it.stringValue.value.isNotBlank() }
+        mutableStateOf(
+            isAddressAndPhoneNumberTextNotBlank &&
+                isCityAndStateTextNotBlank &&
+                description.isNotBlank()
+        )
+    }
     Box(
         modifier = Modifier
             .padding(start = 16.dp, top = 16.dp, end = 16.dp)
-            .navigationBarsPadding()
             .fillMaxSize()
+            .systemBarsPadding()
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(text = "Report incident", style = MaterialTheme.typography.h3)// TODO string res
@@ -101,7 +119,8 @@ fun ReportScreen() {
                 .align(Alignment.BottomStart)
                 .fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.error),
-            onClick = {}
+            onClick = {},
+            enabled = isReportButtonEnabled
         ) {
             Icon(
                 imageVector = Icons.Filled.Report,
