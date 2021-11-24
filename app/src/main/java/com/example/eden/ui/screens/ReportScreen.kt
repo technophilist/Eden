@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.example.eden.data.domain.IncidentReportInfo
 import com.example.eden.viewmodels.ReportScreenViewModel
 import com.google.accompanist.insets.systemBarsPadding
+import kotlinx.coroutines.launch
 
 private data class ReportScreenTextFieldContent(
     val label: String,
@@ -27,6 +28,8 @@ private data class ReportScreenTextFieldContent(
 
 @Composable
 fun ReportScreen(viewModel: ReportScreenViewModel) {
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
     var typeOfIncident by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     val addressAndPhoneNumberTextFieldContentList = remember {
@@ -134,6 +137,9 @@ fun ReportScreen(viewModel: ReportScreenViewModel) {
                     )
                     viewModel.sendReport(reportInfo)
                 }
+                if (imageBitmap == null) coroutineScope.launch {
+                    snackbarHostState.showSnackbar("Please attach an image before reporting")
+                }
             },
             enabled = isReportButtonEnabled
         ) {
@@ -144,6 +150,10 @@ fun ReportScreen(viewModel: ReportScreenViewModel) {
             )
             Text(text = "Report", color = MaterialTheme.colors.onError)
         }
+        SnackbarHost(
+            modifier = Modifier.align(Alignment.BottomCenter),
+            hostState = snackbarHostState
+        )
     }
 }
 
