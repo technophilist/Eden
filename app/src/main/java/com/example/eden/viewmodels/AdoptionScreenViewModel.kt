@@ -72,11 +72,11 @@ class EdenAdoptionScreenViewModel(
     }
 
     override fun addPetToFavourites(petInfo: PetInfo) {
-        TODO("Not yet implemented")
+
     }
 
     override fun removePetFromFavourites(petInfo: PetInfo) {
-        TODO("Not yet implemented")
+
     }
 
     override fun applyFilter(filterOption: AdoptionScreenViewModel.FilterOptions) {
