@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -95,18 +94,21 @@ fun AdoptionScreen(
             // recommended pets - list
             val likedPetInfoMap = remember { mutableStateMapOf<Int, Boolean>() }
             LazyColumn(modifier = Modifier.padding(start = 8.dp, end = 8.dp)) {
-                itemsIndexed(recommendedList) { index, petInfo ->
+                items(recommendedList) { petInfo ->
                     PetInfoCard(
                         petInfo = petInfo,
-                        isLiked = likedPetInfoMap.getOrDefault(index, false),
+                        isLiked = likedPetInfoMap.getOrPut(petInfo.id.toInt(), { false }),
                         onLikeButtonClicked = {
-                            likedPetInfoMap[index] = true
+                            // if an entry exists in the map, negate it
+                            // else create entry and set it to true
+                            likedPetInfoMap[petInfo.id.toInt()] =
+                                likedPetInfoMap[petInfo.id.toInt()]?.not() ?: true
                             coroutineScope.launch {
                                 onLikeButtonClicked(
                                     snackBarHostState,
                                     viewmodel,
                                     petInfo,
-                                    likedPetInfoMap.getValue(index)
+                                    likedPetInfoMap.getValue(petInfo.id.toInt())
                                 )
                             }
                         },
