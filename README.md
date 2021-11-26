@@ -16,6 +16,6 @@ To try out this sample app, you need to use [Android Studio Arctic Fox](https://
 - [Firebase Authentication](https://firebase.google.com/docs/auth) for user account creation and authentication.
 - [Firebase cloud storage](https://firebase.google.com/products/storage?gclid=EAIaIQobChMI0Nvz9M629AIVSyQrCh2FAA0rEAAYASAAEgLryvD_BwE&gclsrc=aw.ds) for storing
 images
--[Accompanist library](https://google.github.io/accompanist/) for compose insets and pager layouts.
--[Lottie](https://airbnb.io/lottie/#/README) for animations.
--[Coil-compose](https://coil-kt.github.io/coil/compose/) for image loading.
+- [Accompanist library](https://google.github.io/accompanist/) for compose insets and pager layouts.
+- [Lottie](https://airbnb.io/lottie/#/README) for animations.
+- [Coil-compose](https://coil-kt.github.io/coil/compose/) for image loading.
