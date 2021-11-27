@@ -2,6 +2,10 @@
 
 Eden is a pet adoption app that demonstrates the use of [Jetpack Compose](https://developer.android.com/jetpack/compose?gclid=EAIaIQobChMI15Hjt8u29AIVGpNmAh0-MwGYEAAYASAAEgLQe_D_BwE&gclsrc=aw.ds) with a typical Android app. <br>
 To try out this sample app, you need to use [Android Studio Arctic Fox](https://developer.android.com/studio).
+## Table of contents
+- [Screenshots](#screenshots)
+- [Tech stack](#tech-stack)
+- [Source code and architecture](#source-code-and-architecture)
 ## Screenshots
 <img src = "screenshots/dark-mode/onboarding-dark.png" height = "360" width = "180"> &nbsp; <img src = "screenshots/dark-mode/log-in-dark.png" height = "360" width = "180">&nbsp; <img src = "screenshots/dark-mode/adoption-screen-dark.png" height = "360" width = "180"> &nbsp; <img src = "screenshots/dark-mode/pet-detail-screen-dark.png" height = "360" width = "180"> &nbsp; <img src = "screenshots/dark-mode/notifications-screen-dark.png" height = "360" width = "180"> 
 ## Tech Stack
