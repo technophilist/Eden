@@ -11,8 +11,6 @@ To try out this sample app, you need to use [Android Studio Arctic Fox](https://
 - [Coroutines](https://kotlinlang.org/docs/reference/coroutines/coroutines-guide.html) for
   threading.
 - [Timber](https://github.com/JakeWharton/timber) for logging.
-- [DataStore](https://developer.android.com/topic/libraries/architecture/datastore?gclid=EAIaIQobChMItJiD6eTG8QIVQTUrCh0OSAGpEAAYASAAEgJ5H_D_BwE&gclsrc=aw.ds)
-  for storing user preferences.
 - [Firebase Authentication](https://firebase.google.com/docs/auth) for user account creation and authentication.
 - [Firebase cloud storage](https://firebase.google.com/products/storage?gclid=EAIaIQobChMI0Nvz9M629AIVSyQrCh2FAA0rEAAYASAAEgLryvD_BwE&gclsrc=aw.ds) for storing
 images
