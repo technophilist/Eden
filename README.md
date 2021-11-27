@@ -2,9 +2,9 @@
 
 Eden is a pet adoption app that demonstrates the use of [Jetpack Compose](https://developer.android.com/jetpack/compose?gclid=EAIaIQobChMI15Hjt8u29AIVGpNmAh0-MwGYEAAYASAAEgLQe_D_BwE&gclsrc=aw.ds) with a typical Android app. <br>
 To try out this sample app, you need to use [Android Studio Arctic Fox](https://developer.android.com/studio).
-# Screenshots
+## Screenshots
 <img src = "screenshots/dark-mode/onboarding-dark.png" height = "360" width = "180"> &nbsp; <img src = "screenshots/dark-mode/log-in-dark.png" height = "360" width = "180">&nbsp; <img src = "screenshots/dark-mode/adoption-screen-dark.png" height = "360" width = "180"> &nbsp; <img src = "screenshots/dark-mode/pet-detail-screen-dark.png" height = "360" width = "180"> &nbsp; <img src = "screenshots/dark-mode/notifications-screen-dark.png" height = "360" width = "180"> 
-# Tech Stack
+## Tech Stack
 - Entirely written in [Kotlin](https://kotlinlang.org/).
 - Manual dependency injection.
 - [Jetpack Compose](https://developer.android.com/jetpack/compose) for the entire UI.
@@ -17,3 +17,13 @@ images
 - [Accompanist library](https://google.github.io/accompanist/) for compose insets and pager layouts.
 - [Lottie](https://airbnb.io/lottie/#/README) for animations.
 - [Coil-compose](https://coil-kt.github.io/coil/compose/) for image loading.
+## Source code and architecture
+- [Architecture components](https://developer.android.com/topic/libraries/architecture/) such as Livedata and ViewModels are used.
+- [MVVM](https://developer.android.com/jetpack/guide?gclid=EAIaIQobChMI-_GIsejG8QIVzNaWCh0NXQANEAAYASAAEgKZ2fD_BwE&gclsrc=aw.ds)
+  architecture.
+- Source code conforms to
+  the [Kotlin coding conventions](https://kotlinlang.org/docs/coding-conventions.html).
+- Dependency injection is done manually.
+- [Material design color system](https://material.io/design/color/the-color-system.html#color-usage-and-palettes)
+  specification is used for assigning colors to the UI components.
+- Commit messages follow the [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/).
