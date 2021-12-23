@@ -1,6 +1,8 @@
 package com.example.eden.data.dto
 
-
+/**
+ * A DTO(Data Transfer Object) representing an Incident Report.
+ */
 data class IncidentReportInfoDTO(
     val userID: String,
     val email: String,

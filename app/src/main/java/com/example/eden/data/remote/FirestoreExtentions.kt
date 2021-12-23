@@ -4,7 +4,10 @@ import com.example.eden.data.domain.NotificationInfo
 import com.example.eden.data.domain.PetInfo
 import com.google.firebase.firestore.DocumentSnapshot
 
-
+/**
+ * Used to convert an instance of [DocumentSnapshot] to an instance of
+ * [PetInfo],
+ */
 fun DocumentSnapshot.toPetInfo() = PetInfo(
     id = get("id").toString(),
     name = get("name").toString(),
@@ -18,6 +21,10 @@ fun DocumentSnapshot.toPetInfo() = PetInfo(
     weight = get("weight").toString()
 )
 
+/**
+ * Used to convert an instance of [DocumentSnapshot] to an instance of
+ * [NotificationInfo].
+ */
 fun DocumentSnapshot.toNotificationInfo() = NotificationInfo(
     id = get("id").toString(),
     type = getNotificationTypeForString(get("type").toString()),
@@ -26,6 +33,12 @@ fun DocumentSnapshot.toNotificationInfo() = NotificationInfo(
     urlString = get("urlString").toString()
 )
 
+/**
+ * Helper method used to get an [NotificationInfo.NotificationType]
+ * enum associated with the [string].
+ * @throws IllegalArgumentException when an unexpected [string] is
+ * passed as an argument.
+ */
 private fun getNotificationTypeForString(string: String): NotificationInfo.NotificationType =
     when (string.lowercase()) {
         "orders" -> NotificationInfo.NotificationType.ORDERS
