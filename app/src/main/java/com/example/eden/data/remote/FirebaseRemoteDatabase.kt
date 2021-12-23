@@ -13,6 +13,10 @@ import timber.log.Timber
 import java.io.ByteArrayOutputStream
 import java.util.*
 
+/**
+ * A concrete implementation of [RemoteDatabase] that uses the
+ * services provided by Firebase.
+ */
 class FirebaseRemoteDatabase : RemoteDatabase {
     private val fireStore = Firebase.firestore
     private val firebaseStorage = Firebase.storage
@@ -23,6 +27,12 @@ class FirebaseRemoteDatabase : RemoteDatabase {
         listenForRealtimeUpdates()
     }
 
+    /**
+     * Helper method used to add a snapshot listener to the collection
+     * that contains all the pets that are available for adoption.
+     * Any new updates will be published to the
+     * [_petsAvailableForAdoption] livedata.
+     */
     private fun listenForRealtimeUpdates() {
         fireStore.collection(PETS_AVAILABLE_FOR_ADOPTION_COLLECTION_PATH)
             .addSnapshotListener { snapshot, exception ->
@@ -40,6 +50,8 @@ class FirebaseRemoteDatabase : RemoteDatabase {
      * Calling this function will move the pet document located
      * in the [PETS_AVAILABLE_FOR_ADOPTION_COLLECTION_PATH] collection
      * to the [PETS_REQUESTED_FOR_ADOPTION_COLLECTION_PATH] collection.
+     * If any exception occurs, a log message of type 'warn' will be
+     * generated.
      */
     override suspend fun sendRequestForAdoption(userId: String, petId: String) {
         runCatching {
@@ -63,6 +75,12 @@ class FirebaseRemoteDatabase : RemoteDatabase {
         }.getOrElse { Timber.w("${it.cause}: Failed to send adoption request.") }
     }
 
+    /**
+     * Used to save an incident report with the provided [userId],
+     * [email] and [IncidentReportInfo].
+     * If any exception occurs, a log message of type 'warn' will be
+     * generated.
+     */
     override suspend fun saveIncidentReport(
         userId: String,
         email: String,
@@ -104,7 +122,9 @@ class FirebaseRemoteDatabase : RemoteDatabase {
         return liveData
     }
 
-
+    /**
+     * Used to convert an instance of [Bitmap] to a [ByteArray]
+     */
     private fun Bitmap.toByteArray() = ByteArrayOutputStream().use {
         compress(Bitmap.CompressFormat.JPEG, 100, it)
         it.toByteArray()

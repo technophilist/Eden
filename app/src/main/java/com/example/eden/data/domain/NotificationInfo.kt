@@ -11,5 +11,9 @@ data class NotificationInfo(
     val content: String,
     val urlString: String? = null
 ) {
+    /**
+     * An enum class that represents the different types of
+     * notifications.
+     */
     enum class NotificationType { ORDERS, APPOINTMENTS, NGO }
 }
