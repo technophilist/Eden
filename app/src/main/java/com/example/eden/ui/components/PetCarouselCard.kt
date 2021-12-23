@@ -50,7 +50,7 @@ fun PetCarouselCard(
                 painter = rememberImagePainter(
                     data = petInfo.imageResource,
                     builder = { crossfade(true) }
-                ),
+                ), // TODO Image Painter state referenced in intended stateless component
                 contentDescription = "",
                 contentScale = ContentScale.Crop,
             )
