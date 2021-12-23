@@ -6,6 +6,10 @@ import com.example.eden.auth.AuthenticationService
 import com.example.eden.data.Repository
 import com.example.eden.data.domain.NotificationInfo
 
+/**
+ * An interface that consists of all the fields and methods required
+ * for a NotificaationsScreenViewModel.
+ */
 interface NotificationsScreenViewModel {
     val notificationList: LiveData<List<NotificationInfo>>
 }
