@@ -12,14 +12,41 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/**
+ * An interface that consists of all the fields and methods required
+ * for an AdoptionScreenViewModel
+ */
 interface AdoptionScreenViewModel {
     val featuredList: State<List<PetInfo>>
     val recommendedList: State<List<PetInfo>>
     val currentlyAppliedFilter: State<FilterOptions>
+
+    /**
+     * Used to add the specified [petInfo] to favourites.
+     */
     fun addPetToFavourites(petInfo: PetInfo)
+
+    /**
+     * Used to remove the specified [petInfo] to favourites.
+     */
     fun removePetFromFavourites(petInfo: PetInfo)
+
+    /**
+     * Used to send a request for adopting a pet with the specified
+     * [petInfo].
+     */
     fun sendRequestForAdoption(petInfo: PetInfo)
+
+    /**
+     * Used to apply the specified [filterOption].
+     * The filter will modify the [featuredList] and [recommendedList].
+     */
     fun applyFilter(filterOption: FilterOptions)
+
+    /**
+     * An enum class that specifies all the different types of filters
+     * that can be applied.
+     */
     enum class FilterOptions { ALL, DOGS, CATS }
 }
 
@@ -72,11 +99,11 @@ class EdenAdoptionScreenViewModel(
     }
 
     override fun addPetToFavourites(petInfo: PetInfo) {
-
+        //TODO
     }
 
     override fun removePetFromFavourites(petInfo: PetInfo) {
-
+        // TODO
     }
 
     override fun applyFilter(filterOption: AdoptionScreenViewModel.FilterOptions) {

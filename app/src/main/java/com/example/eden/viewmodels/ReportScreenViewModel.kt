@@ -9,7 +9,15 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/**
+ * An interface that consists of all the fields and methods required
+ * for a ReportScreenViewModel.
+ */
 interface ReportScreenViewModel {
+    /**
+     * Used for sending a report based on the provided
+     * [incidentReportInfo].
+     */
     fun sendReport(incidentReportInfo: IncidentReportInfo)
 }
 
