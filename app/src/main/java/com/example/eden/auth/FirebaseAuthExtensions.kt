@@ -2,19 +2,16 @@ package com.example.eden.auth
 
 import android.net.Uri
 import com.google.firebase.auth.*
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
 
 /**
- * TODO()
- * This extension method is used for creating a [FirebaseUser] with
- * [name],[email],[password] and profile picture ([profilePhotoUri]).
+ * This extension method is used for creating a [FirebaseUser] with the
+ * provided [name],[email],[password] and [profilePhotoUri].
  *
  * Firebase doesn't provide a default method to create a user along with a
  * display name and profile photo.In order to perform such a task we need to
  * chain two methods - [FirebaseAuth.createUserWithEmailAndPassword] and
  * [FirebaseAuth.updateCurrentUser].
-
  * @throws  FirebaseAuthWeakPasswordException  thrown if the password is not strong enough
  * @throws FirebaseAuthInvalidCredentialsException thrown if the email address is malformed
  * @throws FirebaseAuthUserCollisionException thrown if there already exists an account with the given email address

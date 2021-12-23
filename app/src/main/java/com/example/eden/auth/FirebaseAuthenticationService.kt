@@ -5,6 +5,10 @@ import com.example.eden.data.domain.EdenUser
 import com.google.firebase.auth.*
 import kotlinx.coroutines.tasks.await
 
+/**
+ * A concrete implementation of [AuthenticationService] that makes use
+ * of Firebase.
+ */
 class FirebaseAuthenticationService : AuthenticationService {
 
     private val firebaseAuth = FirebaseAuth.getInstance()

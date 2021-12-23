@@ -1,8 +1,13 @@
 package com.example.eden.auth
 
 import android.net.Uri
+import com.example.eden.auth.AuthenticationResult.*
 import com.example.eden.data.domain.EdenUser
 
+/**
+ * An interface that contains the requisite fields and methods required
+ * for an authentication service.
+ */
 interface AuthenticationService {
     /**
      * The current user represents the user that is
@@ -10,7 +15,20 @@ interface AuthenticationService {
      * that there is no logged in user.
      */
     val currentUser: EdenUser?
+
+    /***
+     * Used to sign in a user with the provided [email]
+     * and [password]. An instance of [AuthenticationResult] will be
+     * returned to indicate a successful or failed sign-in attempt.
+     */
     suspend fun signIn(email: String, password: String): AuthenticationResult
+
+    /**
+     * Used to create a new user account with the provided [username],
+     * [email],[password] and an optional [profilePhotoUri].
+     * An instance of [AuthenticationResult] will be returned to
+     * indicate whether an account was successfully created or not.
+     */
     suspend fun createAccount(
         username: String,
         email: String,
@@ -18,6 +36,9 @@ interface AuthenticationService {
         profilePhotoUri: Uri? = null
     ): AuthenticationResult
 
+    /**
+     * Used to sign out the current user.
+     */
     fun signOut()
 }
 
