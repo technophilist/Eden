@@ -16,7 +16,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 
-
+/**
+ * Represents a chip that is meant to be used for applying a filter.
+ *
+ * The chip will have an outlined style when it is not selected.If
+ * it is selected, the background will be filled using the
+ * [selectedBackgroundColor] and a [Icons.Filled.Done] icon will be
+ * displayed at the start of the composable.
+ *
+ * @param onClick callback to be called when the filter chip
+ * is clicked.
+ * @param isSelected indicates whether the chip is selected or not.
+ * @param outlinedBorderColor the border color to use when the filter
+ * chip is not selected.
+ * @param selectedBackgroundColor the background color to use when
+ * the filter chip [isSelected].
+ * @param shape the shape of the chip.
+ * @param content the content of the chip.
+ */
 @ExperimentalMaterialApi
 @Composable
 fun FilterChip(
