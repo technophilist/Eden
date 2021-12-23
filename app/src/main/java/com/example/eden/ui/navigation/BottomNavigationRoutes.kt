@@ -5,6 +5,10 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.ui.graphics.vector.ImageVector
 
+/**
+ * A sealed class that contains the [route],[icon] and [label]
+ * associated with a single bottom navigation item.
+ */
 sealed class BottomNavigationRoutes(
     val route: String,
     val icon: ImageVector,
