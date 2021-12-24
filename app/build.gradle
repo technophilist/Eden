@@ -49,7 +49,11 @@ android {
         }
     }
 }
-
+tasks.withType(dokkaHtml.getClass()).configureEach {
+    pluginsMapConfiguration.set(
+            ["org.jetbrains.dokka.base.DokkaBase": """{ "separateInheritedMembers": true}"""]
+    )
+}
 dependencies {
     // core
     implementation 'androidx.core:core-ktx:1.6.0'
@@ -84,9 +88,11 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
     // firebase
     implementation platform('com.google.firebase:firebase-bom:28.4.2')
-    implementation 'com.google.firebase:firebase-auth' // Don't need to specify versions in Firebase library dependencies if BOM is dependency is used
+    implementation 'com.google.firebase:firebase-auth'
+    // Don't need to specify versions in Firebase library dependencies if BOM is dependency is used
     implementation 'com.google.firebase:firebase-firestore-ktx'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1' // Coroutines Support for google play services' Task API's. ie. await() support for firebase.
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1'
+    // Coroutines Support for google play services' Task API's. ie. await() support for firebase.
     implementation 'com.google.firebase:firebase-storage'
     implementation 'com.google.firebase:firebase-storage-ktx'
 }
