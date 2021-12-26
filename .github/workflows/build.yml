@@ -9,5 +9,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Change permissions of ./gradlew
+        run: chmod +x ./gradlew
       - name: Build the app
         run: ./gradlew build
