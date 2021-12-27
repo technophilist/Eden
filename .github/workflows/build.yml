@@ -14,7 +14,7 @@ jobs:
           KEY: ${{ secrets.GOOGLE_SERVICES_JSON_DECRYPTION_KEY }}
         run: |
           cd app/
-          openssl enc -aes-256-cbc -d -in app/752bc914153e2aede6d620a311736e39.txt -out google-services.json -k $KEY
+          openssl enc -aes-256-cbc -d -in 752bc914153e2aede6d620a311736e39.txt -out google-services.json -k $KEY
       - name: Change permissions of ./gradlew
         run: chmod +x ./gradlew
       - name: Build the app
