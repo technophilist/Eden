@@ -1,4 +1,4 @@
-# Eden - A pet adoption app 🐶 [![Project Status: Suspended – Initial development has started, but there has not yet been a stable, usable release; work has been stopped for the time being but I intend on resuming work.](https://www.repostatus.org/badges/latest/suspended.svg)](https://www.repostatus.org/#suspended)
+# Eden - A pet adoption app 🐶 [![Project Status: Suspended – Initial development has started, but there has not yet been a stable, usable release; work has been stopped for the time being but I intend on resuming work.](https://www.repostatus.org/badges/latest/suspended.svg)](https://www.repostatus.org/#suspended) ![Build workflow](https://github.com/t3chkid/Eden/actions/workflows/build.yml/badge.svg)
 
 Eden is a pet adoption app that demonstrates the use of [Jetpack Compose](https://developer.android.com/jetpack/compose?gclid=EAIaIQobChMI15Hjt8u29AIVGpNmAh0-MwGYEAAYASAAEgLQe_D_BwE&gclsrc=aw.ds) with a typical Android app. <br>
 To try out this sample app, you need to use [Android Studio Arctic Fox](https://developer.android.com/studio).
