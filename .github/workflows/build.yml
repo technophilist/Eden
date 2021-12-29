@@ -19,6 +19,28 @@ jobs:
         run: chmod +x ./gradlew
       - name: Build the app
         run: |
-         ./gradlew build
-          rm app/google-services.json
+          ./gradlew build
+           rm app/google-services.json
+  run-firebase-auth-tests:
+    needs: build
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        api-level: [ 23 ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+      - name: Install and start Firebase emulator suit
+        run: |
+         npm install -g firebase-tools
+         firebase emulators:start
+      - name: Startup emulator and run instrumented tests
+        uses: reactivecirus/android-emulator-runner@v2
+        with:
+          api-level": ${{ matrix.api-level }}
+          script: ./gradlew connectedAndroidTest
 
