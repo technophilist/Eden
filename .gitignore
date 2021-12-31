@@ -16,3 +16,4 @@ local.properties
 app/google-services.json
 /.idea/deploymentTargetDropDown.xml
 /.idea/vcs.xml
+app/eden-google-services-json-key.rtf
