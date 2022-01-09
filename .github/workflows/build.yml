@@ -35,13 +35,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "12"
-      - name: Install and start Firebase emulator suit
-        run: |
-          npm install -g firebase-tools
-          firebase emulators:start --project=eden
+      - name: Install Firebase emulator suit
+        run: npm install -g firebase-tools
       - name: Startup emulator and run instrumented tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level": ${{ matrix.api-level }}
-          script: ./gradlew connectedAndroidTest
+          script: firebase emulators:exec './gradlew connectedAndroidTest' --project=eden
 
