@@ -40,6 +40,6 @@ jobs:
       - name: Startup emulator and run instrumented tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level": ${{ matrix.api-level }}
+          api-level: ${{ matrix.api-level }}
           script: firebase emulators:exec './gradlew connectedAndroidTest' --project=eden
 
