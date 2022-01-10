@@ -37,6 +37,8 @@ jobs:
           node-version: "12"
       - name: Install Firebase emulator suit
         run: npm install -g firebase-tools
+      - name: Change permissions of ./gradlew
+        run: chmod +x ./gradlew
       - name: Startup emulator and run instrumented tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
