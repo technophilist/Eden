@@ -44,6 +44,12 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '11'
+      - name: Decrypt google services config file
+        env:
+          KEY: ${{ secrets.GOOGLE_SERVICES_JSON_DECRYPTION_KEY }}
+        run: |
+          cd app/
+          openssl enc -aes-256-cbc -d -in 752bc914153e2aede6d620a311736e39.txt -out google-services.json -k $KEY
       - name: Startup emulator and run instrumented tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
