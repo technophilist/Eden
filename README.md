@@ -22,6 +22,7 @@ images
 - [Accompanist library](https://google.github.io/accompanist/) for compose insets and pager layouts.
 - [Lottie](https://airbnb.io/lottie/#/README) for animations.
 - [Coil-compose](https://coil-kt.github.io/coil/compose/) for image loading.
+- [Github actions](https://github.com/features/actions) for CI pipeline.
 ## Source code and architecture
 - [Architecture components](https://developer.android.com/topic/libraries/architecture/) such as Livedata and ViewModels are used.
 - [MVVM](https://developer.android.com/jetpack/guide?gclid=EAIaIQobChMI-_GIsejG8QIVzNaWCh0NXQANEAAYASAAEgKZ2fD_BwE&gclsrc=aw.ds)
