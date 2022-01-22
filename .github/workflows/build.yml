@@ -1,7 +1,7 @@
 name: Build
 on:
   push:
-    branches: [ main,run-test-on-firebase-emulator ]
+    branches: [ main ]
 jobs:
   build:
     timeout-minutes: 20
