@@ -31,6 +31,7 @@ jobs:
            rm app/google-services.json
   run-firebase-auth-tests:
     needs: build
+    timeout-minutes: 20
     runs-on: macos-latest
     env:
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
