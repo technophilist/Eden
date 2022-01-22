@@ -1,7 +1,8 @@
 name: Build
 on:
-  push:
-    branches: [ main,run-tests-on-firebase-emulator ]
+  pull_request:
+    branches:
+      - main
 jobs:
   build:
     timeout-minutes: 20
@@ -63,4 +64,5 @@ jobs:
         with:
           api-level: ${{ matrix.api-level }}
           script: firebase emulators:exec './gradlew connectedAndroidTest' --project=eden
+
 
