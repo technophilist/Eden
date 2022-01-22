@@ -1,27 +1,27 @@
 name: Build
 on:
   push:
-    branches: [ main,run-tests-on-firebase-emulator ]
+    branches: [ main ]
 jobs:
-  #  build:
-  #    runs-on: ubuntu-latest
-  #    steps:
-  #      - name: Checkout code
-  #        uses: actions/checkout@v2
-  #      - name: Decrypt google services config file
-  #        env:
-  #          KEY: ${{ secrets.GOOGLE_SERVICES_JSON_DECRYPTION_KEY }}
-  #        run: |
-  #          cd app/
-  #          openssl enc -aes-256-cbc -d -in 752bc914153e2aede6d620a311736e39.txt -out google-services.json -k $KEY
-  #      - name: Change permissions of ./gradlew
-  #        run: chmod +x ./gradlew
-  #      - name: Build the app
-  #        run: |
-  #          ./gradlew build
-  #           rm app/google-services.json
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Decrypt google services config file
+        env:
+          KEY: ${{ secrets.GOOGLE_SERVICES_JSON_DECRYPTION_KEY }}
+        run: |
+          cd app/
+          openssl enc -aes-256-cbc -d -in 752bc914153e2aede6d620a311736e39.txt -out google-services.json -k $KEY
+      - name: Change permissions of ./gradlew
+        run: chmod +x ./gradlew
+      - name: Build the app
+        run: |
+          ./gradlew build
+           rm app/google-services.json
   run-firebase-auth-tests:
-    #    needs: build
+    needs: build
     runs-on: macos-latest
     env:
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
