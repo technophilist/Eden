@@ -1,7 +1,8 @@
 # Eden - A pet adoption app 🐶 [![Project Status: Suspended – Initial development has started, but there has not yet been a stable, usable release; work has been stopped for the time being but I intend on resuming work.](https://www.repostatus.org/badges/latest/suspended.svg)](https://www.repostatus.org/#suspended) ![Build workflow](https://github.com/t3chkid/Eden/actions/workflows/build.yml/badge.svg)
 
-Eden is a pet adoption app that demonstrates the use of [Jetpack Compose](https://developer.android.com/jetpack/compose?gclid=EAIaIQobChMI15Hjt8u29AIVGpNmAh0-MwGYEAAYASAAEgLQe_D_BwE&gclsrc=aw.ds) with a typical Android app. <br>
+Eden is a pet adoption app that demonstrates the use of [Jetpack Compose](https://developer.android.com/jetpack/compose?gclid=EAIaIQobChMI15Hjt8u29AIVGpNmAh0-MwGYEAAYASAAEgLQe_D_BwE&gclsrc=aw.ds) with a typical Android app. This is a sample app and will not actually allow you to adopt pets.<br>
 To try out this sample app, you need to use [Android Studio Arctic Fox](https://developer.android.com/studio).
+
 ## Table of contents
 - [Screenshots](#screenshots)
 - [Tech stack](#tech-stack)
@@ -22,6 +23,7 @@ images
 - [Accompanist library](https://google.github.io/accompanist/) for compose insets and pager layouts.
 - [Lottie](https://airbnb.io/lottie/#/README) for animations.
 - [Coil-compose](https://coil-kt.github.io/coil/compose/) for image loading.
+- [Github actions](https://github.com/features/actions) for CI pipeline.
 ## Source code and architecture
 - [Architecture components](https://developer.android.com/topic/libraries/architecture/) such as Livedata and ViewModels are used.
 - [MVVM](https://developer.android.com/jetpack/guide?gclid=EAIaIQobChMI-_GIsejG8QIVzNaWCh0NXQANEAAYASAAEgKZ2fD_BwE&gclsrc=aw.ds)
