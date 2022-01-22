@@ -1,7 +1,7 @@
 name: Build
 on:
   push:
-    branches: [ main ]
+    branches: [ main,run-tests-on-firebase-emulator ]
 jobs:
   build:
     timeout-minutes: 20
@@ -17,13 +17,6 @@ jobs:
           openssl enc -aes-256-cbc -d -in 752bc914153e2aede6d620a311736e39.txt -out google-services.json -k $KEY
       - name: Change permissions of ./gradlew
         run: chmod +x ./gradlew
-      - name: Create or use gradle cache
-        uses: actions/cache@v2
-        with:
-          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*')}}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
       - name: Build the app
         run: |
           ./gradlew build
