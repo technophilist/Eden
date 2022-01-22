@@ -63,7 +63,7 @@ jobs:
         uses: actions/cache@v2
         with:
           key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
-          path:|
+          path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
       - name: Startup emulator and run instrumented tests
