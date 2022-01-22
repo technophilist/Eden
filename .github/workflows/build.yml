@@ -4,6 +4,7 @@ on:
     branches: [ main ]
 jobs:
   build:
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -16,6 +17,8 @@ jobs:
           openssl enc -aes-256-cbc -d -in 752bc914153e2aede6d620a311736e39.txt -out google-services.json -k $KEY
       - name: Change permissions of ./gradlew
         run: chmod +x ./gradlew
+      - name: Create or use gradle cache
+        uses:
       - name: Build the app
         run: |
           ./gradlew build
