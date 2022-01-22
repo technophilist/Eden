@@ -1,13 +1,11 @@
 name: Build
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
 jobs:
   build:
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -20,8 +18,51 @@ jobs:
           openssl enc -aes-256-cbc -d -in 752bc914153e2aede6d620a311736e39.txt -out google-services.json -k $KEY
       - name: Change permissions of ./gradlew
         run: chmod +x ./gradlew
+      - name: Create or use gradle cache
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*')}}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
       - name: Build the app
         run: |
           ./gradlew build
            rm app/google-services.json
+  run-firebase-auth-tests:
+    needs: build
+    runs-on: macos-latest
+    env:
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+    strategy:
+      matrix:
+        api-level: [ 23 ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+      - name: Install Firebase emulator suit
+        run: npm install -g firebase-tools
+      - name: Change permissions of ./gradlew¬
+        run: chmod +x ./gradlew
+      - name: Setup java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+      - name: Decrypt google services config file
+        env:
+          KEY: ${{ secrets.GOOGLE_SERVICES_JSON_DECRYPTION_KEY }}
+        run: |
+          cd app/
+          openssl enc -aes-256-cbc -d -in 752bc914153e2aede6d620a311736e39.txt -out google-services.json -k $KEY
+      - name: Startup emulator and run instrumented tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          script: firebase emulators:exec './gradlew connectedAndroidTest' --project=eden
+
 

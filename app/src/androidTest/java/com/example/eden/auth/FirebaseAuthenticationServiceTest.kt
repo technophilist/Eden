@@ -1,28 +1,27 @@
 package com.example.eden.auth
 
 import com.google.firebase.auth.FirebaseAuth
-import org.junit.Assert.*
 import kotlinx.coroutines.runBlocking
-import org.junit.After
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 
 class FirebaseAuthenticationServiceTest {
-    private val firebaseAuthService = FirebaseAuthenticationService()
-    private val firebaseAuth = FirebaseAuth.getInstance()
+    private lateinit var firebaseAuthService: AuthenticationService
 
-    // test user' details
+    // test user's details
     private val testUserName = "testUserName"
     private val testEmail = "testEmail@testEmail.com"
     private val testPassword = "testPassword"
-    private var isSignInTestExecuted = false
 
     @Before
     fun setUp() {
-        if (firebaseAuthService.currentUser != null) {
-            // If a user is already signed in, sign the user off.
-            firebaseAuthService.signOut()
-        }
+        firebaseAuthService = FirebaseAuthenticationService()
+        val firebaseEmulatorHostName = "10.0.2.2"
+        val firebaseEmulatorPort = 9099
+        // config firebase to use the local emulator
+        FirebaseAuth.getInstance()
+            .useEmulator(firebaseEmulatorHostName, firebaseEmulatorPort)
     }
 
     @Test
@@ -43,23 +42,12 @@ class FirebaseAuthenticationServiceTest {
 
     @Test
     fun signInTest_existingUser_isSuccessful() {
-        isSignInTestExecuted = true
-        // give a set of valid credentials
+        // give a set of credentials of an existing user
         val authenticationResult = runBlocking {
             // when signIn is called with the credentials
             firebaseAuthService.signIn(testEmail, testPassword)
         }
         // the result must be an instance of AuthenticationResult.Success
         assert(authenticationResult is AuthenticationResult.Success)
-
     }
-
-    @After
-    fun tearDown() {
-        // signInTest must be the last test to be executed.
-        // If it has executed, delete the user from firebase.
-        if (isSignInTestExecuted) firebaseAuth.currentUser!!.delete()
-        else firebaseAuth.signOut()
-    }
-
 }
