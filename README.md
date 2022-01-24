@@ -6,10 +6,22 @@ To try out this sample app, you need to use [Android Studio Arctic Fox](https://
 ## Table of contents
 - [Screenshots](#screenshots)
 - [Tech stack](#tech-stack)
+- [Theme](#theme)
 - [Source code and architecture](#source-code-and-architecture)
+
 ## Screenshots
 <img src = "screenshots/dark-mode/onboarding-dark.png" height = "360" width = "180"> &nbsp; <img src = "screenshots/dark-mode/log-in-dark.png" height = "360" width = "180">&nbsp; <img src = "screenshots/dark-mode/sign-up-dark.png" height = "360" width = "180"> <br>
 <img src = "screenshots/dark-mode/adoption-screen-dark.png" height = "360" width = "180"> &nbsp; <img src = "screenshots/dark-mode/pet-detail-screen-dark.png" height = "360" width = "180"> &nbsp; <img src = "screenshots/dark-mode/notifications-screen-dark.png" height = "360" width = "180"> 
+
+## Theme
+The color palette and the typography used in this app is entirely based on the specification for [Bloom app](https://github.com/android/android-dev-challenge-compose/blob/assets/Bloom.zip), which was released by google for the [AndroidDevChallenge](https://developer.android.com/events/dev-challenge).
+
+### Color Palette
+<img src = "https://github.com/t3chkid/Eden/blob/main/screenshots/Color%20palette.png" height = "600"> 
+
+### Font Family
+<img src = "https://github.com/t3chkid/Eden/blob/main/screenshots/Font%20Family.png" height = "300"> 
+
 ## Tech Stack
 - Entirely written in [Kotlin](https://kotlinlang.org/).
 - Manual dependency injection.
